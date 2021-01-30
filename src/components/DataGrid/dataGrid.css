@@ -1,0 +1,25 @@
+.root {
+    padding: 10px;
+}
+
+.header td {
+    padding: 8px;
+    text-align: center;
+    border-bottom: 1px solid rgb(223, 219, 219);
+}
+
+.table {
+    max-width: 800px;
+}
+
+.table {
+    display: block;
+}
+.rowItem {
+    text-align: center;
+}
+
+.headerActions {
+    display: flex;
+    justify-content: space-between;
+}

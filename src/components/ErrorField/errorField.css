@@ -1,0 +1,15 @@
+
+.error {
+    position: absolute;
+    width: 100%;
+    z-index: 10;
+    bottom: 50px;
+    right: 0;
+    max-width: 400px;
+}
+
+.close {
+    position: absolute;
+    right: 0;
+    top: 0;
+}
