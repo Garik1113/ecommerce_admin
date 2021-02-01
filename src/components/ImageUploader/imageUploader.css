@@ -1,0 +1,20 @@
+.media {
+    width: 100%;
+    border: 1px solid #ece5e5;
+    padding: 15px;
+    padding-top: 5px;
+}
+
+.title {
+    margin-bottom: 15px;
+}
+
+.dropzone {
+    width: 200px;
+    height: 200px;
+    border: 1px dashed #ece5e5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}

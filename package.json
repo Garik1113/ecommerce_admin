@@ -12,9 +12,11 @@
   "license": "ISC",
   "dependencies": {
     "axios": "^0.21.1",
+    "config": "^3.3.3",
     "formik": "^2.2.6",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
+    "react-dropzone": "^11.2.4",
     "react-redux": "^7.2.2",
     "react-router": "^5.2.0",
     "react-router-config": "^5.1.1",
@@ -27,9 +29,11 @@
   },
   "devDependencies": {
     "@types/axios": "^0.14.0",
+    "@types/config": "^0.0.38",
     "@types/node": "^14.14.22",
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",
+    "@types/react-dropzone": "^5.1.0",
     "@types/react-redux": "^7.1.16",
     "@types/react-router-config": "^5.0.2",
     "@types/react-router-dom": "^5.1.7",

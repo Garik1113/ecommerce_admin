@@ -15,9 +15,12 @@ export const useAxiosClient = () => {
         }
     }, [token, user]);
 
-    const axiosClient = useCallback( async(method: Method, url: string, data?: any) => {
+    const axiosClient = useCallback( async(method: Method, url: string, data?: any, contentType?: string) => {
         const config: AxiosRequestConfig = {
-            headers,
+            headers: {
+                ...headers,
+                'Content-Type': contentType ? contentType : 'application/json',
+            },
             method,
             url,
             data

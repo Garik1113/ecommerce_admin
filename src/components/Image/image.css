@@ -1,0 +1,27 @@
+.root {
+    width: 100%;
+    max-width: 450px;
+    position: relative;
+}
+
+.image img {
+    max-width: 400px;
+}
+
+.closeIcon {
+    position: absolute;
+    top: 0px;
+    right: 10px;
+    width: 30px;
+    height: 30px;
+    border: 2px solid #333333;
+    border-radius: 100%;
+    text-align: center;
+    line-height: 25px;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.closeIcon:hover {
+    color: red;
+}

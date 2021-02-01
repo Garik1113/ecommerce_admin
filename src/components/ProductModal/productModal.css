@@ -1,0 +1,129 @@
+.field {
+    width: 100%;
+    border: 1px solid #ece5e5;
+    margin-bottom: 15px;
+    padding: 15px;
+    padding-top: 5px;
+}
+
+.title {
+    margin-bottom: 15px;
+}
+
+.flex {
+    width: 100%;
+    display: flex;
+}
+
+.input {
+    width: 100%;
+    margin-left: 5px;
+}
+
+.media {
+    width: 100%;
+    border: 1px solid #ece5e5;
+    padding: 15px;
+    padding-top: 5px;
+}
+
+
+.images {
+    max-width: 630px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    row-gap: 10px;
+    column-gap: 10px;
+}
+
+.image {
+    max-width: 300px;
+}
+
+.attributeLabel {
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+.valueField {
+    padding: 15px;
+    border: 1px solid #beb8b8;
+    margin-bottom: 15px;
+}
+
+.attributeTitle {
+    width: 100%;
+    cursor: pointer;
+    margin-bottom: 15px;
+    margin-left: 5px;
+    text-align: center;
+}
+
+.valueTitle {
+    width: 100%;
+    cursor: pointer;
+    margin-bottom: 5px; 
+}
+
+.valueInput {
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+.attribute { 
+    width: 100%;
+    padding: 5px;
+    margin-bottom: 10px;
+    border: 1px solid rgb(121, 117, 126);
+    position: relative;
+}
+
+.attributeName {
+    width: 100% !important;
+    border: none !important;
+    margin: 5px auto !important;
+    text-align: center !important;
+    font-size: 18px !important;
+    font-weight: 500 !important;
+} 
+
+input.middle:focus {
+    outline-width: 0 !important;
+}
+
+.value {
+    position: relative;
+    border: 1px solid #898989;
+    border-radius: 5px;
+}
+
+.valueName {
+    width: 100%;
+    max-width: 400px;
+    margin: 15px auto;
+    text-align: center;
+}
+
+.closeIcon {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 30px;
+    height: 30px;
+    border: 2px solid #333333;
+    border-radius: 100%;
+    text-align: center;
+    line-height: 25px;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.closeIcon:hover {
+    color: red;
+}
+
+.deleteIcon {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+}

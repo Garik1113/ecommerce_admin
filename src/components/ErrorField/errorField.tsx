@@ -12,21 +12,11 @@ const ErrorField = (props: ErrorProps) => {
 
     return (
         <div className={classes.root}>
-            {/* <div className={classes.status}>
-              <Message error>
-                  
-              </Message>
-            </div>
-            <div className={classes.message}>
-                <Message error>
-                    
-                </Message>
-            </div> */}
             <div className={classes.error}>
                 <Message error>
                     <Button icon="delete" onClick={onClose} className={classes.close}/>
                     <div className={classes.message}>
-                        {error.message}
+                        <p>{error.message}</p> 
                     </div>
                     <div className={classes.statusCode}>
                         Status Code {error.statusCode}

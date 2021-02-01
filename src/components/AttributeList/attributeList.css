@@ -1,0 +1,49 @@
+.attribute {
+    border: 1px solid #e7e1e1;
+}
+
+.attributeInput input {
+    width: 80%;
+    border: none !important;
+    margin: 15px auto !important;
+    text-align: center !important;
+    font-size: 18px !important;
+    font-weight: 500 !important;
+}
+
+input.middle:focus {
+    outline-width: 0 !important;
+}
+
+.input {
+    width: 100%;
+}
+
+.attributeField {
+    text-align: center;
+}
+
+.closeIcon {
+    display: flex;
+    justify-content: flex-end;
+    margin: 5px;
+}
+
+.grid {
+    width: 80%;
+    display: grid;
+    grid-template-columns: 95% 5%;
+    justify-content: center;
+    margin: 5px auto;
+}
+
+.imageField {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    column-gap: 10px;
+    row-gap: 10px;
+}
+
+.image {
+    max-width: 300px;
+}
