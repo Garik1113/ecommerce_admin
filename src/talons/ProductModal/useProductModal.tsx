@@ -1,9 +1,10 @@
+import { AxiosResponse } from "axios";
 import { useFormik } from "formik";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { uploadImage } from "src/helpers/uploadImage";
-import { Attribute, validateAttribute } from "src/helpers/validateAttribute";
+import { Attribute, } from "src/helpers/validateAttribute";
 import { useAxiosClient } from "../Axios/useAxiosClient";
-
+import { NOT_FOUND_IMAGE_SRC } from 'config/defaults';
 
 export const useProductModal = (props) => {
     const { product = {}, reloadData, handleHideModal } = props;
@@ -12,7 +13,21 @@ export const useProductModal = (props) => {
     const [showAddNewAttribute, setShowAddNewAttribute] = useState(false);
     const [activeValueId, setActiveValueId] = useState(null);
     const [activeAttributeId, setActiveAttributeId] = useState(null);
-    const [attributeError, setAttributeError]=useState("");
+    const [attributeError, setAttributeError]= useState("");
+    const [categories, setCategories] = useState([]);
+
+    const fetchCategories = useCallback(async() => {
+        const response: AxiosResponse = await axiosClient('GET', '/api/categories/admin/');
+        const { data } = response;
+        if (data.categories) {
+            setCategories(data.categories)
+        }
+    }, [axiosClient, setCategories]);
+
+    useEffect(() => {
+        fetchCategories();
+    }, [])
+    
     const [attribute, setNewAttribute] = useState(
         {
             label: "",
@@ -30,9 +45,7 @@ export const useProductModal = (props) => {
     const handleShowAddNewAttribute = useCallback(() => {
         setShowAddNewAttribute(!showAddNewAttribute);
     }, [setShowAddNewAttribute, showAddNewAttribute, setNewAttribute, attribute]);
-    const handleHideAddNewAttribute = useCallback(() => {
-        setShowAddNewAttribute(false)
-    }, [setShowAddNewAttribute, showAddNewAttribute])
+
     const initialValues = useMemo(() => (
         product._id
         ?
@@ -113,10 +126,10 @@ export const useProductModal = (props) => {
     });
 
     const handleOnDrop = useCallback( async(files: File[]) => {
-        const afterUpload = (file: File) => {
+        const afterUpload = (file: File, fileName: string) => {
             const preview = URL.createObjectURL(file);
             const newImagePreviews = [...imagePreviews, preview];
-            const newImages = [...formik.values.images, file.name + new Date().getTime()]
+            const newImages = [...formik.values.images, fileName]
             formik.setFieldValue('images', newImages);
             setImagePreviews(newImagePreviews);
         };
@@ -128,9 +141,10 @@ export const useProductModal = (props) => {
         );
     }, [imagePreviews, setImagePreviews, formik]);
     const handleOnDropValueImage = useCallback( async(files: File[]) => {
-        const afterUpload = (file: File) => {
+        const afterUpload = (file: File, fileName: string) => {
             const images = formik.getFieldProps(`attributes[${activeAttributeId}].values[${activeValueId}].images`);
-            const newImages = [...images.value, file.name + new Date().getTime()];
+            console.log(fileName)
+            const newImages = [...images.value, fileName];
             formik.setFieldValue(`attributes[${activeAttributeId}].values[${activeValueId}].images`, newImages);
         };
         await uploadImage(
@@ -141,52 +155,11 @@ export const useProductModal = (props) => {
         );
     }, [activeAttributeId, setActiveAttributeId, uploadImage, formik, activeValueId, setActiveValueId]);
 
-    const handleChangeValueLabel = useCallback((text: string, attributeId?: number, valueId?: number) => {
-        if(attributeId && valueId) {
-            const formikAttributes: Attribute[] = formik.values.attributes;
-            
-            const selectedAttribute = formikAttributes.find(e => e.id == attributeId);
-            const { values } = selectedAttribute;
-            const currentValue = values.find(e => e.id == valueId);
-            console.log(activeValueId, values);
-            currentValue.label = text;
-            const filtedValues = values.filter(e => e.id !== valueId);
-            const newValues = [...filtedValues, currentValue];
-            selectedAttribute.values = newValues;
-            const filteredAttributes:Attribute[] = formikAttributes.filter(e => e.id !== attributeId);
-            const newAttributes = [...filteredAttributes, selectedAttribute];
-            formik.setFieldValue("attributes", newAttributes);
-        } else {
-            const { values } = attribute;
-            const currentValue = values.find(e => e.id == activeValueId);
-            const filtedValues = values.filter(e => e.id !== activeValueId);
-            const newValue = {...currentValue, label: text};
-            setNewAttribute({...attribute, values: [...filtedValues, newValue]});
-        }
-        
-    }, [attribute, setNewAttribute, activeValueId, formik])
-
-    const handleChangeAttributeLabel = useCallback((text: string, attributeId?: number) => {
-        if (attributeId) {
-            const formikAttributes: Attribute[] = formik.values.attributes;
-            const selectedAttribute = formikAttributes.find(e => e.id == attributeId);
-            selectedAttribute.label = text;
-            const filtedValues = formikAttributes.filter(e => e.id !== attributeId);
-            const newAttributes = [...filtedValues, selectedAttribute]
-            formik.setFieldValue("attributes", newAttributes);
-        } else {
-            const newAttribute = {...attribute, label: text};
-            setNewAttribute(newAttribute);
-        }
-        
-    }, [attribute, setNewAttribute, activeValueId, formik]);
-
     const handleDeleteValue = useCallback((attributeIndex: number, valueIndex: number) => {
         const attributes: Attribute[] = formik.values.attributes;
         const values = formik.getFieldProps(`attributes[${attributeIndex}].values`).value;
         const newValues = values.filter(val => values.indexOf(val) !== valueIndex);
         formik.setFieldValue(`attributes[${attributeIndex}].values`, newValues);
-        // console.log(formik.values.attributes)
     }, [formik])
 
     const handleAddNewAttribute = useCallback(() => {
@@ -206,13 +179,10 @@ export const useProductModal = (props) => {
     }, [formik]);
 
     const handleDeleteImageOfValue = useCallback((attributeIndex, valueIndex, imageIndex) => {
-        console.log(formik.values.attributes)
-        // const attributes: Attribute[] = formik.values.attributes;
         const images = formik.getFieldProps(`attributes[${attributeIndex}].values[${valueIndex}].images`).value;
-        const newImages = images.filter(image => images.indexOf(image) !==imageIndex);
-        formik.setFieldValue(`attributes[${attributeIndex}].values[${valueIndex}].images`, newImages)
-        console.log(formik.values.attributes)
-    }, [formik])
+        const newImages = images.filter((image, index)=> index !==imageIndex);
+        formik.setFieldValue(`attributes[${attributeIndex}].values[${valueIndex}].images`, newImages);
+    }, [formik]);
 
     const handleAddNewValue = useCallback((attributeIndex) => {
         const values = formik.getFieldProps(`attributes[${attributeIndex}].values`).value;
@@ -232,28 +202,37 @@ export const useProductModal = (props) => {
     
     const handleDeleteProductImage = useCallback((imageIndex: number) => {
         const images = formik.values.images;
-        const newImages = images.filter(img => images.indexOf(img) !== imageIndex);
+        const newImages = images.filter((img, index) => {
+            return index !== imageIndex;
+        });
         formik.setFieldValue('images', newImages)
-    }, [formik])
+    }, [formik]);
+
+    const categoryDropdowOptions = useMemo(() => {
+        
+        return categories.map((e) => {
+            return {
+                key: e._id,
+                value: e._id,
+                text: e.name
+            }
+        })
+    }, [categories]);
+
     return {
         formik,
-        imagePreviews,
         handleShowAddNewAttribute,
-        handleHideAddNewAttribute,
-        showAddNewAttribute,
-        attribute,
         handleAddNewValue,
         handleOnDrop,
         handleOnDropValueImage,
         setActiveValueId,
-        handleChangeValueLabel,
-        handleChangeAttributeLabel,
         handleAddNewAttribute,
         attributeError,
         handleDeleteAttribute,
         handleDeleteValue,
         setActiveAttributeId,
         handleDeleteImageOfValue,
-        handleDeleteProductImage
+        handleDeleteProductImage,
+        categoryDropdowOptions
     }
 }

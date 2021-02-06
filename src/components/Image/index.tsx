@@ -1,1 +1,1 @@
-export { default } from './image.tsx'
+export { default } from './image'

@@ -1,44 +1,45 @@
+import BannerModal from 'components/BannerModal';
 import CategoryModal from 'components/CategoryModal';
 import DataGrid from 'components/DataGrid';
 import React from 'react';
-import { useCategoryGrid } from 'src/talons/CategoryGrid/useCategoryGrid';
-import classes from './categoryGrid.css';
+import { useBannerGrid } from 'src/talons/BannerGrid/useBannerGrid';
+import classes from './bannerGrid.css';
 
 
-const CategoryGrid = () => {
+const BannerGrid = () => {
     const { 
-        categories, 
+        banners, 
         columns,
         handleHideModal,
         showModal,
         isSubmitting,
-        editingCategory,
-        handleAddNewCategory,
+        editingBanner,
+        handleAddNewBanner,
         reloadData
-    } = useCategoryGrid();
+    } = useBannerGrid();
 
     return (
         <div className={classes.root}>
             <DataGrid 
                 columns={columns} 
-                items={categories} 
+                items={banners} 
                 title="Categories"
                 isSubmitting={isSubmitting}
                 buttons={[
                     {
-                        onClick: handleAddNewCategory,
+                        onClick: handleAddNewBanner,
                         type: 'submit',
-                        label: "Add new category",
+                        label: "Add new banner",
                         isSubmitting: false
                     }
                 ]}
             />
             {
                 showModal 
-                &&  <CategoryModal 
+                &&  <BannerModal 
                         visible={showModal} 
                         onClose={handleHideModal}
-                        category={editingCategory}
+                        banner={editingBanner}
                         reloadData={reloadData}
                         handleHideModal={handleHideModal}
                     />
@@ -46,4 +47,4 @@ const CategoryGrid = () => {
         </div>
     )
 }
-export default CategoryGrid;
+export default BannerGrid;

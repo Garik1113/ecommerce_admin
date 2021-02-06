@@ -12,8 +12,8 @@
   "license": "ISC",
   "dependencies": {
     "axios": "^0.21.1",
-    "config": "^3.3.3",
     "formik": "^2.2.6",
+    "jodit-react": "^1.0.70",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-dropzone": "^11.2.4",

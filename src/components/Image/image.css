@@ -2,6 +2,7 @@
     width: 100%;
     max-width: 450px;
     position: relative;
+    margin: 10px;
 }
 
 .image img {

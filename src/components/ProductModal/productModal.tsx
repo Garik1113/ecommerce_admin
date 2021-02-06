@@ -1,10 +1,8 @@
 import React from 'react';
-import { Button, Input, Message, Modal, TextArea } from 'semantic-ui-react';
+import { Button, Dropdown, Input, Modal, TextArea } from 'semantic-ui-react';
 import { useProductModal } from 'src/talons/ProductModal/useProductModal';
 import classes from './productModal.css';
 import ImageUploader from 'components/ImageUploader';
-import AttributeList from 'components/AttributeList';
-import AttributeForm from 'components/AttributeForm';
 import Image from '../Image';
 
 interface IProductModalProps {
@@ -29,8 +27,7 @@ const ProductModal = (props:IProductModalProps) => {
         handleHideModal
     });
     const { 
-        formik, 
-        imagePreviews,
+        formik,
         handleShowAddNewAttribute,
         handleOnDrop,
         handleOnDropValueImage,
@@ -41,7 +38,8 @@ const ProductModal = (props:IProductModalProps) => {
         handleDeleteValue,
         handleAddNewValue,
         handleDeleteAttribute,
-        handleDeleteProductImage
+        handleDeleteProductImage,
+        categoryDropdowOptions
     } = talonProps;
 
     return (
@@ -139,60 +137,76 @@ const ProductModal = (props:IProductModalProps) => {
                             </div>
                         </div>
                         <div className={classes.field}>
+                            <div className={classes.title}>
+                                <h4>Categories</h4>
+                            </div>
+                            <Dropdown
+                                onChange={(e, data) => formik.setFieldValue('categories', data.value)}
+                                value={formik.values.categories}
+                                name="categories"
+                                selection
+                                fluid
+                                id="categories"
+                                options={categoryDropdowOptions}
+                                multiple
+                                
+                            />
+                        </div>
+                        <div className={classes.field}>
                             <div className={classes.attributeTitle} onClick={handleShowAddNewAttribute}>
                                 <h3>Attributes</h3>
                             </div>
                             {
-                                formik.values.attributes.map((e, i) => {
+                                formik.values.attributes.map((e, attributeIndex) => {
                                     return (
-                                        <div key={i} className={classes.attribute}>
+                                        <div key={attributeIndex} className={classes.attribute}>
                                             <Input
                                                 value={e.label}
-                                                name={`attributes[${i}].label`}
+                                                name={`attributes[${attributeIndex}].label`}
                                                 onChange={formik.handleChange}
                                                 className={classes.attributeName}
                                                 placeholder="Attribute Name"
                                             />
                                             {
-                                                e.values.map((val, index) => {
+                                                e.values.map((val, valueIndex) => {
                                                     return (
-                                                        <div key={index} className={classes.value}>
+                                                        <div key={valueIndex} className={classes.value}>
                                                             <div className={classes.valueName}>
                                                                 <Input
                                                                     placeholder="Value Name"
                                                                     value={val.label}
-                                                                    name={`attributes[${i}].values[${index}].label`}
+                                                                    name={`attributes[${attributeIndex}].values[${valueIndex}].label`}
                                                                     onChange={formik.handleChange}
                                                                 />
                                                             </div>
                                                             
                                                             <div onClick={() => {
-                                                                setActiveAttributeId(i);
-                                                                setActiveValueId(index)
+                                                                setActiveAttributeId(attributeIndex);
+                                                                setActiveValueId(valueIndex)
                                                             }}>
                                                                 <ImageUploader handleOnDrop={handleOnDropValueImage}/>
                                                             </div>
                                                             {
-                                                                val.images.map((src, ind) => {
+                                                                val.images.map((src, valueImageIndex) => {
                                                                     return (
                                                                         <Image
-                                                                            key={ind}
-                                                                            baseUrl={"https://my-ecommerce-bucket.s3-eu-west-1.amazonaws.com/products/values"}
+                                                                            key={valueImageIndex}
+                                                                            s3Folder={"products/values"}
                                                                             imageName={src}
-                                                                            onDelete={() => handleDeleteImageOfValue(i, index, ind)}
+                                                                            onDelete={() => handleDeleteImageOfValue(attributeIndex, valueIndex, valueImageIndex)}
                                                                         />
                                                                     )
                                                                 })
                                                             }
-                                                            <div className={classes.closeIcon} onClick={() => handleDeleteValue(i, index)}>X</div>
+                                                            <div className={classes.closeIcon} onClick={() => handleDeleteValue(attributeIndex, valueIndex)}>X</div>
                                                         </div>
                                                         
                                                     )
                                                 })
                                             }
-                                            <Button type="button" onClick={() =>handleAddNewValue(i)}>Add new value</Button>
+                                            <Button type="button" onClick={() =>handleAddNewValue(attributeIndex)}>Add new value</Button>
                                             <div className={classes.deleteIcon}>
-                                                <Button icon="delete" type="button" onClick={() => handleDeleteAttribute(i)}/>
+                                                <Button icon="delete" type="button" onClick={() => handleDeleteAttribute(attributeIndex)}/>
                                             </div>
                                         </div>
                                     )
@@ -207,28 +221,14 @@ const ProductModal = (props:IProductModalProps) => {
                             {
                                 formik.values.images 
                                 ?   formik.values.images.map((image, index) => {
-                                    return <Image
-                                                key={index}
-                                                baseUrl="https://my-ecommerce-bucket.s3-eu-west-1.amazonaws.com/products"
-                                                imageName={image}
-                                                onDelete={() => handleDeleteProductImage(index)}
-                                            />
-                                    // return <img 
-                                    //             key={index}
-                                    //             src={`https://my-ecommerce-bucket.s3-eu-west-1.amazonaws.com/products/${image}`} 
-                                    //             className={classes.image}
-                                    //         />
-                                        })
-                                :   imagePreviews.length
-                                    ?   <div className={classes.images}>
-                                                {imagePreviews.map((preview, index) => (
-                                                    <div key={index}>
-                                                        <img src={preview} className={classes.image}/>
-                                                    </div>
-                                                ))
-                                                }
-                                        </div>
-                                    :   null  
+                                        return  <Image
+                                                    key={index}
+                                                    s3Folder="products"
+                                                    imageName={image}
+                                                    onDelete={() => handleDeleteProductImage(index)}
+                                                />
+                                    })
+                                :   null
                             }   
                         </div>
                     </form>

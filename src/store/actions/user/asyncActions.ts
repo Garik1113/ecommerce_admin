@@ -1,9 +1,10 @@
 import axios, { AxiosResponse } from "axios";
 import { Dispatch } from "react";
+import { StateFromReducersMapObject } from "redux";
 import { history } from "src/App";
 import { AppState } from "src/store";
 import { IUser } from "src/store/reducers/user";
-import { SIGN_IN, UserActionTypes } from "./types";
+import { SIGN_IN, SIGN_OUT, UserActionTypes } from "./types";
 
 export const signin = (user: IUser) => async (dispatch: Dispatch<UserActionTypes>) => {
     const signinResponse: AxiosResponse = await axios.post('api/users/signin', 
@@ -36,4 +37,14 @@ export const signup = (user: IUser) => async (dispatch: Dispatch<UserActionTypes
     }
 }
 
+export const signOut = () => async (dispatch: Dispatch<UserActionTypes>, getState: () => AppState) => {
+    const { user } = getState();
+    await axios.put('api/users/admin/signout', 
+        {}, {
+            headers: {"Authorization": `Bearer ${user.token}`}
+    });
+    dispatch({
+        type: SIGN_OUT
+    })
+}
 

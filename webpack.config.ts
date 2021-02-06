@@ -8,7 +8,8 @@ const webpackConfig = (): Configuration => ({
         extensions: ['.ts', '.tsx', '.js', '.jsx'],
         alias: {
             components: path.resolve(__dirname, './src/components'),
-            src: path.resolve(__dirname, './src/')
+            src: path.resolve(__dirname, './src/'),
+            config: path.resolve(__dirname, './config')
         }
     },
     output: {
