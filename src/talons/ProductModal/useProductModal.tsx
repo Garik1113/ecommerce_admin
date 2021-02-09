@@ -4,7 +4,6 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { uploadImage } from "src/helpers/uploadImage";
 import { Attribute, } from "src/helpers/validateAttribute";
 import { useAxiosClient } from "../Axios/useAxiosClient";
-import { NOT_FOUND_IMAGE_SRC } from 'config/defaults';
 
 export const useProductModal = (props) => {
     const { product = {}, reloadData, handleHideModal } = props;
@@ -135,7 +134,7 @@ export const useProductModal = (props) => {
         };
         await uploadImage(
             axiosClient, 
-            'api/products/admin/upload_product_image',
+            'api/products/admin/upload_image',
             files,
             afterUpload
         );
@@ -143,13 +142,13 @@ export const useProductModal = (props) => {
     const handleOnDropValueImage = useCallback( async(files: File[]) => {
         const afterUpload = (file: File, fileName: string) => {
             const images = formik.getFieldProps(`attributes[${activeAttributeId}].values[${activeValueId}].images`);
-            console.log(fileName)
+            
             const newImages = [...images.value, fileName];
             formik.setFieldValue(`attributes[${activeAttributeId}].values[${activeValueId}].images`, newImages);
         };
         await uploadImage(
             axiosClient, 
-            'api/products/admin/values/upload_product_image',
+            'api/products/admin/upload_image',
             files,
             afterUpload
         );

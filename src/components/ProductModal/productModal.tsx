@@ -191,8 +191,8 @@ const ProductModal = (props:IProductModalProps) => {
                                                                     return (
                                                                         <Image
                                                                             key={valueImageIndex}
-                                                                            s3Folder={"products/values"}
-                                                                            imageName={src}
+                                                                            s3Folder={"products"}
+                                                                            imageName={typeof src == 'string' ? src : src.small_image}
                                                                             onDelete={() => handleDeleteImageOfValue(attributeIndex, valueIndex, valueImageIndex)}
                                                                         />
                                                                     )
@@ -224,7 +224,7 @@ const ProductModal = (props:IProductModalProps) => {
                                         return  <Image
                                                     key={index}
                                                     s3Folder="products"
-                                                    imageName={image}
+                                                    imageName={typeof image == 'string' ? image : image.small_image}
                                                     onDelete={() => handleDeleteProductImage(index)}
                                                 />
                                     })
