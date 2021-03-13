@@ -51,6 +51,7 @@ export const useProductModal = (props) => {
         {
             name: product.name,
             pageTitle: product.pageTitle,
+            description: product.description,
             metaDescription: product.metaDescription,
             priceValue: product.price.value,
             priceCurrency: product.price.currency,
@@ -58,12 +59,14 @@ export const useProductModal = (props) => {
             discountValue: product.discount.value,
             categories: product.categories,
             attributes: product.attributes,
-            images: product.images
+            images: product.images,
+            quantity: product.quantity
         }
         : 
         {
             name: "",
             pageTitle: "",
+            description: "",
             metaDescription: "",
             priceValue: "",
             priceCurrency: "",
@@ -71,7 +74,8 @@ export const useProductModal = (props) => {
             discountValue: "",
             categories: [],
             attributes: [],
-            images: []
+            images: [],
+            quantity: 0
         }
     ), [product]);
     
@@ -84,6 +88,7 @@ export const useProductModal = (props) => {
                     ...product,
                     name: values.name,
                     pageTitle: values.pageTitle,
+                    description: values.description,
                     metaDescription: values.metaDescription,
                     price: {
                         currency: values.priceCurrency,
@@ -95,12 +100,14 @@ export const useProductModal = (props) => {
                     },
                     categories: values.categories,
                     attributes: values.attributes,
-                    images: values.images
+                    images: values.images,
+                    quantity: values.quantity
                 }
             } else {
                 requestData = {
                     name: values.name,
                     pageTitle: values.pageTitle,
+                    description: values.description,
                     metaDescription: values.metaDescription,
                     price: {
                         currency: values.priceCurrency,
@@ -112,7 +119,8 @@ export const useProductModal = (props) => {
                     },
                     categories: values.categories,
                     attributes: values.attributes,
-                    images: values.images
+                    images: values.images,
+                    quantity: values.quantity
                 }
             };
             const method = product._id ? "PUT" : "POST";

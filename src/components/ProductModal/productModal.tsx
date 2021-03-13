@@ -4,6 +4,7 @@ import { useProductModal } from 'src/talons/ProductModal/useProductModal';
 import classes from './productModal.css';
 import ImageUploader from 'components/ImageUploader';
 import Image from '../Image';
+import Wysiwyg from 'components/Wysiwyg/wysiwyg';
 
 interface IProductModalProps {
     visible: boolean,
@@ -109,6 +110,32 @@ const ProductModal = (props:IProductModalProps) => {
                                     placeholder="Price Currency"
                                     className={classes.input}
                                     value={formik.values.priceCurrency} 
+                                    onChange={formik.handleChange}
+                                />
+                            </div>
+                        </div>
+                        <div className={classes.field}>
+                            <div className={classes.title}>
+                                <h4>Description</h4>
+                            </div>
+                            <div className={classes.flex}>
+                                <Wysiwyg
+                                    value={formik.values.description}
+                                    onChange={(value) => formik.setFieldValue("description", value)}
+                                />
+                            </div>
+                        </div>
+                        <div className={classes.field}>
+                            <div className={classes.title}>
+                                <h4>Quantity</h4>
+                            </div>
+                            <div className={classes.flex}>
+                                <Input 
+                                    type="number" 
+                                    name="quantity"
+                                    placeholder="Quantity"
+                                    className={classes.input}
+                                    value={formik.values.quantity} 
                                     onChange={formik.handleChange}
                                 />
                             </div>

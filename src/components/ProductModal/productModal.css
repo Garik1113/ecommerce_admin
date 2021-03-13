@@ -127,3 +127,7 @@ input.middle:focus {
     top: 15px;
     right: 15px;
 }
+
+.flex .jodit-wysiwyg_mode {
+    width: 100% !important;
+}
