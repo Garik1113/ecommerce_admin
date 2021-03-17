@@ -7,7 +7,7 @@ import { IUser } from "src/store/reducers/user";
 import { SIGN_IN, SIGN_OUT, UserActionTypes } from "./types";
 
 export const signin = (user: IUser) => async (dispatch: Dispatch<UserActionTypes>) => {
-    const signinResponse: AxiosResponse = await axios.post('api/users/signin', 
+    const signinResponse: AxiosResponse = await axios.post('api/users/admin/signin', 
         {
             email: user.email, 
             password: user.password
@@ -30,7 +30,7 @@ export const signin = (user: IUser) => async (dispatch: Dispatch<UserActionTypes
 }
 
 export const signup = (user: IUser) => async (dispatch: Dispatch<UserActionTypes>, getState: AppState) => {
-    const response: AxiosResponse = await axios.post('api/users/signup', user);
+    const response: AxiosResponse = await axios.post('api/users/admin/signup', user);
     const { data: signupData, status } = response;
     if (signupData.user && status == 200) {
         await signin(user)(dispatch)
