@@ -4,89 +4,80 @@ import { useCallback, useEffect, useMemo, useState } from "react"
 import { Column } from "react-table";
 import { useAxiosClient } from "../Axios/useAxiosClient";
 import { Button, Checkbox } from 'semantic-ui-react';
-import Image from 'components/Image';
-import { IMAGE_BASE_URL } from 'config/defaults';
 
-export const useBannerGrid = () => {
-    const [banners, setBanners] = useState([]);
+export const useFilterGrid = () => {
+    const [filters, setFilters] = useState([]);
     const [isSubmitting, setIsSubmitting] = useState(false)
     const { axiosClient } = useAxiosClient();
     const [showModal, setShowModal] = useState(false);
-    const [editingBanner, setEditingBanner] = useState({});
+    const [editingFilter, setEditingFilter] = useState({});
 
-    const fetchBanners = useCallback( async () => {
-        const response: AxiosResponse = await axiosClient('GET', 'api/banners/admin/');
+    const fetchFilters = useCallback( async () => {
+        const response: AxiosResponse = await axiosClient('GET', 'api/filters/admin/filters/');
         const { data, status } = response;
-        if (data.banners && status == 200) {
-            setBanners(data.banners);
+        if (data.filters && status == 200) {
+            setFilters(data.filters);
         }
     }, [axiosClient]);
 
     useEffect(() => {
-      fetchBanners();
+      fetchFilters();
     }, []);
 
     const reloadData = useCallback( async () => {
-        await fetchBanners();
-    }, [fetchBanners])
+        await fetchFilters();
+    }, [fetchFilters])
 
     const handleShowModal = useCallback(() => {
         setShowModal(true)
     }, [setShowModal, showModal]);
 
     const handleAddNewBanner = useCallback(() => {
-      setEditingBanner({});
+      setEditingFilter({});
       handleShowModal()
-    }, [handleShowModal, setEditingBanner]);
+    }, [handleShowModal, setEditingFilter]);
 
     const handleHideModal = useCallback(() => {
         setShowModal(false)
     }, [setShowModal, showModal]);
 
-    const handleDelete = useCallback(async(bannerId) => {
+    const handleDelete = useCallback(async(filterId) => {
         setIsSubmitting(true)
-        await axiosClient("delete", `api/banners/admin/${bannerId}`);
+        await axiosClient("delete", `api/filters/admin/filters/${filterId}`);
         setIsSubmitting(false)
         reloadData();
-    }, [axiosClient, fetchBanners]);
+    }, [axiosClient, fetchFilters]);
 
-    const handleEdit = useCallback( async (bannerId) => {
-        const response: AxiosResponse = await axiosClient('get', `api/banners/admin/${bannerId}`)
+    const handleEdit = useCallback( async (filterId) => {
+        const response: AxiosResponse = await axiosClient('get', `api/filters/admin/filters/${filterId}`)
         const { data } = response;
-        if (response.status == 200 && data.banner) {
-            setEditingBanner(data.banner);
+        if (response.status == 200 && data.filter) {
+            setEditingFilter(data.filter);
             handleShowModal();
         }
-    }, [axiosClient, fetchBanners])
+    }, [axiosClient, fetchFilters])
 
     const columns = useMemo((): Column<any>[] => {
         return [
           {
-            Header: "Image",
-            accessor: 'image',
-            Cell: ({row}) => {
-                return (
-                  <div>
-                      <img 
-                          style={{maxWidth: "150px"}} 
-                          src={`${IMAGE_BASE_URL}/banners/${row.original.image}`} 
-                          alt="Banner image" 
-                      />
-                  </div>
-                )
-            }
-        },
-          {
-            Header: "Content",
-            accessor: 'content'
+            Header: "Name",
+            accessor: 'name'
           },
           {
-            Header: "ID",
-            accessor: '_id'
+            Header: "Id",
+            accessor: "_id"
           },
           {
-            Header: "Content Position",
-            accessor: "contentPosition"
+            Header: "Allowed",
+            accessor: 'allowed',
+            Cell: ({row}) => (
+                <Checkbox 
+                    checked={row.original.allowed}
+                    value={row.original.allowed}
+                    disabled={true}
+                    onChange={() => {}}
+                />
+            )
           },
           {
             Header: "Actions",
@@ -100,16 +91,16 @@ export const useBannerGrid = () => {
             }
           }
         ]
-    }, [banners]);
+    }, [filters]);
     
     return {
-        banners,
+        filters,
         columns,
         handleShowModal,
         handleHideModal,
         showModal,
         isSubmitting,
-        editingBanner,
+        editingFilter,
         handleAddNewBanner,
         reloadData
     }

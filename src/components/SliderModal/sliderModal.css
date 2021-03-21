@@ -1,0 +1,25 @@
+.field, .media {
+    border: 1px solid rgb(206, 195, 195);
+    padding: 10px;
+    margin-bottom: 15px;
+}
+
+.title {
+    text-align: center;
+    margin: 15px auto;
+}
+
+.radioFields {
+    width: 100%;
+    max-width: 400px;
+    margin: 15px auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    column-gap: 10px;
+    row-gap: 10px;
+}
+
+.slide {
+    display: flex;
+    align-items: center;
+}

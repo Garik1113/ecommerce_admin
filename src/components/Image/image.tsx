@@ -10,19 +10,20 @@ interface ImageProps {
 }
 const Image = (props: ImageProps) => {
     const { s3Folder, imageName, onDelete } = props;
-    const [src, setSrc] = useState(`${IMAGE_BASE_URL}/${s3Folder}/${imageName}`);
-
-    useEffect(() => {
-        if (imageName === NOT_FOUND_IMAGE_SRC) {
-            setSrc(imageName);
-        }
-    }, [imageName, NOT_FOUND_IMAGE_SRC]);
+    const src = `${IMAGE_BASE_URL}/${s3Folder}/${imageName}`
+    // const [src, setSrc] = useState(`${IMAGE_BASE_URL}/${s3Folder}/${imageName}`);
+    console.log("imageName", src)
+    // useEffect(() => {
+    //     if (imageName === NOT_FOUND_IMAGE_SRC) {
+    //         setSrc(imageName);
+    //     }
+    // }, [imageName, NOT_FOUND_IMAGE_SRC]);
 
     return (
         <div className={classes.root}>
             <div className={classes.image}>
                 <img 
-                    loading="lazy"
+                    // loading="lazy"
                     src={src}
                     onError={handleImageError}
                 />
