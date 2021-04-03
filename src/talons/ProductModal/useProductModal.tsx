@@ -14,7 +14,7 @@ export const useProductModal = (props) => {
     const [activeAttributeId, setActiveAttributeId] = useState(null);
     const [attributeError, setAttributeError]= useState("");
     const [categories, setCategories] = useState([]);
-
+    const [attributes, setAttributes] = useState([])
     const fetchCategories = useCallback(async() => {
         const response: AxiosResponse = await axiosClient('GET', '/api/categories/admin/');
         const { data } = response;
@@ -22,9 +22,17 @@ export const useProductModal = (props) => {
             setCategories(data.categories)
         }
     }, [axiosClient, setCategories]);
+    const fetchAttributes = useCallback(async() => {
+        const response: AxiosResponse = await axiosClient('GET', 'api/attributes/admin/attributes/');
+        const { data } = response;
+        if (data.attributes) {
+            setAttributes(data.attributes)
+        }
+    }, [axiosClient, setAttributes]);
 
     useEffect(() => {
         fetchCategories();
+        fetchAttributes();
     }, [])
     
     const [attribute, setNewAttribute] = useState(
@@ -53,14 +61,15 @@ export const useProductModal = (props) => {
             pageTitle: product.pageTitle,
             description: product.description,
             metaDescription: product.metaDescription,
-            priceValue: product.price.value,
-            priceCurrency: product.price.currency,
-            discountType: product.discount.type,
-            discountValue: product.discount.value,
+            price: product.price,
+            // priceCurrency: product.price.currency,
+            // discountType: product.discount.type,
+            discount: product.discount,
+            discountedPrice: product.discountedPrice,
             categories: product.categories,
-            attributes: product.attributes,
             images: product.images,
-            quantity: product.quantity
+            quantity: product.quantity,
+            variants: product.variants
         }
         : 
         {
@@ -68,20 +77,22 @@ export const useProductModal = (props) => {
             pageTitle: "",
             description: "",
             metaDescription: "",
-            priceValue: "",
-            priceCurrency: "",
-            discountType: "",
-            discountValue: "",
+            price: "",
+            discountedPrice: "",
+            discount: "",
             categories: [],
-            attributes: [],
             images: [],
-            quantity: 0
+            quantity: 0,
+            variants: [],
+            attributes: []
         }
     ), [product]);
     
     const formik = useFormik({
         initialValues: initialValues,
         onSubmit: async (values) => {
+            console.log("VALUESSSSS", values);
+            return
             let requestData;
             if (product._id) {
                 requestData = {
@@ -90,16 +101,10 @@ export const useProductModal = (props) => {
                     pageTitle: values.pageTitle,
                     description: values.description,
                     metaDescription: values.metaDescription,
-                    price: {
-                        currency: values.priceCurrency,
-                        value: values.priceValue
-                    },
-                    discount: {
-                        type: values.discountType,
-                        value: values.discountValue
-                    },
+                    price: values.price,
+                    discount: values.discount,
+                    descountedPrice: values.discount ? values.price - (values.price * values.discount) / 100 : 0,
                     categories: values.categories,
-                    attributes: values.attributes,
                     images: values.images,
                     quantity: values.quantity
                 }
@@ -109,16 +114,10 @@ export const useProductModal = (props) => {
                     pageTitle: values.pageTitle,
                     description: values.description,
                     metaDescription: values.metaDescription,
-                    price: {
-                        currency: values.priceCurrency,
-                        value: values.priceValue
-                    },
-                    discount: {
-                        type: values.discountType,
-                        value: values.discountValue
-                    },
+                    price: values.price,
+                    discount: values.discount,
+                    discountedPrice: values.discount ? values.price - (values.price * values.discount) / 100 : 0,
                     categories: values.categories,
-                    attributes: values.attributes,
                     images: values.images,
                     quantity: values.quantity
                 }
@@ -126,8 +125,6 @@ export const useProductModal = (props) => {
             const method = product._id ? "PUT" : "POST";
             const url = product._id ? `api/products/admin/update/${product._id}` : `api/products/admin`;
             await axiosClient(method, url, requestData);
-            handleHideModal();
-            reloadData();
         },
         enableReinitialize: true
     });
@@ -163,26 +160,26 @@ export const useProductModal = (props) => {
     }, [activeAttributeId, setActiveAttributeId, uploadImage, formik, activeValueId, setActiveValueId]);
 
     const handleDeleteValue = useCallback((attributeIndex: number, valueIndex: number) => {
-        const attributes: Attribute[] = formik.values.attributes;
-        const values = formik.getFieldProps(`attributes[${attributeIndex}].values`).value;
-        const newValues = values.filter(val => values.indexOf(val) !== valueIndex);
-        formik.setFieldValue(`attributes[${attributeIndex}].values`, newValues);
+        // const attributes: Attribute[] = formik.values.attributes;
+        // const values = formik.getFieldProps(`attributes[${attributeIndex}].values`).value;
+        // const newValues = values.filter(val => values.indexOf(val) !== valueIndex);
+        // formik.setFieldValue(`attributes[${attributeIndex}].values`, newValues);
     }, [formik])
 
     const handleAddNewAttribute = useCallback(() => {
-        const attributes: Attribute[] = formik.values.attributes;
-        const newAttribute = {
-            id: attributes.length+1,
-            label: "",
-            values: [
-                {
-                    id: attributes.length+1,
-                    label: "",
-                    images: []
-                }
-            ]
-        }
-        formik.setFieldValue('attributes', [...attributes, newAttribute])
+        // const attributes: Attribute[] = formik.values.attributes;
+        // const newAttribute = {
+        //     id: attributes.length+1,
+        //     label: "",
+        //     values: [
+        //         {
+        //             id: attributes.length+1,
+        //             label: "",
+        //             images: []
+        //         }
+        //     ]
+        // }
+        // formik.setFieldValue('attributes', [...attributes, newAttribute])
     }, [formik]);
 
     const handleDeleteImageOfValue = useCallback((attributeIndex, valueIndex, imageIndex) => {
@@ -202,9 +199,9 @@ export const useProductModal = (props) => {
     }, [formik])
 
     const handleDeleteAttribute = useCallback((attributeIndex: number) => {
-        const attributes: Attribute[] = formik.values.attributes;
-        const filteredAttributes = attributes.filter(e => attributes.indexOf(e) !== attributeIndex);
-        formik.setFieldValue("attributes", filteredAttributes)
+        // const attributes: Attribute[] = formik.values.attributes;
+        // const filteredAttributes = attributes.filter(e => attributes.indexOf(e) !== attributeIndex);
+        // formik.setFieldValue("attributes", filteredAttributes)
     }, [formik]);
     
     const handleDeleteProductImage = useCallback((imageIndex: number) => {
@@ -225,6 +222,30 @@ export const useProductModal = (props) => {
             }
         })
     }, [categories]);
+    const attributeDropdowOptions = useMemo(() => {
+        return attributes.map((e) => {
+            return {
+                key: e._id,
+                value: e,
+                text: e.name
+            }
+        })
+    }, [attributes]);
+
+    const handleAddNewVariant = useCallback((attribute, value)  => {
+        console.log(attribute, value)
+        const variants = formik.getFieldProps("variants").value || [];
+        for (let index = 0; index < variants.length; index++) {
+            const attributes = variants[index].attributes;
+            const existingAttribute = attributes.find(e => e.attributeId == attribute._id);
+            if(existingAttribute) {
+                formik.setFieldValue('variants', [...variants, {attributeId: attribute._id, attributeName: attribute.name, value}])
+            } else {
+                attributes.push({attributeId: attribute._id, attributeName: attribute.name, value});
+                formik.setFieldValue(`variants[${index}].attributes`, attributes)
+            }
+        }
+    }, [formik])
 
     return {
         formik,
@@ -240,6 +261,8 @@ export const useProductModal = (props) => {
         setActiveAttributeId,
         handleDeleteImageOfValue,
         handleDeleteProductImage,
-        categoryDropdowOptions
+        categoryDropdowOptions,
+        attributeDropdowOptions,
+        handleAddNewVariant
     }
 }

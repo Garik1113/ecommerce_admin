@@ -40,9 +40,11 @@ const ProductModal = (props:IProductModalProps) => {
         handleAddNewValue,
         handleDeleteAttribute,
         handleDeleteProductImage,
-        categoryDropdowOptions
+        categoryDropdowOptions,
+        attributeDropdowOptions,
+        handleAddNewVariant
     } = talonProps;
-
+    console.log(formik.values)
     return (
         <div className={classes.root}>
             <Modal 
@@ -98,20 +100,20 @@ const ProductModal = (props:IProductModalProps) => {
                             <div className={classes.flex}>
                                 <Input 
                                     type="text" 
-                                    name="priceValue"
-                                    placeholder="Price Value"
+                                    name="price"
+                                    placeholder="Price"
                                     className={classes.input}
-                                    value={formik.values.priceValue} 
+                                    value={formik.values.price} 
                                     onChange={formik.handleChange}
                                 />
-                                <Input 
+                                {/* <Input 
                                     type="text" 
                                     name="priceCurrency"
                                     placeholder="Price Currency"
                                     className={classes.input}
                                     value={formik.values.priceCurrency} 
                                     onChange={formik.handleChange}
-                                />
+                                /> */}
                             </div>
                         </div>
                         <div className={classes.field}>
@@ -146,19 +148,19 @@ const ProductModal = (props:IProductModalProps) => {
                             </div>
                             <div className={classes.flex}>
                                 <Input 
-                                    type="text" 
-                                    name="discountType"
-                                    placeholder="Discount Type"
+                                    type="number" 
+                                    name="discount"
+                                    placeholder="Discount"
                                     className={classes.input}
-                                    value={formik.values.discountType} 
-                                    onChange={formik.handleChange}
+                                    value={formik.values.discount} 
+                                    onChange={(e, data) => {formik.setFieldValue("discount", data.value); formik.setFieldValue("discountedPrice", formik.values.price - (formik.values.price * Number(data.value) / 100))}}
                                 />
                                 <Input 
                                     type="text" 
-                                    name="discountValue"
-                                    placeholder="Discount Value"
+                                    name="discountedPrice"
+                                    placeholder="Discounted Price"
                                     className={classes.input}
-                                    value={formik.values.discountValue} 
+                                    value={formik.values.discount && formik.values.price - (formik.values.price * formik.values.discount / 100)} 
                                     onChange={formik.handleChange}
                                 />
                             </div>
@@ -176,10 +178,46 @@ const ProductModal = (props:IProductModalProps) => {
                                 id="categories"
                                 options={categoryDropdowOptions}
                                 multiple
-                                
                             />
                         </div>
                         <div className={classes.field}>
+                            <div className={classes.title}>
+                                <h4>Attributes</h4>
+                            </div>
+                            <Dropdown
+                                onChange={(e, data) => formik.setFieldValue('attributes', data.value)}
+                                value={formik.values.attributes}
+                                name="attributes"
+                                selection
+                                fluid
+                                id="attributes"
+                                options={attributeDropdowOptions}
+                                multiple
+                            />
+                        </div>
+                        {
+                            formik.values.attributes.map((e, index)=> (
+                                <div key={e._id}>
+                                    <Dropdown
+                                        onChange={(l, data) =>{console.log(data); handleAddNewVariant(e, data.value)}}
+                                        // value={formik.values.attributes[index].values}
+                                        // name="attributes"
+                                        selection
+                                        fluid
+                                        // id="attributes"
+                                        options={e.values.map((val) => {return {key: val._id, value: val, text: val.name}})}
+                                        multiple
+                                    />
+                                    {/* <span>{e.name}</span>
+                                    {
+                                        e.values.map((val) => (
+                                            <span>{val.name}</span>
+                                        ))
+                                    } */}
+                                </div>
+                            ))
+                        }
+                        {/* <div className={classes.field}>
                             <div className={classes.attributeTitle} onClick={handleShowAddNewAttribute}>
                                 <h3>Attributes</h3>
                             </div>
@@ -241,7 +279,7 @@ const ProductModal = (props:IProductModalProps) => {
                                 
                             }
                             <Button type="button" onClick={handleAddNewAttribute}>Add New Attribute</Button>
-                        </div>
+                        </div> */}
                         <div className={classes.media}>
                             <h3>Media</h3>
                             <ImageUploader handleOnDrop={handleOnDrop} />

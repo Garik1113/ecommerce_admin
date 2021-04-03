@@ -3,6 +3,7 @@ import Category from 'components/Pages/Category';
 import Filter from 'components/Pages/Filter';
 import Product from 'components/Pages/Product';
 import Slider from 'components/Pages/Slider';
+import Attribute from 'components/Pages/Attribute';
 import { RouteConfig } from "react-router-config";
 
 const routes = ():RouteConfig[] => {
@@ -30,6 +31,11 @@ const routes = ():RouteConfig[] => {
         {
             component: Slider,
             path: '/sliders',
+            exact: true
+        },
+        {
+            component: Attribute,
+            path: '/attributes',
             exact: true
         }
     ]

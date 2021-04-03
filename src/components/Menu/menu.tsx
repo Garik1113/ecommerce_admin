@@ -47,6 +47,12 @@ const MenuList = () => {
                         active={path === '/sliders'}
                     />
               </Link>
+              <Link to="/attributes">
+                    <Menu.Item
+                        name='Attributes'
+                        active={path === '/attributes'}
+                    />
+              </Link>
           </Menu>
         </div>
     )
