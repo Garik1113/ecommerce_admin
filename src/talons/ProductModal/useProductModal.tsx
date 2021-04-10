@@ -14,7 +14,8 @@ export const useProductModal = (props) => {
     const [activeAttributeId, setActiveAttributeId] = useState(null);
     const [attributeError, setAttributeError]= useState("");
     const [categories, setCategories] = useState([]);
-    const [attributes, setAttributes] = useState([])
+    const [attributes, setAttributes] = useState([]);
+    const [values, setVariant] = useState([]);
     const fetchCategories = useCallback(async() => {
         const response: AxiosResponse = await axiosClient('GET', '/api/categories/admin/');
         const { data } = response;
@@ -62,14 +63,15 @@ export const useProductModal = (props) => {
             description: product.description,
             metaDescription: product.metaDescription,
             price: product.price,
-            // priceCurrency: product.price.currency,
-            // discountType: product.discount.type,
             discount: product.discount,
             discountedPrice: product.discountedPrice,
             categories: product.categories,
             images: product.images,
             quantity: product.quantity,
-            variants: product.variants
+            variants: product.variants,
+            attributes: product.attributes || [],
+            configurableAttributes: [],
+            attributeValues: []
         }
         : 
         {
@@ -84,7 +86,9 @@ export const useProductModal = (props) => {
             images: [],
             quantity: 0,
             variants: [],
-            attributes: []
+            attributes: [],
+            configurableAttributes: [],
+            attributeValues: []
         }
     ), [product]);
     
@@ -166,20 +170,9 @@ export const useProductModal = (props) => {
         // formik.setFieldValue(`attributes[${attributeIndex}].values`, newValues);
     }, [formik])
 
-    const handleAddNewAttribute = useCallback(() => {
-        // const attributes: Attribute[] = formik.values.attributes;
-        // const newAttribute = {
-        //     id: attributes.length+1,
-        //     label: "",
-        //     values: [
-        //         {
-        //             id: attributes.length+1,
-        //             label: "",
-        //             images: []
-        //         }
-        //     ]
-        // }
-        // formik.setFieldValue('attributes', [...attributes, newAttribute])
+    const handleAddNewAttribute = useCallback((data:any) => {
+        // const configurableAttributes = formik.getFieldProps("configurableAttributes").value;
+        // formik.setFieldValue('configurableAttributes')
     }, [formik]);
 
     const handleDeleteImageOfValue = useCallback((attributeIndex, valueIndex, imageIndex) => {
@@ -226,26 +219,129 @@ export const useProductModal = (props) => {
         return attributes.map((e) => {
             return {
                 key: e._id,
-                value: e,
+                value: e._id,
                 text: e.name
             }
         })
     }, [attributes]);
 
-    const handleAddNewVariant = useCallback((attribute, value)  => {
-        console.log(attribute, value)
-        const variants = formik.getFieldProps("variants").value || [];
-        for (let index = 0; index < variants.length; index++) {
-            const attributes = variants[index].attributes;
-            const existingAttribute = attributes.find(e => e.attributeId == attribute._id);
-            if(existingAttribute) {
-                formik.setFieldValue('variants', [...variants, {attributeId: attribute._id, attributeName: attribute.name, value}])
-            } else {
-                attributes.push({attributeId: attribute._id, attributeName: attribute.name, value});
-                formik.setFieldValue(`variants[${index}].attributes`, attributes)
-            }
-        }
+    const increamentVariant = useCallback((attributeId, valueId) => {
+        const seletedAttribute = attributes.find(a => a._id == attributeId);
+        const selectedValue = seletedAttribute.values.find(v => v._id == valueId);
+        const variants = formik.getFieldProps("variants").value;
+        const variant = {
+            price: 0,
+            quantity: 0,
+            discount: 0,
+            discountedPrice: 0,
+            image: "",
+            options: [
+                {
+                    attribute: seletedAttribute,
+                    value: selectedValue
+                }
+            ]
+        };
+        formik.setFieldValue("variants", [...variants, variant])
     }, [formik])
+
+    const handleAddNewVariant = useCallback((attributeId, valueIds)  => {
+        const seletedAttribute = attributes.find(a => a._id == attributeId);
+        formik.setFieldValue("attributeValues", valueIds);
+        const variants = formik.getFieldProps("variants").value || [];
+        if(!variants.length) {
+            for (let index = 0; index < valueIds.length; index++) {
+                const valueId = valueIds[index]
+                increamentVariant(attributeId, valueId)
+            }
+        } else {
+            
+        }
+        // for (let index = 0; index < valueIds.length; index++) {
+        //     const valueId = valueIds[index];
+        //     const selectedValue = seletedAttribute.values.find(v => v._id == valueId);
+        //      else {
+        //         for (let index = 0; index < variants.length; index++) {
+        //             const variant = variants[index];
+        //             let attributeDontExistInOptions = true;
+                    
+        //             const { options } = variant;
+        //             for (let index = 0; index < options.length; index++) {
+        //                 const option = options[index];
+        //                 if(option.attribute._id == attributeId) {
+        //                     attributeDontExistInOptions = false
+        //                     break;
+        //                 }
+        //             }
+        //             if(attributeDontExistInOptions) {
+        //                 const newOption = {
+        //                     attribute: seletedAttribute,
+        //                     value: selectedValue
+        //                 };
+        //                 variant.options = [...options, newOption]
+        //             } else {
+        //                 mustAddNewVariant = true
+        //             }
+        //         }
+        //     }
+        //     if(mustAddNewVariant) {
+        //         const variant = {
+        //             price: 0,
+        //             quantity: 0,
+        //             discount: 0,
+        //             discountedPrice: 0,
+        //             image: "",
+        //             options: [
+        //                 {
+        //                     attribute: seletedAttribute,
+        //                     value: selectedValue
+        //                 }
+        //             ]
+        //         };
+        //         newVariants = [...variants, variant];
+        //     }
+        //     formik.setFieldValue("variants", newVariants)
+        // }
+        // const newVariants = variants.map(v => {
+        //     const { options } = v;
+        //     options.map(o => {
+        //         if(o.attribute._id == attributeId) {
+        //             attributeExist = true;
+        //             return;
+        //         }
+        //     });
+        //     if(!attributeExist) {
+        //         v.options = [...v.options, { attribute: seletedAttribute, value: selectedValue } ]
+        //     }
+        //     return v;
+        // });
+        // if(attributeExist || !variants.length) {
+        //     const variant = {
+        //         price: 0,
+        //         quantity: 0,
+        //         discount: 0,
+        //         discountedPrice: 0,
+        //         image: "",
+        //         options: [
+        //             {
+        //                 attribute: seletedAttribute,
+        //                 value: selectedValue
+        //             }
+        //         ]
+        //     };
+        //     formik.setFieldValue("variants", [...variants, variant]);
+        // } else {
+        //     formik.setFieldValue("variants", newVariants)
+        // }
+    }, [formik]);
+
+    const handleChangeDiscount = useCallback((data: any) => {
+        const price = formik.getFieldProps("price").value || 0;
+        const discount = data.value;
+        formik.setFieldValue('discount', discount);
+        const discountedPrice = price - ((price * discount) / 100);
+        formik.setFieldValue('discountedPrice', discountedPrice);
+    }, [formik]);
 
     return {
         formik,
@@ -263,6 +359,8 @@ export const useProductModal = (props) => {
         handleDeleteProductImage,
         categoryDropdowOptions,
         attributeDropdowOptions,
-        handleAddNewVariant
+        handleAddNewVariant,
+        handleChangeDiscount,
+        attributes
     }
 }

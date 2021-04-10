@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { Button, Dropdown, Input, Modal, TextArea } from 'semantic-ui-react';
 import { useProductModal } from 'src/talons/ProductModal/useProductModal';
 import classes from './productModal.css';
@@ -42,9 +42,26 @@ const ProductModal = (props:IProductModalProps) => {
         handleDeleteProductImage,
         categoryDropdowOptions,
         attributeDropdowOptions,
-        handleAddNewVariant
+        handleAddNewVariant,
+        handleChangeDiscount,
+        attributes
     } = talonProps;
-    console.log(formik.values)
+    const getAttributeAndValueById = useCallback((id) => {
+        let value = null;
+        attributes.map(attr => {
+            const valueIds = attr.values.map(v => v._id);
+            if (valueIds.includes(id)) {
+                value = attr.values.find(v => v._id == id);
+                value = { 
+                    attributeId: attr._id,
+                    value
+                };
+            }
+        });
+        return value
+
+    }, [formik, attributes])
+    console.log(formik.values.variants)
     return (
         <div className={classes.root}>
             <Modal 
@@ -106,14 +123,6 @@ const ProductModal = (props:IProductModalProps) => {
                                     value={formik.values.price} 
                                     onChange={formik.handleChange}
                                 />
-                                {/* <Input 
-                                    type="text" 
-                                    name="priceCurrency"
-                                    placeholder="Price Currency"
-                                    className={classes.input}
-                                    value={formik.values.priceCurrency} 
-                                    onChange={formik.handleChange}
-                                /> */}
                             </div>
                         </div>
                         <div className={classes.field}>
@@ -152,8 +161,8 @@ const ProductModal = (props:IProductModalProps) => {
                                     name="discount"
                                     placeholder="Discount"
                                     className={classes.input}
-                                    value={formik.values.discount} 
-                                    onChange={(e, data) => {formik.setFieldValue("discount", data.value); formik.setFieldValue("discountedPrice", formik.values.price - (formik.values.price * Number(data.value) / 100))}}
+                                    value={formik.values.discount}
+                                    onChange={(e, data) => handleChangeDiscount(data)}
                                 />
                                 <Input 
                                     type="text" 
@@ -196,26 +205,29 @@ const ProductModal = (props:IProductModalProps) => {
                             />
                         </div>
                         {
-                            formik.values.attributes.map((e, index)=> (
-                                <div key={e._id}>
-                                    <Dropdown
-                                        onChange={(l, data) =>{console.log(data); handleAddNewVariant(e, data.value)}}
-                                        // value={formik.values.attributes[index].values}
-                                        // name="attributes"
-                                        selection
-                                        fluid
-                                        // id="attributes"
-                                        options={e.values.map((val) => {return {key: val._id, value: val, text: val.name}})}
-                                        multiple
-                                    />
-                                    {/* <span>{e.name}</span>
-                                    {
-                                        e.values.map((val) => (
-                                            <span>{val.name}</span>
-                                        ))
-                                    } */}
-                                </div>
-                            ))
+                            attributes.map((e, i)=> {
+                                if(formik.values.attributes.includes(e._id)) {
+                                    const values = e.values;
+                                    const options = values.map(val => {
+                                        return {
+                                            text: val.name,
+                                            id: val._id,
+                                            value: val._id
+                                        }
+                                    });
+                                    return (
+                                        <Dropdown
+                                            key={e._id}
+                                            name="attributeValues"
+                                            options={options}
+                                            fluid
+                                            multiple
+                                            selection
+                                            onChange={(l,data) => handleAddNewVariant(e._id, data.value)}
+                                        />
+                                    )
+                                }
+                            })
                         }
                         {/* <div className={classes.field}>
                             <div className={classes.attributeTitle} onClick={handleShowAddNewAttribute}>
