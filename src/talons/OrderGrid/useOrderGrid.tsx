@@ -3,85 +3,78 @@ import { AxiosResponse } from "axios";
 import { useCallback, useEffect, useMemo, useState } from "react"
 import { Column } from "react-table";
 import { useAxiosClient } from "../Axios/useAxiosClient";
-import { Button, Checkbox } from 'semantic-ui-react';
-import Image from 'components/Image';
-import { IMAGE_BASE_URL } from 'config/defaults';
+import { Button } from 'semantic-ui-react';
 
-export const useBannerGrid = (props) => {
+export const useOrderGrid = (props) => {
   const { classes } = props;
-    const [banners, setBanners] = useState([]);
+    const [orders, setOrders] = useState([]);
     const [isSubmitting, setIsSubmitting] = useState(false)
     const { axiosClient } = useAxiosClient();
     const [showModal, setShowModal] = useState(false);
-    const [editingBanner, setEditingBanner] = useState({});
+    const [editingOrder, setEditingOrder] = useState({});
 
-    const fetchBanners = useCallback( async () => {
-        const response: AxiosResponse = await axiosClient('GET', 'api/banners/admin/');
+    const fetchOrders = useCallback( async () => {
+        const response: AxiosResponse = await axiosClient('GET', 'api/orders/admin/');
         const { data, status } = response;
-        if (data.banners && status == 200) {
-            setBanners(data.banners);
+        if (data.orders && status == 200) {
+            setOrders(data.orders);
         }
     }, [axiosClient]);
 
     useEffect(() => {
-      fetchBanners();
+      fetchOrders();
     }, []);
 
     const reloadData = useCallback( async () => {
-        await fetchBanners();
-    }, [fetchBanners])
+        await fetchOrders();
+    }, [fetchOrders])
 
     const handleShowModal = useCallback(() => {
         setShowModal(true)
     }, [setShowModal, showModal]);
 
     const handleAddNewBanner = useCallback(() => {
-      setEditingBanner({});
+      setEditingOrder({});
       handleShowModal()
-    }, [handleShowModal, setEditingBanner]);
+    }, [handleShowModal, setEditingOrder]);
 
     const handleHideModal = useCallback(() => {
         setShowModal(false)
     }, [setShowModal, showModal]);
 
-    const handleDelete = useCallback(async(bannerId) => {
+    const handleDelete = useCallback(async(orderId) => {
         setIsSubmitting(true)
-        await axiosClient("delete", `api/banners/admin/${bannerId}`);
+        await axiosClient("delete", `api/orders/admin/${orderId}`);
         setIsSubmitting(false)
         reloadData();
-    }, [axiosClient, fetchBanners]);
+    }, [axiosClient, fetchOrders]);
 
-    const handleEdit = useCallback( async (bannerId) => {
-        const response: AxiosResponse = await axiosClient('get', `api/banners/admin/${bannerId}`)
+    const handleEdit = useCallback( async (orderId) => {
+        const response: AxiosResponse = await axiosClient('get', `api/orders/admin/${orderId}`)
         const { data } = response;
-        if (response.status == 200 && data.banner) {
-            setEditingBanner(data.banner);
+        if (response.status == 200 && data.order) {
+            setEditingOrder(data.order);
             handleShowModal();
         }
-    }, [axiosClient, fetchBanners])
+    }, [axiosClient, fetchOrders])
 
     const columns = useMemo((): Column<any>[] => {
         return [
-          {
-            Header: "Image",
-            accessor: 'image',
-            Cell: ({row}) => {
-                return (
-                    <img className={classes.image} src={`api/images/banner/${row.original.image}`}/>
-                )
-            }
-        },
-          {
-            Header: "Content",
-            accessor: 'content'
-          },
           {
             Header: "ID",
             accessor: '_id'
           },
           {
-            Header: "Content Position",
-            accessor: "contentPosition"
+            Header: "Customer Email",
+            accessor: 'customer.email'
+          },
+          {
+            Header: "Customer First Name",
+            accessor: 'customer.firstName'
+          },
+          {
+            Header: "Customer Last Name",
+            accessor: 'customer.lastName'
           },
           {
             Header: "Actions",
@@ -95,16 +88,16 @@ export const useBannerGrid = (props) => {
             }
           }
         ]
-    }, [banners]);
+    }, [orders]);
     
     return {
-        banners,
+        orders,
         columns,
         handleShowModal,
         handleHideModal,
         showModal,
         isSubmitting,
-        editingBanner,
+        editingOrder,
         handleAddNewBanner,
         reloadData
     }

@@ -7,29 +7,29 @@ import { Button, Checkbox } from 'semantic-ui-react';
 import Image from 'components/Image';
 import { IMAGE_BASE_URL } from 'config/defaults';
 
-export const useBannerGrid = (props) => {
-  const { classes } = props;
-    const [banners, setBanners] = useState([]);
+export const useCustomerGrid = (props) => {
+    const { classes } = props;
+    const [customers, setCustomers] = useState([]);
     const [isSubmitting, setIsSubmitting] = useState(false)
     const { axiosClient } = useAxiosClient();
     const [showModal, setShowModal] = useState(false);
     const [editingBanner, setEditingBanner] = useState({});
 
-    const fetchBanners = useCallback( async () => {
-        const response: AxiosResponse = await axiosClient('GET', 'api/banners/admin/');
+    const fetchCustomers = useCallback( async () => {
+        const response: AxiosResponse = await axiosClient('GET', 'api/customers/admin/');
         const { data, status } = response;
-        if (data.banners && status == 200) {
-            setBanners(data.banners);
+        if (data.customers && status == 200) {
+            setCustomers(data.customers);
         }
     }, [axiosClient]);
 
     useEffect(() => {
-      fetchBanners();
+      fetchCustomers();
     }, []);
 
     const reloadData = useCallback( async () => {
-        await fetchBanners();
-    }, [fetchBanners])
+        await fetchCustomers();
+    }, [fetchCustomers])
 
     const handleShowModal = useCallback(() => {
         setShowModal(true)
@@ -44,61 +44,46 @@ export const useBannerGrid = (props) => {
         setShowModal(false)
     }, [setShowModal, showModal]);
 
-    const handleDelete = useCallback(async(bannerId) => {
+    const handleDelete = useCallback(async(customerId) => {
         setIsSubmitting(true)
-        await axiosClient("delete", `api/banners/admin/${bannerId}`);
+        await axiosClient("delete", `api/customers/admin/${customerId}`);
         setIsSubmitting(false)
         reloadData();
-    }, [axiosClient, fetchBanners]);
-
-    const handleEdit = useCallback( async (bannerId) => {
-        const response: AxiosResponse = await axiosClient('get', `api/banners/admin/${bannerId}`)
-        const { data } = response;
-        if (response.status == 200 && data.banner) {
-            setEditingBanner(data.banner);
-            handleShowModal();
-        }
-    }, [axiosClient, fetchBanners])
+    }, [axiosClient, fetchCustomers]);
 
     const columns = useMemo((): Column<any>[] => {
         return [
           {
-            Header: "Image",
-            accessor: 'image',
-            Cell: ({row}) => {
-                return (
-                    <img className={classes.image} src={`api/images/banner/${row.original.image}`}/>
-                )
-            }
+            Header: "Email",
+            accessor: 'email',
         },
           {
-            Header: "Content",
-            accessor: 'content'
+            Header: "First Name",
+            accessor: 'firstName'
+          },
+          {
+            Header: "Last Name",
+            accessor: 'lastName'
           },
           {
             Header: "ID",
             accessor: '_id'
           },
           {
-            Header: "Content Position",
-            accessor: "contentPosition"
-          },
-          {
             Header: "Actions",
             Cell: ({row}) => {
                 return (
                     <div>
-                        <Button icon="edit" onClick={() => handleEdit(row.original._id)}/>
                         <Button icon="delete" onClick={() => handleDelete(row.original._id)}/>
                     </div>
                 )
             }
           }
         ]
-    }, [banners]);
+    }, [customers]);
     
     return {
-        banners,
+        customers,
         columns,
         handleShowModal,
         handleHideModal,

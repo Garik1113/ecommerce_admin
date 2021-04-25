@@ -4,8 +4,9 @@ import { useCallback, useEffect, useMemo, useState } from "react"
 import { Column } from "react-table";
 import { useAxiosClient } from "../Axios/useAxiosClient";
 import { Button } from 'semantic-ui-react';
+import get from 'lodash/get'
 
-export const useProductGrid = () => {
+export const useProductGrid = ({classes}) => {
     const [products, setProducts] = useState([]);
     const [isSubmitting, setIsSubmitting] = useState(false)
     const { axiosClient } = useAxiosClient();
@@ -37,8 +38,9 @@ export const useProductGrid = () => {
       handleShowModal()
     }, [handleShowModal, setEditingProduct]);
 
-    const handleHideModal = useCallback(() => {
-        setShowModal(false)
+    const handleHideModal = useCallback(async() => {
+        setShowModal(false);
+        await fetchProducts()
     }, [setShowModal, showModal]);
 
     const handleDelete = useCallback(async(productId) => {
@@ -72,6 +74,17 @@ export const useProductGrid = () => {
           {
             Header: "Category",
             accessor: "category_id"
+          },
+          {
+            Header: "Image",
+            accessor: "images",
+            Cell: ({row}) => {
+              const imageSrc = get(row, "original.images[0].thumbnail_image");
+              const src = `api/images/product/${imageSrc}`
+              return (
+                  <img className={classes.thumbnailImage} src={src}/>
+              )
+          }
           },
           {
             Header: "Actions",

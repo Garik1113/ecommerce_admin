@@ -1,0 +1,22 @@
+.item {
+    display: grid;
+    grid-template-columns: 80% 20%;
+    align-items: center;
+}
+
+.product {
+    display: flex;
+    align-items: center;
+}
+
+.image {
+    width: 100%;
+    max-width: 150px;
+    height: auto;
+}
+
+.nameField, .priceField, .attributes, .quantity {
+    margin-left: 10px;
+    font-size: 18px;
+    font-weight: 500;
+}

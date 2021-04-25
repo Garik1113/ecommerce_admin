@@ -29,39 +29,18 @@ const ProductModal = (props:IProductModalProps) => {
     });
     const { 
         formik,
-        handleShowAddNewAttribute,
         handleOnDrop,
-        handleOnDropValueImage,
-        setActiveValueId,
-        handleAddNewAttribute,
-        setActiveAttributeId,
-        handleDeleteImageOfValue,
-        handleDeleteValue,
-        handleAddNewValue,
-        handleDeleteAttribute,
+        handleAddNewConfigurableAttribute,
+        handleChangeAttributes,
         handleDeleteProductImage,
         categoryDropdowOptions,
         attributeDropdowOptions,
-        handleAddNewVariant,
         handleChangeDiscount,
-        attributes
+        attributes,
+        getSelectedValue,
+        message
     } = talonProps;
-    const getAttributeAndValueById = useCallback((id) => {
-        let value = null;
-        attributes.map(attr => {
-            const valueIds = attr.values.map(v => v._id);
-            if (valueIds.includes(id)) {
-                value = attr.values.find(v => v._id == id);
-                value = { 
-                    attributeId: attr._id,
-                    value
-                };
-            }
-        });
-        return value
 
-    }, [formik, attributes])
-    console.log(formik.values.variants)
     return (
         <div className={classes.root}>
             <Modal 
@@ -112,21 +91,6 @@ const ProductModal = (props:IProductModalProps) => {
                         </div>
                         <div className={classes.field}>
                             <div className={classes.title}>
-                                <h4>Price</h4>
-                            </div>
-                            <div className={classes.flex}>
-                                <Input 
-                                    type="text" 
-                                    name="price"
-                                    placeholder="Price"
-                                    className={classes.input}
-                                    value={formik.values.price} 
-                                    onChange={formik.handleChange}
-                                />
-                            </div>
-                        </div>
-                        <div className={classes.field}>
-                            <div className={classes.title}>
                                 <h4>Description</h4>
                             </div>
                             <div className={classes.flex}>
@@ -153,6 +117,21 @@ const ProductModal = (props:IProductModalProps) => {
                         </div>
                         <div className={classes.field}>
                             <div className={classes.title}>
+                                <h4>Price</h4>
+                            </div>
+                            <div className={classes.flex}>
+                                <Input 
+                                    type="number" 
+                                    name="price"
+                                    placeholder="Price"
+                                    className={classes.input}
+                                    value={formik.values.price} 
+                                    onChange={formik.handleChange}
+                                />
+                            </div>
+                        </div>
+                        <div className={classes.field}>
+                            <div className={classes.title}>
                                 <h4>Discount</h4>
                             </div>
                             <div className={classes.flex}>
@@ -165,11 +144,11 @@ const ProductModal = (props:IProductModalProps) => {
                                     onChange={(e, data) => handleChangeDiscount(data)}
                                 />
                                 <Input 
-                                    type="text" 
+                                    type="number" 
                                     name="discountedPrice"
                                     placeholder="Discounted Price"
                                     className={classes.input}
-                                    value={formik.values.discount && formik.values.price - (formik.values.price * formik.values.discount / 100)} 
+                                    value={formik.values.discountedPrice} 
                                     onChange={formik.handleChange}
                                 />
                             </div>
@@ -194,7 +173,7 @@ const ProductModal = (props:IProductModalProps) => {
                                 <h4>Attributes</h4>
                             </div>
                             <Dropdown
-                                onChange={(e, data) => formik.setFieldValue('attributes', data.value)}
+                                onChange={(e, data) => handleChangeAttributes(data.value)}
                                 value={formik.values.attributes}
                                 name="attributes"
                                 selection
@@ -205,8 +184,8 @@ const ProductModal = (props:IProductModalProps) => {
                             />
                         </div>
                         {
-                            attributes.map((e, i)=> {
-                                if(formik.values.attributes.includes(e._id)) {
+                            attributes.map((e, i) => {
+                                if (formik.values.attributes.includes(e._id)) {
                                     const values = e.values;
                                     const options = values.map(val => {
                                         return {
@@ -218,80 +197,17 @@ const ProductModal = (props:IProductModalProps) => {
                                     return (
                                         <Dropdown
                                             key={e._id}
-                                            name="attributeValues"
+                                            name="configurableAttributes"
+                                            value={getSelectedValue(e._id)}
                                             options={options}
                                             fluid
-                                            multiple
                                             selection
-                                            onChange={(l,data) => handleAddNewVariant(e._id, data.value)}
+                                            onChange={(l, data) => handleAddNewConfigurableAttribute(e, values.find(v => v._id == data.value))}
                                         />
                                     )
                                 }
                             })
                         }
-                        {/* <div className={classes.field}>
-                            <div className={classes.attributeTitle} onClick={handleShowAddNewAttribute}>
-                                <h3>Attributes</h3>
-                            </div>
-                            {
-                                formik.values.attributes.map((e, attributeIndex) => {
-                                    return (
-                                        <div key={attributeIndex} className={classes.attribute}>
-                                            <Input
-                                                value={e.label}
-                                                name={`attributes[${attributeIndex}].label`}
-                                                onChange={formik.handleChange}
-                                                className={classes.attributeName}
-                                                placeholder="Attribute Name"
-                                            />
-                                            {
-                                                e.values.map((val, valueIndex) => {
-                                                    return (
-                                                        <div key={valueIndex} className={classes.value}>
-                                                            <div className={classes.valueName}>
-                                                                <Input
-                                                                    placeholder="Value Name"
-                                                                    value={val.label}
-                                                                    name={`attributes[${attributeIndex}].values[${valueIndex}].label`}
-                                                                    onChange={formik.handleChange}
-                                                                />
-                                                            </div>
-                                                            
-                                                            <div onClick={() => {
-                                                                setActiveAttributeId(attributeIndex);
-                                                                setActiveValueId(valueIndex)
-                                                            }}>
-                                                                <ImageUploader handleOnDrop={handleOnDropValueImage}/>
-                                                            </div>
-                                                            {
-                                                                val.images.map((src, valueImageIndex) => {
-                                                                    return (
-                                                                        <Image
-                                                                            key={valueImageIndex}
-                                                                            s3Folder={"products"}
-                                                                            imageName={typeof src == 'string' ? src : src.small_image}
-                                                                            onDelete={() => handleDeleteImageOfValue(attributeIndex, valueIndex, valueImageIndex)}
-                                                                        />
-                                                                    )
-                                                                })
-                                                            }
-                                                            <div className={classes.closeIcon} onClick={() => handleDeleteValue(attributeIndex, valueIndex)}>X</div>
-                                                        </div>
-                                                        
-                                                    )
-                                                })
-                                            }
-                                            <Button type="button" onClick={() =>handleAddNewValue(attributeIndex)}>Add new value</Button>
-                                            <div className={classes.deleteIcon}>
-                                                <Button icon="delete" type="button" onClick={() => handleDeleteAttribute(attributeIndex)}/>
-                                            </div>
-                                        </div>
-                                    )
-                                })
-                                
-                            }
-                            <Button type="button" onClick={handleAddNewAttribute}>Add New Attribute</Button>
-                        </div> */}
                         <div className={classes.media}>
                             <h3>Media</h3>
                             <ImageUploader handleOnDrop={handleOnDrop} />
@@ -300,7 +216,7 @@ const ProductModal = (props:IProductModalProps) => {
                                 ?   formik.values.images.map((image, index) => {
                                         return  <Image
                                                     key={index}
-                                                    s3Folder="products"
+                                                    folder="product"
                                                     imageName={typeof image == 'string' ? image : image.small_image}
                                                     onDelete={() => handleDeleteProductImage(index)}
                                                 />
@@ -311,6 +227,11 @@ const ProductModal = (props:IProductModalProps) => {
                     </form>
                 </Modal.Content>
                 <Modal.Actions>
+                    {
+                        message
+                        ?   <div className={classes.message}>{message}</div>
+                        :   null
+                    }
                     <Button primary type="submit"onClick={() => formik.handleSubmit()}>Save</Button>
                     <Button secondary onClick={()=> onClose()}>Cancel</Button>
                 </Modal.Actions>

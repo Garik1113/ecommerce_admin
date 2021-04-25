@@ -65,7 +65,7 @@ const SliderModal = (props:IProps) => {
                                         {
                                             slide.image 
                                             ?   <Image
-                                                    s3Folder={"sliders"}
+                                                    folder={"slider"}
                                                     imageName={slide.image}
                                                     onDelete={() => {}}
                                                 />

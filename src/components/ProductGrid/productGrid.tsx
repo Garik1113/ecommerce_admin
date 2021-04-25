@@ -15,7 +15,7 @@ const ProductGrid = () => {
         editingProduct,
         handleAddNewProduct,
         reloadData
-    } = useProductGrid();
+    } = useProductGrid({classes});
 
     return (
         <div className={classes.root}>

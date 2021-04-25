@@ -1,14 +1,13 @@
 import BannerModal from 'components/BannerModal';
-import CategoryModal from 'components/CategoryModal';
 import DataGrid from 'components/DataGrid';
 import React from 'react';
-import { useBannerGrid } from 'src/talons/BannerGrid/useBannerGrid';
-import classes from './bannerGrid.css';
+import { useCustomerGrid } from 'src/talons/CustomerGrid/useCustomerGrid';
+import classes from './customerGrid.css';
 
 
-const BannerGrid = () => {
+const CustomerGrid = () => {
     const { 
-        banners, 
+        customers, 
         columns,
         handleHideModal,
         showModal,
@@ -16,22 +15,22 @@ const BannerGrid = () => {
         editingBanner,
         handleAddNewBanner,
         reloadData
-    } = useBannerGrid({classes});
+    } = useCustomerGrid({classes});
 
     return (
         <div className={classes.root}>
             <DataGrid 
                 columns={columns} 
-                items={banners} 
-                title="Categories"
+                items={customers} 
+                title="Customers"
                 isSubmitting={isSubmitting}
                 buttons={[
-                    {
-                        onClick: handleAddNewBanner,
-                        type: 'submit',
-                        label: "Add new banner",
-                        isSubmitting: false
-                    }
+                    // {
+                    //     onClick: handleAddNewBanner,
+                    //     type: 'submit',
+                    //     label: "Add new banner",
+                    //     isSubmitting: false
+                    // }
                 ]}
             />
             {
@@ -47,4 +46,4 @@ const BannerGrid = () => {
         </div>
     )
 }
-export default BannerGrid;
+export default CustomerGrid;

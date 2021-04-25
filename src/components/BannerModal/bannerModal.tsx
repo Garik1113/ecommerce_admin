@@ -44,7 +44,7 @@ const BannerModal = (props:IBannerModalProps) => {
                             {
                                 formik.values.image 
                                 ?   <Image
-                                        s3Folder="banners"
+                                        folder="banner"
                                         imageName={formik.values.image}
                                         onDelete={handleDeleteBannerImage}
                                     />

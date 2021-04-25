@@ -4,13 +4,13 @@ import { handleImageError } from 'src/helpers/handleImageError';
 import classes from './image.css';
 
 interface ImageProps {
-    s3Folder: string,
+    folder: string,
     imageName: string,
     onDelete: any
 }
 const Image = (props: ImageProps) => {
-    const { s3Folder, imageName, onDelete } = props;
-    const src = `${IMAGE_BASE_URL}/${s3Folder}/${imageName}`
+    const { folder, imageName, onDelete } = props;
+    const src = `api/images/${folder}/${imageName}`
 
     return (
         <div className={classes.root}>

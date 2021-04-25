@@ -5,6 +5,8 @@ import Product from 'components/Pages/Product';
 import Slider from 'components/Pages/Slider';
 import Attribute from 'components/Pages/Attribute';
 import { RouteConfig } from "react-router-config";
+import Customer from 'components/Pages/Customer';
+import Order from 'components/Pages/Order';
 
 const routes = ():RouteConfig[] => {
     return [
@@ -36,6 +38,16 @@ const routes = ():RouteConfig[] => {
         {
             component: Attribute,
             path: '/attributes',
+            exact: true
+        },
+        {
+            component: Customer,
+            path: '/customers',
+            exact: true
+        },
+        {
+            component: Order,
+            path: '/orders',
             exact: true
         }
     ]

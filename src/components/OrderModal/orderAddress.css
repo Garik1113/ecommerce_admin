@@ -1,0 +1,18 @@
+.field {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    background: rgb(10, 186, 218);
+}
+
+.fieldTitle {
+    font-size: 18px;
+    font-weight: 500;
+    color: rgb(248, 234, 234);
+}
+
+.fieldValue {
+    font-size: 18px;
+    color: rgb(245, 245, 245);
+    margin-left: 5px;
+}

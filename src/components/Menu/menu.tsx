@@ -53,6 +53,18 @@ const MenuList = () => {
                         active={path === '/attributes'}
                     />
               </Link>
+              <Link to="/customers">
+                    <Menu.Item
+                        name='Customers'
+                        active={path === '/customers'}
+                    />
+              </Link>
+              <Link to="/orders">
+                    <Menu.Item
+                        name='Orders'
+                        active={path === '/orders'}
+                    />
+              </Link>
           </Menu>
         </div>
     )
