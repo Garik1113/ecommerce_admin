@@ -41,6 +41,16 @@ const AttributeModal = (props:IProps) => {
                                 onChange={formik.handleChange}
                             />
                         </div>
+                        <div className={classes.field}>
+                            <Input 
+                                type="text" 
+                                name="type"
+                                placeholder="Type"
+                                className={classes.input}
+                                value={formik.values.type} 
+                                onChange={formik.handleChange}
+                            />
+                        </div>
                         <div className={classes.list}>
                             <h3>Attribute Values</h3>
                             {formik.values.values.map((option, index) => (

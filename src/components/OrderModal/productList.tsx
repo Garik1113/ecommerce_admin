@@ -2,7 +2,7 @@ import React from 'react';
 import classes from './productList.css'
 
 const ItemList = (props) => {
-    const { items } = props;
+    const { items, currency } = props;
 
     return (
         <div className={classes.list}>
@@ -20,7 +20,7 @@ const ItemList = (props) => {
                                 {e.product.name}
                             </div>
                             <div className={classes.priceField}>
-                                Price: {e.product.discountedPrice || e.product.price}
+                                Price: {e.product.discountedPrice || e.product.price} {currency.name}
                             </div>
                             <div className={classes.attributes}>
                                 {
@@ -37,7 +37,7 @@ const ItemList = (props) => {
                             </div>
                         </div>
                         <div className={classes.quantity}>
-                            {e.quantity}
+                            Qty: {e.quantity}
                         </div>
                     </div>
                 })

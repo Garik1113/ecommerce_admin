@@ -1,3 +1,24 @@
+.reportHeader {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 15px;
+    padding: 10px;
+}
+
+.title {
+    font-size: 25px;
+    text-align: center;
+    margin: auto;
+}
+
+.reportField {
+    height: 150px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border: 1px solid #878787; 
+}
 .title {
     text-align: center;
     margin: 15px auto;

@@ -184,7 +184,17 @@ export const useProductModal = (props) => {
         ? formik.values.configurableAttributes.find(a => a.attribute._id == attributeId).selectedValue._id 
         : null;
         return value
-    }, [formik])
+    }, [formik]);
+
+    const baseCurrencyOptions = useMemo(() => {
+        return [
+            {
+                text: "AMD",
+                value: "amd",
+                id: "amd"
+            }
+        ]
+    }, []);
 
     return {
         formik,
@@ -197,6 +207,7 @@ export const useProductModal = (props) => {
         handleChangeDiscount,
         attributes,
         getSelectedValue,
-        message
+        message,
+        baseCurrencyOptions
     }
 }

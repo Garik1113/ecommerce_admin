@@ -10,6 +10,13 @@ const MenuList = () => {
     return (
         <div className={classes.root}>
           <Menu vertical className={classes.mainMenu}>
+                <Link to="/">
+                    <Menu.Item
+                        className={classes.item}
+                        name='Order Report'
+                        active={path === '/'}
+                    />
+              </Link>
               <Link to="/categories">
                     <Menu.Item
                         className={classes.item}
@@ -27,12 +34,6 @@ const MenuList = () => {
                     <Menu.Item
                         name='Banners'
                         active={path === '/banners'}
-                    />
-              </Link>
-              <Link to="/testimonials">
-                    <Menu.Item
-                        name='Testimonials'
-                        active={path === '/testimonials'}
                     />
               </Link>
               <Link to="/filters">
@@ -63,6 +64,12 @@ const MenuList = () => {
                     <Menu.Item
                         name='Orders'
                         active={path === '/orders'}
+                    />
+              </Link>
+              <Link to="/config">
+                    <Menu.Item
+                        name='Config'
+                        active={path === '/config'}
                     />
               </Link>
           </Menu>

@@ -32,10 +32,26 @@ const OrderAddress = (props) => {
             </div>
             <div className={classes.field}>
                 <div className={classes.fieldTitle}>
-                    First Address:
+                    Address:
                 </div>
                 <div className={classes.fieldValue}>
-                    {address.firstAddress}
+                    {address.address}
+                </div>
+            </div>
+            <div className={classes.field}>
+                <div className={classes.fieldTitle}>
+                    Email:
+                </div>
+                <div className={classes.fieldValue}>
+                    {address.email}
+                </div>
+            </div>
+            <div className={classes.field}>
+                <div className={classes.fieldTitle}>
+                    Additional Information:
+                </div>
+                <div className={classes.fieldValue}>
+                    {address.additionalInformation}
                 </div>
             </div>
         </div>

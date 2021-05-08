@@ -6,8 +6,9 @@ export const useAttributeModal = (props) => {
     const { attribute={}, reloadData, handleHideModal } = props;
     const { axiosClient } = useAxiosClient();
     const formik = useFormik({
-        initialValues: attribute._id ? attribute : {
+        initialValues: attribute._id ? {...attribute, type: attribute.type ? attribute.type: ""} : {
             name: "",
+            type: "",
             values: []
         },
         onSubmit: async (values) => {
@@ -15,11 +16,13 @@ export const useAttributeModal = (props) => {
             if (attribute._id) {
                 requestData = {
                     ...attribute,
+                    type: values.type,
                     name: values.name,
                     values: values.values.filter(e => !!e.name)
                 }
             } else {
                 requestData = {
+                    type: values.type,
                     name: values.name,
                     values: values.values.filter(e => !!e.name)
                 }

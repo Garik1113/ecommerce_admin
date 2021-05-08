@@ -1,40 +1,24 @@
 import { useFormik } from "formik";
 import { useMemo } from "react";
-import { useAxiosClient } from "../Axios/useAxiosClient";
+import { useConfig } from "../Config/useConfig";
 
 export const useOrderModal = (props) => {
     const { order={}, reloadData, handleHideModal } = props;
-    const { axiosClient } = useAxiosClient();
+    const { getConfigValue } = useConfig();
     const formik = useFormik({
         initialValues: order._id ? order : {},
         onSubmit: async (values) => {
-            console.log("VALUESSS", values)
             return
-            let requestData;
-            if (order._id) {
-                requestData = {
-                    ...order,
-                    image: values.image,
-                    content: values.content,
-                    contentPosition: values.contentPosition
-                }
-            } else {
-                requestData = {
-                    image: values.image,
-                    content: values.content,
-                    contentPosition: values.contentPosition
-                }
-            };
-            const method = order._id ? "PUT" : "POST";
-            const url = order._id ? `api/banners/admin/${order._id}` : `api/banners/admin/create`;
-            await axiosClient(method, url, requestData);
-            handleHideModal();
-            reloadData()
         },
         enableReinitialize: true
     });
+
+    const currency = useMemo(() => {
+        return getConfigValue("baseCurrency")
+    }, [getConfigValue])
     
     return {
         formik,
+        currency
     }
 }

@@ -1,6 +1,5 @@
 import axios, { AxiosResponse } from "axios";
 import { Dispatch } from "react";
-import { StateFromReducersMapObject } from "redux";
 import { history } from "src/App";
 import { AppState } from "src/store";
 import { IUser } from "src/store/reducers/user";

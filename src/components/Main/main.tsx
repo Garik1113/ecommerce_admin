@@ -8,15 +8,20 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AppState } from 'src/store';
 import ErrorField from 'components/ErrorField';
 import { handleDeleteError } from 'src/store/actions/error/error';
-import { useHistory, useLocation } from 'react-router';
-import { Console } from 'console';
+import { useHistory } from 'react-router';
 import Header from 'components/Header';
+import { getConfigs } from 'src/store/actions/app/app';
 
 const Main = () => {
     const isSignedIn = useSelector((state: AppState) => state.user.isSignedIn);
     const hasError = useSelector((state: AppState) => state.error.haseError);
     const newError = useSelector((state: AppState) => state.error.error);
     const dispatch = useDispatch();
+    useEffect(() => {
+        if (isSignedIn) {
+            dispatch(getConfigs())
+        }
+    }, [getConfigs, isSignedIn])
     const [error, setError] = useState(null);
     const history = useHistory();
 
@@ -42,6 +47,7 @@ const Main = () => {
         history.push('/')
         content = renderRoutes(authRoutes())
     }
+    
     
     return (
         <div className={classes.main}>

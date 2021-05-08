@@ -7,9 +7,16 @@ import Attribute from 'components/Pages/Attribute';
 import { RouteConfig } from "react-router-config";
 import Customer from 'components/Pages/Customer';
 import Order from 'components/Pages/Order';
+import OrderReport from 'components/Pages/OrderReport';
+import Config from 'components/Pages/Config';
 
 const routes = ():RouteConfig[] => {
     return [
+        {
+            component: OrderReport,
+            path: '/',
+            exact: true
+        },
         {
             component: Product,
             path: '/products',
@@ -48,6 +55,11 @@ const routes = ():RouteConfig[] => {
         {
             component: Order,
             path: '/orders',
+            exact: true
+        },
+        {
+            component: Config,
+            path: '/config',
             exact: true
         }
     ]

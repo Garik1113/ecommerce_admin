@@ -1,17 +1,20 @@
 import classes from './header.css';
 import React from 'react';
-import { Button, Card } from 'semantic-ui-react';
+import { Button } from 'semantic-ui-react';
 import { useHeader } from 'src/talons/Header/useHeader';
 import { Link } from 'react-router-dom';
-
-const logoUrl = "https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/Boomerang_tv_logo.png/758px-Boomerang_tv_logo.png"
 const Header = () => {
-    const { isSignedIn, handleSignOut } = useHeader();
+    const { isSignedIn, handleSignOut, logoSrc } = useHeader();
+    
     return (
         <div>
             <div className={classes.myCard}>
                 <div className={classes.logo}>
-                    <img src={logoUrl} alt="logo"/>
+                    {
+                        logoSrc
+                        ?   <img src={logoSrc} alt="logo"/>
+                        :   null
+                    }
                 </div>
                 {
                     isSignedIn

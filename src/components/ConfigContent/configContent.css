@@ -1,0 +1,96 @@
+.root {
+    width: 100%;
+    justify-content: center;
+    padding: 15px 15px;
+}
+
+.imageField {
+    display: grid;
+    align-items: center;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 10px;
+}
+
+.image {
+    max-width: 180px;
+    height: auto;
+}
+
+.field {
+    width: 100%;
+    min-width: 300px;
+    margin-bottom: 20px;
+}
+
+.paymentMethodfield {
+    width: 100%;
+    min-width: 300px;
+    margin-bottom: 20px;
+    border: 1px solid #878;
+    padding: 15px;
+}
+
+.input {
+    width: 100%;
+    /* max-width: 400px; */
+}
+
+.fieldTitle {
+    margin-bottom: 5px;
+}
+
+.socialButton {
+    margin: 15px auto;
+    text-align: center;
+}
+
+.socialSite {
+    width: 100%;
+    min-width: 400px;
+    display: grid;
+    align-items: center;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 15px;
+    margin-bottom: 10px;
+}
+
+.button {
+    text-align: center;
+    margin: 30px auto;
+}
+
+.message {
+    background: green;
+    color: #fff;
+    height: 32px;
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+    line-height: 32px;
+}
+
+.method {
+    height: 50px;
+    border: 1px solid #878;
+    line-height: 50px;
+    padding: 0 15px;
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.shippingMethod {
+    padding: 10px 15px;
+    margin-bottom: 15px;
+    border: 1px solid #878;
+}
+
+.shippingFieldTitle {
+    margin: 20px auto;
+    text-align: center;
+    font-size: 25px;
+}
+
+.methodEnabled {
+    margin-left: 10px;
+}

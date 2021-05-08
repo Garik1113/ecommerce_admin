@@ -1,17 +1,21 @@
-import { AppActionTypes, TOGGLE_DRAWER } from "../actions/app/types";
+import { AppActionTypes, GET_CONFIGS, TOGGLE_DRAWER } from "../actions/app/types";
 
 interface IAppState {
-    toggleDrawer: boolean
+    toggleDrawer: boolean,
+    config: any
 }
 
 const initialState: IAppState = {
-    toggleDrawer: false
+    toggleDrawer: false,
+    config: {}
 }
 
 const appReducer = (state: IAppState = initialState, action: AppActionTypes) => {
     switch(action.type) {
         case TOGGLE_DRAWER:
-        return {...state, toggleDrawer: action.payload};
+            return {...state, toggleDrawer: action.payload};
+        case GET_CONFIGS:
+            return { ...state, configs: action.payload }
         default: return state;
     }
 }

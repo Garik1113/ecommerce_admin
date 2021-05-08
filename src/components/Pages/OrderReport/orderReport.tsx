@@ -1,44 +1,40 @@
-import React from 'react';
-import { Button, Radio, Modal } from 'semantic-ui-react';
-import { useOrderModal } from 'src/talons/OrderModal/useOrderModal';
-import OrderAddress from './orderAddress';
-import classes from './orderModal.css';
-import ItemList from './productList';
+import React, { useMemo } from 'react';
+import classes from './orderReport.css';
+import 'react-vis/dist/style.css';
+import { useOrderReport } from 'src/talons/OrderReport/useOrderReport';
+import OrderAddress from 'components/OrderModal/orderAddress';
+import ItemList from 'components/OrderModal/productList';
 
-interface IOrderModalProps {
-    visible: boolean,
-    onClose: any,
-    order?: any,
-    reloadData?: any,
-    handleHideModal?: any
-}
-
-const OrderModal = (props:IOrderModalProps) => {
-    const { visible, onClose, order, reloadData,  handleHideModal} = props;
-    const talonProps = useOrderModal({ order, reloadData, handleHideModal });
-    const { 
-        formik,
-        currency 
-    } = talonProps;
+const OrderReport = () => {
+    const { totalOrders, totalSales, currency, lastOrder } = useOrderReport();
+    
     return (
         <div className={classes.root}>
-            <Modal 
-                open={visible}
-                onClose={onClose}
-                closeIcon
-            >
-                <Modal.Header>
-                    <h1>Order</h1>
-                </Modal.Header>
-                <Modal.Content>
-                    <form onSubmit={formik.handleSubmit}>
-                    <div className={classes.header}>
+            <div className={classes.reportHeader}>
+                <div className={classes.reportField}>
+                    <div className={classes.valueField}>
+                        <span className={classes.orderText}>Total Sales: </span> 
+                        <span className={classes.orderValue}>{totalSales}{currency.name}</span>
+                    </div>
+                </div>
+                <div className={classes.reportField}>
+                    <div className={classes.valueField}>
+                        <span className={classes.orderText}>Total Orders: </span> 
+                        <span className={classes.orderValue}>{totalOrders}</span>
+                    </div>
+                </div>
+            </div>
+            <div className={classes.body}>
+                {
+                    lastOrder 
+                    ?   <form onSubmit={(e) => e.preventDefault()}>
+                        <div className={classes.header}>
                         <div className={classes.headerField}>
                             <div className={classes.headerTitle}>
                                 Date
                             </div>
                             <span>
-                                {order.createdAt}
+                                {lastOrder.createdAt}
                             </span>
                         </div>
                         <div className={classes.headerField}>
@@ -46,7 +42,7 @@ const OrderModal = (props:IOrderModalProps) => {
                                 Grand total
                             </div>
                             <span>
-                                {order.totalPrice} {currency.name}
+                                {lastOrder.totalPrice} {currency.name}
                             </span>
                         </div>
                         <div className={classes.headerField}>
@@ -54,7 +50,7 @@ const OrderModal = (props:IOrderModalProps) => {
                                 Order number
                             </div>
                             <span>
-                                {order._id}
+                                {lastOrder._id}
                             </span>
                         </div>
                     </div>
@@ -64,7 +60,7 @@ const OrderModal = (props:IOrderModalProps) => {
                                 Products
                             </div>
                             {
-                                <ItemList items={order.items} currency={currency}/>
+                                <ItemList items={lastOrder.items} currency={currency}/>
                             }
                         </div>
                             <div className={classes.addressField}>
@@ -73,18 +69,18 @@ const OrderModal = (props:IOrderModalProps) => {
                                         Shipping Address
                                     </div>
                                     <div>
-                                        <OrderAddress address={order.shippingAddress}/>
+                                        <OrderAddress address={lastOrder.shippingAddress}/>
                                     </div>
                                 </div>
                                 <div className={classes.billing}>
                                     <div className={classes.addressTitle}>
                                         Billing Address
                                     </div>
-                                    <OrderAddress address={order.billingAddress}/>
+                                    <OrderAddress address={lastOrder.billingAddress}/>
                                 </div>
                             </div>
                             {
-                                order.customer ?
+                                lastOrder.customer ?
                                 <div className={classes.customer}>
                                     <div className={classes.addressTitle}>
                                         Customer
@@ -94,7 +90,7 @@ const OrderModal = (props:IOrderModalProps) => {
                                                 Email:
                                             </div>
                                             <div className={classes.fieldValue}>
-                                                {order.customer.email}
+                                                {lastOrder.customer.email}
                                             </div>
                                         </div>
                                     <div className={classes.field}>
@@ -102,7 +98,7 @@ const OrderModal = (props:IOrderModalProps) => {
                                             First Name:
                                         </div>
                                         <div className={classes.fieldValue}>
-                                            {order.customer.firstName}
+                                            {lastOrder.customer.firstName}
                                         </div>
                                     </div>
                                     <div className={classes.field}>
@@ -110,7 +106,7 @@ const OrderModal = (props:IOrderModalProps) => {
                                             Last Name:
                                         </div>
                                         <div className={classes.fieldValue}>
-                                            {order.customer.lastName}
+                                            {lastOrder.customer.lastName}
                                         </div>
                                     </div>
                                 </div>
@@ -121,7 +117,7 @@ const OrderModal = (props:IOrderModalProps) => {
                                     Payment Method
                                 </div>
                                 <div className={classes.value}>
-                                    {order.paymentMethod.methodName}
+                                    {lastOrder.paymentMethod.methodName}
                                 </div>
                             </div>
                             <div className={classes.payment}>
@@ -129,10 +125,10 @@ const OrderModal = (props:IOrderModalProps) => {
                                     Shipping Method
                                 </div>
                                 <div className={classes.value}>
-                                    {order.shippingMethod.price} {currency.name}
+                                    {lastOrder.shippingMethod.price} {currency.name}
                                 </div>
                                 <div className={classes.value}>
-                                    {order.shippingMethod.methodName}
+                                    {lastOrder.shippingMethod.methodName}
                                 </div>
                             </div>
                             <div className={classes.payment}>
@@ -140,15 +136,18 @@ const OrderModal = (props:IOrderModalProps) => {
                                     Status
                                 </div>
                                 <div className={classes.value}>
-                                    {order.status}
+                                    {lastOrder.status}
                                 </div>
                             </div>
                         </div>
-                    </form>
-                </Modal.Content>
-            </Modal>
+                        </form>
+                    :   null
+                }
+                
+            </div>
         </div>
     )
 }
 
-export default OrderModal;
+
+export default OrderReport

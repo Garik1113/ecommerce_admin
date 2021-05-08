@@ -38,7 +38,8 @@ const ProductModal = (props:IProductModalProps) => {
         handleChangeDiscount,
         attributes,
         getSelectedValue,
-        message
+        message,
+        baseCurrencyOptions
     } = talonProps;
 
     return (
@@ -93,7 +94,7 @@ const ProductModal = (props:IProductModalProps) => {
                             <div className={classes.title}>
                                 <h4>Description</h4>
                             </div>
-                            <div className={classes.flex}>
+                            <div className={classes.wysiwyg}>
                                 <Wysiwyg
                                     value={formik.values.description}
                                     onChange={(value) => formik.setFieldValue("description", value)}
@@ -208,6 +209,18 @@ const ProductModal = (props:IProductModalProps) => {
                                 }
                             })
                         }
+                        <div className={classes.fieldTitle}>
+                            Base Currency
+                        </div>
+                        <Dropdown
+                            onChange={(e, data) => {}}
+                            value={baseCurrencyOptions[0].value}
+                            name="baseCurrency"
+                            selection
+                            fluid
+                            id="baseCurrency"
+                            options={baseCurrencyOptions}
+                        />
                         <div className={classes.media}>
                             <h3>Media</h3>
                             <ImageUploader handleOnDrop={handleOnDrop} />

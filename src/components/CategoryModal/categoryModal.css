@@ -1,0 +1,13 @@
+.field {
+    width: 100%;
+    max-width: 400px;
+    padding: 10px;
+}
+
+.title {
+    margin-bottom: 10px;
+}
+
+.input {
+    width: 100%;
+}

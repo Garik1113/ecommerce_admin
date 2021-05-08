@@ -157,3 +157,7 @@ input.middle:focus {
     font-size: 18px;
     text-align: left;
 }
+
+.wysiwyg {
+    width: 100%;
+}

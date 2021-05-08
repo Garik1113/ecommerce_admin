@@ -29,21 +29,28 @@ const CategoryModal = (props:ICatoryModalProps) => {
                 </Modal.Header>
                 <Modal.Content>
                     <form onSubmit={formik.handleSubmit}>
-                        <Input 
-                            type="text" 
-                            name="name"
-                            placeholder="Name"
-                            className={classes.input}
-                            value={formik.values.name} 
-                            onChange={formik.handleChange}
-                        />
-                        <Checkbox
-                            checked={formik.values.include_in_menu || false}
-                            type="checkbox"
-                            id="include_in_menu"
-                            name="include_in_menu"
-                            onChange={formik.handleChange}
-                        />
+                        <div className={classes.field}>
+                            <div className={classes.title}>Name</div>
+                            <Input 
+                                type="text" 
+                                name="name"
+                                placeholder="Name"
+                                className={classes.input}
+                                value={formik.values.name} 
+                                onChange={formik.handleChange}
+                            />
+                        </div>
+                        <div className={classes.field}>
+                            <Checkbox
+                                checked={formik.values.include_in_menu || false}
+                                type="checkbox"
+                                label="Include in Menu"
+                                id="include_in_menu"
+                                name="include_in_menu"
+                                onChange={formik.handleChange}
+                            />
+                        </div>
+                        
                     </form>
                 </Modal.Content>
                 <Modal.Actions>
