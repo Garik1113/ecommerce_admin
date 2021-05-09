@@ -5,25 +5,36 @@ import { Column } from "react-table";
 import { useAxiosClient } from "../Axios/useAxiosClient";
 import { Button } from 'semantic-ui-react';
 import get from 'lodash/get'
+import queryString  from 'querystring';
+import { useHistory } from 'react-router';
 
 export const useProductGrid = ({classes}) => {
     const [products, setProducts] = useState([]);
+    const [totals, setTotals] = useState(0);
     const [isSubmitting, setIsSubmitting] = useState(false)
     const { axiosClient } = useAxiosClient();
     const [showModal, setShowModal] = useState(false);
     const [editingProduct, setEditingProduct] = useState({});
+    const history = useHistory();
+
+    const queryParams = useMemo(() => {
+      return queryString.parse(history.location.search);
+    }, [history.location.search]);
 
     const fetchProducts = useCallback( async () => {
-        const response: AxiosResponse = await axiosClient('GET', 'api/products/admin/get_products');
+        const response: AxiosResponse = await axiosClient('GET', `api/products/admin/get_products?page=${queryParams["?page"]}`);
         const { data, status } = response;
         if (data.products && status == 200) {
             setProducts(data.products);
+            if (data.totals) {
+              setTotals(data.totals)
+            }
         }
-    }, [axiosClient]);
+    }, [axiosClient, setTotals, history, queryParams]);
 
     useEffect(() => {
-      fetchProducts();
-    }, []);
+        fetchProducts();
+    }, [queryParams]);
 
     const reloadData = useCallback( async () => {
         await fetchProducts();
@@ -110,6 +121,8 @@ export const useProductGrid = ({classes}) => {
         isSubmitting,
         editingProduct,
         handleAddNewProduct,
-        reloadData
+        reloadData,
+        totals,
+        queryParams
     }
 }

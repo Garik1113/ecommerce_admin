@@ -1,4 +1,5 @@
-import { useFormik } from 'formik';
+import ImageUploader from 'components/ImageUploader';
+import Image from 'components/Image';
 import React from 'react';
 import { Button, Checkbox, Input, Modal } from 'semantic-ui-react';
 import { useCategoryModal } from 'src/talons/CategoryModal/useCategoryModal';
@@ -15,7 +16,7 @@ interface ICatoryModalProps {
 const CategoryModal = (props:ICatoryModalProps) => {
     const { visible, onClose, category, reloadData,  handleHideModal} = props;
     const talonProps = useCategoryModal({ category, reloadData, handleHideModal });
-    const { formik } = talonProps;
+    const { formik, handleOnDrop } = talonProps;
 
     return (
         <div className={classes.root}>
@@ -50,7 +51,19 @@ const CategoryModal = (props:ICatoryModalProps) => {
                                 onChange={formik.handleChange}
                             />
                         </div>
-                        
+                        <div className={classes.media}>
+                            <h3>Media</h3>
+                            <ImageUploader handleOnDrop={handleOnDrop} />
+                            {
+                                formik.values.image
+                                ?   <Image
+                                        folder="category"
+                                        imageName={typeof formik.values.image == 'string' ? formik.values.image : formik.values.image.small_image}
+                                        onDelete={() => formik.setFieldValue('image', "")}
+                                    />
+                                :   null
+                            }   
+                        </div>
                     </form>
                 </Modal.Content>
                 <Modal.Actions>

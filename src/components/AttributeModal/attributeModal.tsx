@@ -1,7 +1,8 @@
 import React from 'react';
-import { Button, Modal, Input, Checkbox } from 'semantic-ui-react';
+import { Button, Modal, Input, Checkbox, Dropdown } from 'semantic-ui-react';
 import { useAttributeModal } from 'src/talons/AttributeModal/useAttributeModal';
 import classes from './attributeModal.css';
+import { SketchPicker } from 'react-color';
 
 interface IProps {
     visible: boolean,
@@ -16,9 +17,10 @@ const AttributeModal = (props:IProps) => {
     const talonProps = useAttributeModal({ attribute, reloadData, handleHideModal });
     const { 
         formik,
-        handleDeleteValue
+        handleDeleteValue,
+        typeDropDownOptions
     } = talonProps;
-    console.log(formik.values)
+
     return (
         <div className={classes.root}>
             <Modal 
@@ -32,6 +34,9 @@ const AttributeModal = (props:IProps) => {
                 <Modal.Content>
                     <form onSubmit={formik.handleSubmit}>
                         <div className={classes.field}>
+                            <div>
+                                Name
+                            </div>
                             <Input 
                                 type="text" 
                                 name="name"
@@ -42,28 +47,53 @@ const AttributeModal = (props:IProps) => {
                             />
                         </div>
                         <div className={classes.field}>
-                            <Input 
-                                type="text" 
+                            <div>
+                                Type
+                            </div>
+                            <Dropdown
+                                onChange={(e, data) => formik.setFieldValue('type', data.value)}
+                                value={formik.values.type}
                                 name="type"
-                                placeholder="Type"
-                                className={classes.input}
-                                value={formik.values.type} 
-                                onChange={formik.handleChange}
+                                selection
+                                fluid
+                                id="categories"
+                                options={typeDropDownOptions}
                             />
                         </div>
                         <div className={classes.list}>
                             <h3>Attribute Values</h3>
-                            {formik.values.values.map((option, index) => (
-                                <div className={classes.flex} key={index}>
-                                    <Input 
-                                        className={classes.input}
-                                        value={option.name}
-                                        name={`values[${index}].name`}
-                                        onChange={formik.handleChange}
-                                    />
-                                    <Button icon="delete" type="button" onClick={() => handleDeleteValue(index)}/>
-                                </div>
-                            ))}
+                            {
+                                formik.values.values.map((option, index) => {
+                                    console.log()
+                                return  (
+                                    <div className={classes.flex} key={index}>
+                                        {
+                                            formik.values.type == "colorSwatch"
+                                            ?   <div className={classes.colorPicker}>
+                                                    <div style={{
+                                                            width: "40px", 
+                                                            height:"40px", 
+                                                            background: option.name}
+                                                        }
+                                                    ></div>
+                                                    <SketchPicker
+                                                        className={classes.picker}
+                                                        color={option.name}
+                                                        onChange={(e, d) => formik.setFieldValue(`values[${index}].name`, e.hex)}
+                                                    />
+                                                </div>
+                                            :   <Input 
+                                                    className={classes.input}
+                                                    value={option.name}
+                                                    name={`values[${index}].name`}
+                                                    onChange={formik.handleChange}
+                                                />
+                                        }
+                                        <Button icon="delete" type="button" onClick={() => handleDeleteValue(index)}/>
+                                    </div>
+                                )
+                            })
+                            }
                         </div>
                         <div className={classes.field}>
                             <Button 

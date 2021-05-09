@@ -1,0 +1,9 @@
+.root {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: #0664a3;
+    color: #fff;
+    text-align: center;
+    line-height: 30px;
+}

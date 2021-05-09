@@ -20,3 +20,12 @@
     font-size: 18px;
     font-weight: 500;
 }
+
+.attribute {
+    display: flex;
+    align-items: center;   
+}
+
+.attributeName {
+    margin-right: 10px;
+}

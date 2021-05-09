@@ -1,3 +1,5 @@
+import ColorSwatch from 'components/Attributes/colorSwatch';
+import Swatch from 'components/Attributes/swatch';
 import React from 'react';
 import classes from './productList.css'
 
@@ -26,12 +28,32 @@ const ItemList = (props) => {
                                 {
                                     e.product.configurableAttributes.map((e,l) => {
                                         const attributeName = e.attribute.name;
+                                        console.log(attributeName)
+                                        const type = e.attribute.type;
                                         const valueName = e.selectedValue.name;
-                                        return (
-                                            <div>
-                                                {attributeName}: {valueName}
-                                            </div>
-                                        )
+                                        if (type == "swatch") {
+                                            return (
+                                                <div key={l} className={classes.attribute}>
+                                                    <div className={classes.attributeName}>{attributeName}</div>
+                                                    <Swatch value={e.selectedValue} />
+                                                </div>
+                                                
+                                            )
+                                        } else if (type == "colorSwatch") {
+                                            return (
+                                                <div key={l} className={classes.attribute}>
+                                                    <div className={classes.attributeName}>{attributeName}</div>
+                                                    <ColorSwatch value={e.selectedValue} key={l}/>
+                                                </div>
+                                            )
+                                        } else {
+                                            return (
+                                                <div key={l}>
+                                                    {attributeName}: {valueName}
+                                                </div>
+                                            )
+                                        }
+                                        
                                     })
                                 }
                             </div>

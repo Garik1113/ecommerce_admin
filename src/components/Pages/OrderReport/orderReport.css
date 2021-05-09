@@ -18,6 +18,7 @@
     align-items: center;
     padding: 10px;
     border: 1px solid #878787; 
+    justify-content: center;
 }
 .title {
     text-align: center;

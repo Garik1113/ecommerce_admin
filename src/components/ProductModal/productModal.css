@@ -161,3 +161,26 @@ input.middle:focus {
 .wysiwyg {
     width: 100%;
 }
+
+.colorList {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    max-width: 400px;
+}
+
+.swatch {
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 10px;
+}
+
+.currencyfieldTitle {
+    margin: 20px auto;
+    font-size: 18px;
+    
+}

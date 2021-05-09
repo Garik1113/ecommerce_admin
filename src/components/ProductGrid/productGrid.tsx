@@ -14,7 +14,9 @@ const ProductGrid = () => {
         isSubmitting,
         editingProduct,
         handleAddNewProduct,
-        reloadData
+        reloadData,
+        totals,
+        queryParams
     } = useProductGrid({classes});
 
     return (
@@ -24,6 +26,8 @@ const ProductGrid = () => {
                 items={products} 
                 title="Products"
                 isSubmitting={isSubmitting}
+                totals={totals}
+                queryParams={queryParams}
                 buttons={[
                     {
                         onClick: handleAddNewProduct,

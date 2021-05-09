@@ -1,10 +1,29 @@
 import { useFormik } from "formik";
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 import { useAxiosClient } from "../Axios/useAxiosClient";
 
 export const useAttributeModal = (props) => {
     const { attribute={}, reloadData, handleHideModal } = props;
     const { axiosClient } = useAxiosClient();
+    const typeDropDownOptions = useMemo(() => {
+        return [
+            {
+                text: "Swatch",
+                value: "swatch",
+                id: "swatch"
+            },
+            {
+                text: "Color Swatch",
+                value: "colorSwatch",
+                id: "colorSwatch"
+            },
+            {
+                text: "Select",
+                value: "select",
+                id: "select"
+            },
+        ]
+    }, []);
     const formik = useFormik({
         initialValues: attribute._id ? {...attribute, type: attribute.type ? attribute.type: ""} : {
             name: "",
@@ -44,6 +63,7 @@ export const useAttributeModal = (props) => {
     
     return {
         formik,
-        handleDeleteValue
+        handleDeleteValue,
+        typeDropDownOptions
     }
 }

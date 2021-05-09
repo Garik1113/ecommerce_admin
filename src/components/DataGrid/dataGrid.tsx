@@ -1,7 +1,8 @@
 import classes from './dataGrid.css';
-import React  from 'react';
+import React, { useCallback }  from 'react';
 import { Column, useTable } from 'react-table';
 import { Table, TableHeader, TableBody, TableCell, Button } from 'semantic-ui-react';
+import { useHistory } from 'react-router';
 
 type TButton = {
     type: string,
@@ -14,38 +15,80 @@ interface IGridProps {
     items: any[],
     title: string,
     buttons?: TButton[],
-    isSubmitting? : boolean
+    isSubmitting? : boolean,
+    totals: any,
+    queryParams: any
 }
 
 
 
 const DataGrid = (props: IGridProps) => {
-    const {  items, columns, title, buttons, isSubmitting } = props;
+    const {  items, columns, title, buttons, isSubmitting, totals, queryParams } = props;
     const tableProps = useTable({ columns, data: items });
     const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = tableProps;
-
+    const pages = Math.ceil(Number(totals || 0) / 8);
+    const pagination = new Array(pages);
+    const history = useHistory();
+    const updateQueryStringParameter = useCallback((uri:string, key:string, value:string):string => {
+        var re = new RegExp("([?&])" + key + "=.*?(&|$)", "i");
+        var separator = uri.indexOf('?') !== -1 ? "&" : "?";
+        if (uri.match(re)) {
+          return uri.replace(re, '$1' + key + "=" + value + '$2');
+        }
+        else {
+          return uri + separator + key + "=" + value;
+        }
+    }, []);
+    const addQueryString = useCallback((key:string, value: string) => {
+        if(key == "date") {
+            const withoutPage = updateQueryStringParameter(history.location.search, "page", "0");
+            const newUrl =  updateQueryStringParameter(withoutPage, "date", value);
+            history.push(newUrl)
+        } else {
+            const url: string = updateQueryStringParameter(history.location.search, key, value);
+            history.push(url)
+        }
+        
+    }, [history]);
+    
     return (
         <div className={classes.root}>
+             <div className={classes.pagination}>
+                        {
+                            pagination.fill(0).map((e, i) => {
+                                return (
+                                    <div 
+                                        className={`${classes.paginationItem} ${queryParams && queryParams["?page"] == i && classes.selected }`} 
+                                        onClick={() => addQueryString("page", String(i))}>
+                                        {i}
+                                    </div>
+                                )
+                            })
+                        }
+                </div> 
             <div className={classes.headerActions}>
-                <div className={classes.info}>
-                    <div className={classes.titleField}>
-                        <h1 className={classes.title}>{title}</h1>
+                {/* <div className={classes.header}> */}
+                    <div className={classes.info}>
+                        <div className={classes.titleField}>
+                            <h1 className={classes.title}>{title}</h1>
+                        </div>
                     </div>
-                </div>
-                <div className={classes.actions}>
-                    {
-                        buttons.map((e, i) => {
-                            return  <Button
-                                        key={i}
-                                        primary
-                                        onClick={e.onClick}
-                                        disabled={e.isSubmitting}
-                                    >
-                                        {e.label}
-                                    </Button>
-                        })
-                    }
-                </div>
+                    <div className={classes.actions}>
+                        {
+                            buttons.map((e, i) => {
+                                return  <Button
+                                            key={i}
+                                            primary
+                                            onClick={e.onClick}
+                                            disabled={e.isSubmitting}
+                                        >
+                                            {e.label}
+                                        </Button>
+                            })
+                        }
+                    </div>
+                {/* </div> */}
+               
             </div>
             <Table {...getTableProps()}>
                 <TableHeader >

@@ -27,6 +27,7 @@ const ProductModal = (props:IProductModalProps) => {
         reloadData, 
         handleHideModal
     });
+    
     const { 
         formik,
         handleOnDrop,
@@ -41,7 +42,7 @@ const ProductModal = (props:IProductModalProps) => {
         message,
         baseCurrencyOptions
     } = talonProps;
-
+    
     return (
         <div className={classes.root}>
             <Modal 
@@ -195,21 +196,68 @@ const ProductModal = (props:IProductModalProps) => {
                                             value: val._id
                                         }
                                     });
-                                    return (
-                                        <Dropdown
-                                            key={e._id}
-                                            name="configurableAttributes"
-                                            value={getSelectedValue(e._id)}
-                                            options={options}
-                                            fluid
-                                            selection
-                                            onChange={(l, data) => handleAddNewConfigurableAttribute(e, values.find(v => v._id == data.value))}
-                                        />
-                                    )
+                                    if (e.type && e.type.includes("color")) {
+                                        return (
+                                            <div>
+                                                <div className={classes.currencyfieldTitle}>{e.name}</div>
+                                                <div className={classes.colorList}>
+                                                    {
+                                                        values.map(((v, y )=> {
+                                                            let isSelected = false
+                                                            const currentAttr = formik.values.configurableAttributes.find(l => l.attribute._id == e._id);
+                                                            if(currentAttr) {
+                                                                const selectedVal = currentAttr.selectedValue;
+                                                                if (selectedVal) {
+                                                                    isSelected = selectedVal.name == v.name
+                                                                }
+                                                            }
+                                                            return (
+                                                                <div 
+                                                                    key={y} 
+                                                                    className={classes.swatch}
+                                                                    style={{
+                                                                        border: isSelected ? "2px solid red" : null
+                                                                    }}
+                                                                >
+                                                                    <div
+                                                                        style={{
+                                                                                width: "40px", 
+                                                                                height: "40px",
+                                                                                borderRadius: "50%",
+                                                                                background: v.name, 
+                                                                                cursor: "pointer",
+                                                                            }}
+                                                                        onClick={() => handleAddNewConfigurableAttribute(e, values.find(va => va.name == v.name))}
+                                                                    ></div>
+                                                                </div>
+                                                                
+                                                            )
+                                                        }))
+                                                    }   
+                                                </div>
+                                            </div>
+                                            
+                                        )
+                                    } else {
+                                        return (
+                                            <div>
+                                                <div className={classes.currencyfieldTitle}>{e.name}</div>
+                                                <Dropdown
+                                                    key={e._id}
+                                                    name="configurableAttributes"
+                                                    value={getSelectedValue(e._id)}
+                                                    options={options}
+                                                    fluid
+                                                    selection
+                                                    onChange={(l, data) => handleAddNewConfigurableAttribute(e, values.find(v => v._id == data.value))}
+                                                />
+                                            </div>
+                                        )
+                                    }
                                 }
                             })
                         }
-                        <div className={classes.fieldTitle}>
+                        <div className={classes.currencyfieldTitle}>
                             Base Currency
                         </div>
                         <Dropdown
