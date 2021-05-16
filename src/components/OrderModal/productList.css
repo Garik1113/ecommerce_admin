@@ -6,7 +6,6 @@
 
 .product {
     display: flex;
-    align-items: center;
 }
 
 .image {
@@ -16,9 +15,15 @@
 }
 
 .nameField, .priceField, .attributes, .quantity {
+    font-size: 16px;
+}
+
+.nameField {
     margin-left: 10px;
-    font-size: 18px;
-    font-weight: 500;
+}
+
+.priceField {
+    margin-top: 5px;
 }
 
 .attribute {

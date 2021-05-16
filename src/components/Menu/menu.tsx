@@ -36,10 +36,10 @@ const MenuList = () => {
                         active={path === '/banners'}
                     />
               </Link>
-              <Link to="/filters">
+              <Link to="/reviews">
                     <Menu.Item
-                        name='Filters'
-                        active={path === '/filters'}
+                        name='Reviews'
+                        active={path === '/reviews'}
                     />
               </Link>
               <Link to="/sliders">
@@ -58,6 +58,12 @@ const MenuList = () => {
                     <Menu.Item
                         name='Customers'
                         active={path === '/customers'}
+                    />
+              </Link>
+              <Link to="/subscribers">
+                    <Menu.Item
+                        name='Product Notifications'
+                        active={path === '/subscribers'}
                     />
               </Link>
               <Link to="/orders">

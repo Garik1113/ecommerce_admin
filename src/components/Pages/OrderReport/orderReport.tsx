@@ -4,10 +4,20 @@ import 'react-vis/dist/style.css';
 import { useOrderReport } from 'src/talons/OrderReport/useOrderReport';
 import OrderAddress from 'components/OrderModal/orderAddress';
 import ItemList from 'components/OrderModal/productList';
+import getDate from 'src/helpers/getDate';
+import { Dropdown } from 'semantic-ui-react';
 
 const OrderReport = () => {
-    const { totalOrders, totalSales, currency, lastOrder } = useOrderReport();
-    
+    const { 
+        totalOrders, 
+        totalSales, 
+        currency, 
+        lastOrder,
+        orderStatusOptions,
+        status, 
+        setOrderStatus
+    } = useOrderReport();
+
     return (
         <div className={classes.root}>
             <div className={classes.reportHeader}>
@@ -28,118 +38,120 @@ const OrderReport = () => {
                 {
                     lastOrder 
                     ?   <form onSubmit={(e) => e.preventDefault()}>
-                        <div className={classes.header}>
-                        <div className={classes.headerField}>
-                            <div className={classes.headerTitle}>
-                                Date
-                            </div>
-                            <span>
-                                {lastOrder.createdAt}
-                            </span>
-                        </div>
-                        <div className={classes.headerField}>
-                            <div className={classes.headerTitle}>
-                                Grand total
-                            </div>
-                            <span>
-                                {lastOrder.totalPrice} {currency.name}
-                            </span>
-                        </div>
-                        <div className={classes.headerField}>
-                            <div className={classes.headerTitle}>
-                                Order number
-                            </div>
-                            <span>
-                                {lastOrder._id}
-                            </span>
-                        </div>
-                    </div>
-                    <div>
-                        <div className={classes.items}>
-                            <div className={classes.productsTitle}>
-                                Products
-                            </div>
-                            {
-                                <ItemList items={lastOrder.items} currency={currency}/>
-                            }
-                        </div>
-                            <div className={classes.addressField}>
-                                <div className={classes.shipping}>
-                                    <div className={classes.addressTitle}>
-                                        Shipping Address
+                            <div className={classes.header}>
+                                <div className={classes.headerField}>
+                                    <div className={classes.headerTitle}>
+                                        Date
                                     </div>
-                                    <div>
-                                        <OrderAddress address={lastOrder.shippingAddress}/>
-                                    </div>
+                                    <span>
+                                        {getDate(lastOrder.createdAt)}
+                                    </span>
                                 </div>
-                                <div className={classes.billing}>
-                                    <div className={classes.addressTitle}>
-                                        Billing Address
+                                <div className={classes.headerField}>
+                                    <div className={classes.headerTitle}>
+                                        Grand total
                                     </div>
-                                    <OrderAddress address={lastOrder.billingAddress}/>
+                                    <span>
+                                        {lastOrder.totalPrice} {currency.name}
+                                    </span>
+                                </div>
+                                <div className={classes.headerField}>
+                                    <div className={classes.headerTitle}>
+                                        Order number
+                                    </div>
+                                    <span>
+                                        {lastOrder._id}
+                                    </span>
                                 </div>
                             </div>
-                            {
-                                lastOrder.customer ?
-                                <div className={classes.customer}>
-                                    <div className={classes.addressTitle}>
-                                        Customer
+                            <div>
+                                <div className={classes.items}>
+                                    <div className={classes.productsTitle}>
+                                        Products
                                     </div>
-                                    <div className={classes.field}>
-                                        <div className={classes.fieldTitle}>
-                                                Email:
+                                    {
+                                        <ItemList items={lastOrder.items} currency={currency}/>
+                                    }
+                                </div>
+                                <div className={classes.payment}>
+                                        <div className={classes.paymentHeader}>
+                                            Status
+                                        </div>
+                                        <Dropdown
+                                            value={status.value || lastOrder.status.value}
+                                            options={orderStatusOptions}
+                                            onChange={(e, data) => setOrderStatus(data)}
+                                        />
+                                </div>
+                                <div className={classes.addressField}>
+                                    <div className={classes.shipping}>
+                                        <div className={classes.addressTitle}>
+                                            Shipping Address
+                                        </div>
+                                        <div>
+                                            <OrderAddress address={lastOrder.shippingAddress}/>
+                                        </div>
+                                    </div>
+                                    <div className={classes.billing}>
+                                        <div className={classes.addressTitle}>
+                                            Billing Address
+                                        </div>
+                                        <OrderAddress address={lastOrder.billingAddress}/>
+                                    </div>
+                                </div>
+                                {
+                                    lastOrder.customer ?
+                                    <div className={classes.customer}>
+                                        <div className={classes.addressTitle}>
+                                            Customer
+                                        </div>
+                                        <div className={classes.field}>
+                                            <div className={classes.fieldTitle}>
+                                                    Email:
+                                                </div>
+                                                <div className={classes.fieldValue}>
+                                                    {lastOrder.customer.email}
+                                                </div>
+                                            </div>
+                                        <div className={classes.field}>
+                                            <div className={classes.fieldTitle}>
+                                                First Name:
                                             </div>
                                             <div className={classes.fieldValue}>
-                                                {lastOrder.customer.email}
+                                                {lastOrder.customer.firstName}
                                             </div>
                                         </div>
-                                    <div className={classes.field}>
-                                        <div className={classes.fieldTitle}>
-                                            First Name:
-                                        </div>
-                                        <div className={classes.fieldValue}>
-                                            {lastOrder.customer.firstName}
-                                        </div>
-                                    </div>
-                                    <div className={classes.field}>
-                                        <div className={classes.fieldTitle}>
-                                            Last Name:
-                                        </div>
-                                        <div className={classes.fieldValue}>
-                                            {lastOrder.customer.lastName}
+                                        <div className={classes.field}>
+                                            <div className={classes.fieldTitle}>
+                                                Last Name:
+                                            </div>
+                                            <div className={classes.fieldValue}>
+                                                {lastOrder.customer.lastName}
+                                            </div>
                                         </div>
                                     </div>
+                                    :  null
+                                }
+                                <div className={classes.payment}>
+                                    <div className={classes.paymentHeader}>
+                                        Payment Method
+                                    </div>
+                                    <div className={classes.value}>
+                                        {lastOrder.paymentMethod.methodName}
+                                    </div>
                                 </div>
-                                :  null
-                            }
-                            <div className={classes.payment}>
-                                <div className={classes.paymentHeader}>
-                                    Payment Method
-                                </div>
-                                <div className={classes.value}>
-                                    {lastOrder.paymentMethod.methodName}
-                                </div>
-                            </div>
-                            <div className={classes.payment}>
-                                <div className={classes.paymentHeader}>
-                                    Shipping Method
-                                </div>
-                                <div className={classes.value}>
-                                    {lastOrder.shippingMethod.price} {currency.name}
-                                </div>
-                                <div className={classes.value}>
-                                    {lastOrder.shippingMethod.methodName}
-                                </div>
-                            </div>
-                            <div className={classes.payment}>
-                                <div className={classes.paymentHeader}>
-                                    Status
-                                </div>
-                                <div className={classes.value}>
-                                    {lastOrder.status}
+                                <div className={classes.payment}>
+                                    <div className={classes.paymentHeader}>
+                                        Shipping Method
+                                    </div>
+                                    <div className={classes.value}>
+                                        {lastOrder.shippingMethod.price} {currency.name}
+                                    </div>
+                                    <div className={classes.value}>
+                                        {lastOrder.shippingMethod.methodName}
+                                    </div>
                                 </div>
                             </div>
-                        </div>
                         </form>
                     :   null
                 }

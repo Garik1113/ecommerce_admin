@@ -1,6 +1,6 @@
 import BannerGrid from 'components/BannerGrid';
 import Category from 'components/Pages/Category';
-import Filter from 'components/Pages/Filter';
+import Review from 'components/Pages/Review';
 import Product from 'components/Pages/Product';
 import Slider from 'components/Pages/Slider';
 import Attribute from 'components/Pages/Attribute';
@@ -8,6 +8,7 @@ import { RouteConfig } from "react-router-config";
 import Customer from 'components/Pages/Customer';
 import Order from 'components/Pages/Order';
 import OrderReport from 'components/Pages/OrderReport';
+import ProductSubscribers from 'components/Pages/ProductSubscribers';
 import Config from 'components/Pages/Config';
 
 const routes = ():RouteConfig[] => {
@@ -33,8 +34,8 @@ const routes = ():RouteConfig[] => {
             exact: true
         },
         {
-            component: Filter,
-            path: '/filters',
+            component: Review,
+            path: '/reviews',
             exact: true
         },
         {
@@ -50,6 +51,11 @@ const routes = ():RouteConfig[] => {
         {
             component: Customer,
             path: '/customers',
+            exact: true
+        },
+        {
+            component: ProductSubscribers,
+            path: '/subscribers',
             exact: true
         },
         {

@@ -7,6 +7,7 @@ export const useOrderReport = () => {
     const { axiosClient } = useAxiosClient();
     const [orders, setOrders] = useState([]);
     const { getConfigValue } = useConfig();
+    const [status, setStatus] = useState<any>({});
     const fetchOrders = useCallback( async () => {
         const response: AxiosResponse = await axiosClient('GET', 'api/orders/admin/');
         const { data, status } = response;
@@ -38,14 +39,42 @@ export const useOrderReport = () => {
         if (orders && orders.length) {
             return orders[0]
         } else {
-            return null
+            return undefined
         }
     }, [orders]);
+
+    const orderStatusOptions = useMemo(() => {
+        return [
+            {
+                id: "new",
+                text: "New",
+                value: 'new'
+            },
+            {
+                id: "pending",
+                text: "Pending",
+                value: 'pending'
+            },
+            {
+                id: "done",
+                text: "Done",
+                value: 'done'
+            },
+        ]
+    }, []);
+
+    const setOrderStatus = useCallback(async(statusData) => {
+        setStatus(statusData);
+        await axiosClient('PUT', 'api/orders/admin', { orderData: { ...lastOrder, status: statusData }}); 
+    }, [lastOrder])
 
     return {
         totalOrders,
         totalSales,
         currency,
-        lastOrder
+        lastOrder,
+        orderStatusOptions,
+        status, 
+        setOrderStatus
     }
 }

@@ -1,44 +1,38 @@
-import FilterModal from 'components/FilterModal';
+import ReviewModal from 'components/ReviewModal';
 import DataGrid from 'components/DataGrid';
 import React from 'react';
-import { useFilterGrid } from 'src/talons/FilterGrid/useFilterGrid';
-import classes from './filterGrid.css';
+import { useReviewGrid } from 'src/talons/ReviewGrid/useReviewGrid';
+import classes from './reviewGrid.css';
 
 
-const FilterGrid = () => {
+const ReviewGrid = () => {
     const { 
-        filters, 
+        reviews, 
         columns,
         handleHideModal,
         showModal,
         isSubmitting,
-        editingFilter,
+        editingReview,
         handleAddNewBanner,
         reloadData
-    } = useFilterGrid();
+    } = useReviewGrid({classes});
 
     return (
         <div className={classes.root}>
-            <DataGrid 
+            <DataGrid
+                totals={false}
                 columns={columns} 
-                items={filters} 
+                items={reviews} 
                 title="Filters"
                 isSubmitting={isSubmitting}
-                buttons={[
-                    {
-                        onClick: handleAddNewBanner,
-                        type: 'submit',
-                        label: "Add new filter",
-                        isSubmitting: false
-                    }
-                ]}
+                buttons={[]}
             />
             {
                 showModal 
-                &&  <FilterModal 
+                &&  <ReviewModal 
                         visible={showModal} 
                         onClose={handleHideModal}
-                        filter={editingFilter}
+                        review={editingReview}
                         reloadData={reloadData}
                         handleHideModal={handleHideModal}
                     />
@@ -46,4 +40,4 @@ const FilterGrid = () => {
         </div>
     )
 }
-export default FilterGrid;
+export default ReviewGrid;

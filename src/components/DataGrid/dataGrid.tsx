@@ -16,8 +16,8 @@ interface IGridProps {
     title: string,
     buttons?: TButton[],
     isSubmitting? : boolean,
-    totals: any,
-    queryParams: any
+    totals?: any,
+    queryParams?: any
 }
 
 

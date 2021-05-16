@@ -1,0 +1,48 @@
+.field {
+    border: 1px solid rgb(206, 195, 195);
+    padding: 10px;
+    margin-bottom: 15px;
+}
+
+.title {
+    text-align: center;
+    margin: 15px auto;
+}
+
+.field h2 {
+    text-align: center;
+    margin: 15px auto;
+}
+
+.customerDetails {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    background: #049451;
+    margin-bottom: 10px;
+}
+
+.value {
+    margin-left: 5px;
+    color: #fff;
+}
+
+.allowed {
+    margin: 15px auto;
+}
+
+.product {
+    display: flex;
+    align-items: center;
+}
+
+.image {
+    max-width: 150px;
+    height: auto;
+}
+
+.productName {
+    margin-left: 15px;
+    font-size: 16px;
+    color: black;
+} 

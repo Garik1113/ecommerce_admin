@@ -73,7 +73,6 @@ export const useFilterGrid = () => {
             Cell: ({row}) => (
                 <Checkbox 
                     checked={row.original.includeInHomePage}
-                    value={row.original.includeInHomePage}
                     disabled={true}
                     onChange={() => {}}
                 />
