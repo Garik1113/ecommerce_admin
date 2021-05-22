@@ -29,6 +29,7 @@ export const useOrderReport = () => {
 
     useEffect(() => {
       fetchOrders();
+      window.scrollTo(0, 0)
     }, []);
 
     const currency = useMemo(() => {
@@ -47,26 +48,31 @@ export const useOrderReport = () => {
         return [
             {
                 id: "new",
-                text: "New",
+                text: "Նոր",
                 value: 'new'
             },
             {
                 id: "pending",
-                text: "Pending",
+                text: "Ընթացքի մեջ",
                 value: 'pending'
             },
             {
                 id: "done",
-                text: "Done",
+                text: "Ավարտված",
                 value: 'done'
             },
         ]
     }, []);
 
-    const setOrderStatus = useCallback(async(statusData) => {
-        setStatus(statusData);
-        await axiosClient('PUT', 'api/orders/admin', { orderData: { ...lastOrder, status: statusData }}); 
-    }, [lastOrder])
+    const setOrderStatus = useCallback(async(statusValue) => {
+        const statusItem = orderStatusOptions.find(e => e.id == statusValue);
+        setStatus(statusItem);
+        const status = {
+            name: statusItem.text,
+            value: statusItem.id
+        }
+        await axiosClient('PUT', 'api/orders/admin/status', { status, orderId: lastOrder._id });
+    }, [lastOrder, orderStatusOptions])
 
     return {
         totalOrders,

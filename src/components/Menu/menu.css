@@ -1,9 +1,34 @@
 .root {
     width: 100%;
-    height: 100vh;
+    height: 100%;
+    max-width: 200px !important;
+}
+
+.root.ui.vertical.menu {
+    height: 100% !important; 
+    max-width: 200px !important;
 }
 
 .mainMenu {
     width: 100% !important;
-    height: 100vh !important;
+    height: 100% !important;
+    background: #444 !important;
+}
+
+.item {
+    text-align: center;
+    color: #fff !important;
+    margin-bottom: 10px;
+}
+
+.titleField {
+    margin-top: 10px;
+}
+
+.titleField span {
+    color: #58f000;
+}
+
+.item i {
+    font-size: 55px;
 }

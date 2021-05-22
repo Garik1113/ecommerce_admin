@@ -1,7 +1,20 @@
+.fields {
+    display: flex;
+    width: 100%;
+    align-items: center;
+}
+
 .field {
     width: 100%;
     max-width: 400px;
     padding: 10px;
+}
+
+.checkbox {
+    width: 100%;
+    max-width: 400px;
+    padding: 10px;
+    margin-top: 30px;
 }
 
 .title {
@@ -10,4 +23,10 @@
 
 .input {
     width: 100%;
+}
+
+.media {
+    box-sizing: border-box;
+    padding: 10px;
+    border: 1px solid #878787;
 }

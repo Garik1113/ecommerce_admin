@@ -19,7 +19,7 @@ const ImageUploader = (props: ImageUploaderProps) => {
     return (
         <div {...getRootProps({className: classes.dropzone})}>
             <input {...getInputProps()} />
-            <p>Drag 'n' drop some files here, or click to select files</p>
+            <p>Ավելացրեք նկար այստեղ</p>
         </div>
     )
 }

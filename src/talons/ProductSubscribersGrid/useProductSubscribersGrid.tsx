@@ -28,6 +28,7 @@ export const useProductSubscribersGrid = (props: Props) => {
 
     useEffect(() => {
       fetchProductSubscriptions();
+      window.scrollTo(0, 0)
     }, []);
 
     const reloadData = useCallback( async () => {
@@ -66,7 +67,7 @@ export const useProductSubscribersGrid = (props: Props) => {
     const columns = useMemo((): Column<any>[] => {
         return [
           {
-            Header: "Product",
+            Header: "Ապրանք",
             accessor: 'productId',
             Cell: ({row}) => {
               const product = row.original.productId || {};
@@ -80,15 +81,15 @@ export const useProductSubscribersGrid = (props: Props) => {
             }
           },
           {
-            Header: "Product ID",
+            Header: "Ապրանքի ID",
             accessor: 'productId._id',
           },
           {
-            Header: "Customer",
+            Header: "Օգտատեր",
             accessor: 'customerId.email'
           },
           {
-            Header: "Actions",
+            Header: "Գործողություններ",
             Cell: ({row}) => {
                 return (
                     <div>

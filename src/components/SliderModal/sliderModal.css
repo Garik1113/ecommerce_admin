@@ -22,4 +22,5 @@
 .slide {
     display: flex;
     align-items: center;
+    margin: 15px auto;
 }

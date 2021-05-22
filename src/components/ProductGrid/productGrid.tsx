@@ -24,7 +24,7 @@ const ProductGrid = () => {
             <DataGrid 
                 columns={columns} 
                 items={products} 
-                title="Products"
+                title="Ապրանքներ"
                 isSubmitting={isSubmitting}
                 totals={totals}
                 queryParams={queryParams}
@@ -32,7 +32,7 @@ const ProductGrid = () => {
                     {
                         onClick: handleAddNewProduct,
                         type: 'submit',
-                        label: "Add new product",
+                        label: "Ավելացնել նորը",
                         isSubmitting: false
                     }
                 ]}

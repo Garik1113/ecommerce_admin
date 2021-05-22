@@ -13,7 +13,6 @@ const CustomerGrid = () => {
         showModal,
         isSubmitting,
         editingBanner,
-        handleAddNewBanner,
         reloadData
     } = useCustomerGrid({classes});
 
@@ -22,16 +21,9 @@ const CustomerGrid = () => {
             <DataGrid 
                 columns={columns} 
                 items={customers} 
-                title="Customers"
+                title="Օգտատերեր"
                 isSubmitting={isSubmitting}
-                buttons={[
-                    // {
-                    //     onClick: handleAddNewBanner,
-                    //     type: 'submit',
-                    //     label: "Add new banner",
-                    //     isSubmitting: false
-                    // }
-                ]}
+                buttons={[]}
             />
             {
                 showModal 

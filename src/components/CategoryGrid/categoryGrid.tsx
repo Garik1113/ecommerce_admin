@@ -22,13 +22,13 @@ const CategoryGrid = () => {
             <DataGrid 
                 columns={columns} 
                 items={categories} 
-                title="Categories"
+                title="Կատեգորիաներ"
                 isSubmitting={isSubmitting}
                 buttons={[
                     {
                         onClick: handleAddNewCategory,
                         type: 'submit',
-                        label: "Add new category",
+                        label: "Ավելացնել նորը",
                         isSubmitting: false
                     }
                 ]}

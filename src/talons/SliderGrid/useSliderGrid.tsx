@@ -5,7 +5,7 @@ import { Column } from "react-table";
 import { useAxiosClient } from "../Axios/useAxiosClient";
 import { Button, Checkbox } from 'semantic-ui-react';
 
-export const useFilterGrid = () => {
+export const useSliderGrid = () => {
     const [sliders, setSliders] = useState([]);
     const [isSubmitting, setIsSubmitting] = useState(false)
     const { axiosClient } = useAxiosClient();
@@ -22,6 +22,7 @@ export const useFilterGrid = () => {
 
     useEffect(() => {
       fetchSliders();
+      window.scrollTo(0, 0)
     }, []);
 
     const reloadData = useCallback( async () => {
@@ -60,15 +61,15 @@ export const useFilterGrid = () => {
     const columns = useMemo((): Column<any>[] => {
         return [
           {
-            Header: "Name",
+            Header: "Անուն",
             accessor: 'name'
           },
           {
-            Header: "Id",
+            Header: "ID",
             accessor: "_id"
           },
           {
-            Header: "Include In Home Page",
+            Header: "Ավելացնել գլխավոր էջում",
             accessor: 'includeInHomePage',
             Cell: ({row}) => (
                 <Checkbox 
@@ -79,7 +80,7 @@ export const useFilterGrid = () => {
             )
           },
           {
-            Header: "Actions",
+            Header: "Գործողություններ",
             Cell: ({row}) => {
                 return (
                     <div>

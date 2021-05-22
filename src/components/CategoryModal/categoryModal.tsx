@@ -26,33 +26,35 @@ const CategoryModal = (props:ICatoryModalProps) => {
                 closeIcon
             >
                 <Modal.Header>
-                    <h1>Add new Category</h1>
+                    <h1>Ավելացնել նորը</h1>
                 </Modal.Header>
                 <Modal.Content>
                     <form onSubmit={formik.handleSubmit}>
-                        <div className={classes.field}>
-                            <div className={classes.title}>Name</div>
-                            <Input 
-                                type="text" 
-                                name="name"
-                                placeholder="Name"
-                                className={classes.input}
-                                value={formik.values.name} 
-                                onChange={formik.handleChange}
-                            />
-                        </div>
-                        <div className={classes.field}>
-                            <Checkbox
-                                checked={formik.values.include_in_menu || false}
-                                type="checkbox"
-                                label="Include in Menu"
-                                id="include_in_menu"
-                                name="include_in_menu"
-                                onChange={formik.handleChange}
-                            />
+                        <div className={classes.fields}>
+                            <div className={classes.field}>
+                                <div className={classes.title}>Անուն</div>
+                                <Input 
+                                    type="text" 
+                                    name="name"
+                                    placeholder="Անուն"
+                                    className={classes.input}
+                                    value={formik.values.name} 
+                                    onChange={formik.handleChange}
+                                />
+                            </div>
+                            <div className={classes.checkbox}>
+                                <Checkbox
+                                    checked={formik.values.include_in_menu || false}
+                                    type="checkbox"
+                                    label="Ավելացնել ցանկում"
+                                    id="include_in_menu"
+                                    name="include_in_menu"
+                                    onChange={formik.handleChange}
+                                />
+                            </div>
                         </div>
                         <div className={classes.media}>
-                            <h3>Media</h3>
+                            <h3>Էջի Նկար</h3>
                             <ImageUploader handleOnDrop={handleOnDrop} />
                             {
                                 formik.values.image
@@ -67,8 +69,8 @@ const CategoryModal = (props:ICatoryModalProps) => {
                     </form>
                 </Modal.Content>
                 <Modal.Actions>
-                    <Button primary type="submit"onClick={() => formik.handleSubmit()}>Save</Button>
-                    <Button secondary onClick={()=> onClose()}>Cancel</Button>
+                    <Button primary type="submit"onClick={() => formik.handleSubmit()}>Պահպանել</Button>
+                    <Button secondary onClick={()=> onClose()}>Չեղարկել</Button>
                 </Modal.Actions>
             </Modal>
         </div>

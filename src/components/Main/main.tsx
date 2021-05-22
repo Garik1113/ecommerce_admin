@@ -38,7 +38,7 @@ const Main = () => {
         content = (
             <div className={classes.grid}>
                 <Menu/>
-                <div>
+                <div style={{width: "100%", marginLeft: "20px"}}>
                     {renderRoutes(routes())} 
                 </div>
             </div>
@@ -47,8 +47,10 @@ const Main = () => {
         history.push('/')
         content = renderRoutes(authRoutes())
     }
-    
-    
+    useEffect(() => {
+        window.scrollTo(0, 0)
+    }, [content])
+
     return (
         <div className={classes.main}>
             <Header/>

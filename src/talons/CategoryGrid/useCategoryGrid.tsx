@@ -22,6 +22,7 @@ export const useCategoryGrid = () => {
 
     useEffect(() => {
       fetchCategories();
+      window.scrollTo(0, 0)
     }, []);
 
     const reloadData = useCallback( async () => {
@@ -62,7 +63,7 @@ export const useCategoryGrid = () => {
     const columns = useMemo((): Column<any>[] => {
         return [
           {
-            Header: "Name",
+            Header: "Անուն",
             accessor: 'name'
           },
           {
@@ -70,7 +71,7 @@ export const useCategoryGrid = () => {
             accessor: '_id'
           },
           {
-            Header: "Include In Menu",
+            Header: "Ավելացնել ցանկում",
             accessor: "include_in_menu",
             Cell: ({row}) => {
                 return <Checkbox
@@ -79,7 +80,7 @@ export const useCategoryGrid = () => {
             }
           },
           {
-            Header: "Actions",
+            Header: "Գործողություններ",
             Cell: ({row}) => {
                 return (
                   <div>

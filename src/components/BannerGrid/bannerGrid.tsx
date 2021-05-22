@@ -23,13 +23,13 @@ const BannerGrid = () => {
             <DataGrid 
                 columns={columns} 
                 items={banners} 
-                title="Categories"
+                title="Բաներներ"
                 isSubmitting={isSubmitting}
                 buttons={[
                     {
                         onClick: handleAddNewBanner,
                         type: 'submit',
-                        label: "Add new banner",
+                        label: "Ավելացնել նորը",
                         isSubmitting: false
                     }
                 ]}

@@ -24,12 +24,12 @@ export const useReviewModal = (props) => {
                 {
                     id: "disabled",
                     value: "disabled",
-                    text: 'Disabled'
+                    text: 'Մերժված է'
                 },
                 {
                     id: "enabled",
                     value: "enabled",
-                    text: 'Enabled'
+                    text: 'Թույլատրված է'
                 },
             ]
         )

@@ -25,26 +25,31 @@ export const useOrderModal = (props) => {
         return [
             {
                 id: "new",
-                text: "New",
+                text: "Նոր",
                 value: 'new'
             },
             {
                 id: "pending",
-                text: "Pending",
+                text: "Ընթացքի մեջ",
                 value: 'pending'
             },
             {
                 id: "done",
-                text: "Done",
+                text: "Ավարտված",
                 value: 'done'
             },
         ]
     }, [formik]);
 
-    const setOrderStatus = useCallback(async(statusData) => {
-        setStatus(statusData);
-        await axiosClient('PUT', 'api/orders/admin', { orderData: { ...order, status: statusData }});
-    }, [order])
+    const setOrderStatus = useCallback(async(statusValue) => {
+        const statusItem = orderStatusOptions.find(e => e.id == statusValue);
+        setStatus(statusItem);
+        const status = {
+            name: statusItem.text,
+            value: statusItem.id
+        }
+        await axiosClient('PUT', 'api/orders/admin/status', { status, orderId: order._id });
+    }, [order, orderStatusOptions])
 
     return {
         formik,

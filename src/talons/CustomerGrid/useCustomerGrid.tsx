@@ -3,9 +3,7 @@ import { AxiosResponse } from "axios";
 import { useCallback, useEffect, useMemo, useState } from "react"
 import { Column } from "react-table";
 import { useAxiosClient } from "../Axios/useAxiosClient";
-import { Button, Checkbox } from 'semantic-ui-react';
-import Image from 'components/Image';
-import { IMAGE_BASE_URL } from 'config/defaults';
+import { Button } from 'semantic-ui-react';
 
 export const useCustomerGrid = (props) => {
     const { classes } = props;
@@ -25,6 +23,7 @@ export const useCustomerGrid = (props) => {
 
     useEffect(() => {
       fetchCustomers();
+      window.scrollTo(0, 0)
     }, []);
 
     const reloadData = useCallback( async () => {
@@ -54,15 +53,15 @@ export const useCustomerGrid = (props) => {
     const columns = useMemo((): Column<any>[] => {
         return [
           {
-            Header: "Email",
+            Header: "Էլ հասցե",
             accessor: 'email',
         },
           {
-            Header: "First Name",
+            Header: "Անուն",
             accessor: 'firstName'
           },
           {
-            Header: "Last Name",
+            Header: "Ազգանուն",
             accessor: 'lastName'
           },
           {
@@ -70,7 +69,7 @@ export const useCustomerGrid = (props) => {
             accessor: '_id'
           },
           {
-            Header: "Actions",
+            Header: "Գործողություններ",
             Cell: ({row}) => {
                 return (
                     <div>

@@ -10,6 +10,7 @@ import Order from 'components/Pages/Order';
 import OrderReport from 'components/Pages/OrderReport';
 import ProductSubscribers from 'components/Pages/ProductSubscribers';
 import Config from 'components/Pages/Config';
+import Faq from 'components/Pages/Faq';
 
 const routes = ():RouteConfig[] => {
     return [
@@ -61,6 +62,11 @@ const routes = ():RouteConfig[] => {
         {
             component: Order,
             path: '/orders',
+            exact: true
+        },
+        {
+            component: Faq,
+            path: '/faqs',
             exact: true
         },
         {

@@ -29,18 +29,18 @@ const AttributeModal = (props:IProps) => {
                 closeIcon
             >
                 <Modal.Header>
-                    <h1>Add new Attribute</h1>
+                    <h1>{attribute._id ? "Փոփոխել"  : "Ավելացնել նորը"}</h1>
                 </Modal.Header>
                 <Modal.Content>
                     <form onSubmit={formik.handleSubmit}>
                         <div className={classes.field}>
                             <div>
-                                Name
+                                Անուն
                             </div>
                             <Input 
                                 type="text" 
                                 name="name"
-                                placeholder="Name"
+                                placeholder="Անուն"
                                 className={classes.input}
                                 value={formik.values.name} 
                                 onChange={formik.handleChange}
@@ -48,7 +48,7 @@ const AttributeModal = (props:IProps) => {
                         </div>
                         <div className={classes.field}>
                             <div>
-                                Type
+                                Տեսակ
                             </div>
                             <Dropdown
                                 onChange={(e, data) => formik.setFieldValue('type', data.value)}
@@ -61,7 +61,7 @@ const AttributeModal = (props:IProps) => {
                             />
                         </div>
                         <div className={classes.list}>
-                            <h3>Attribute Values</h3>
+                            <h3>Արժեքներ</h3>
                             {
                                 formik.values.values.map((option, index) => {
                                     console.log()
@@ -101,14 +101,14 @@ const AttributeModal = (props:IProps) => {
                                 type="button"
                                 onClick={() => formik.setFieldValue('values', [...formik.values.values, {name: ""}])}
                             >
-                                add new value
+                                Ավելացնել նորը
                             </Button>
                         </div>
                     </form>
                 </Modal.Content>
                 <Modal.Actions>
-                    <Button primary type="submit"onClick={() => formik.handleSubmit()}>Save</Button>
-                    <Button secondary onClick={()=> onClose()}>Cancel</Button>
+                    <Button primary type="submit"onClick={() => formik.handleSubmit()}>Պահպանել</Button>
+                    <Button secondary onClick={()=> onClose()}>Չեղարկել</Button>
                 </Modal.Actions>
             </Modal>
         </div>

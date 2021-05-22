@@ -32,14 +32,14 @@ const OrderModal = (props:IOrderModalProps) => {
                 closeIcon
             >
                 <Modal.Header>
-                    <h1>Order</h1>
+                    <h1>Պատվեր</h1>
                 </Modal.Header>
                 <Modal.Content>
                     <form onSubmit={formik.handleSubmit}>
                         <div className={classes.header}>
                             <div className={classes.headerField}>
                                 <div className={classes.headerTitle}>
-                                    Date
+                                    Ամսաթիվ
                                 </div>
                                 <span>
                                     {getDate(order.createdAt)}
@@ -47,7 +47,7 @@ const OrderModal = (props:IOrderModalProps) => {
                             </div>
                             <div className={classes.headerField}>
                                 <div className={classes.headerTitle}>
-                                    Grand total
+                                    Ընդհանուր արժեք
                                 </div>
                                 <span>
                                     {order.totalPrice} {currency.name}
@@ -55,7 +55,7 @@ const OrderModal = (props:IOrderModalProps) => {
                             </div>
                             <div className={classes.headerField}>
                                 <div className={classes.headerTitle}>
-                                    Order number
+                                    Պատվերի համար
                                 </div>
                                 <span>
                                     {order._id}
@@ -65,7 +65,7 @@ const OrderModal = (props:IOrderModalProps) => {
                             <div>
                                 <div className={classes.items}>
                                     <div className={classes.productsTitle}>
-                                        Products
+                                        Ապրանքներ
                                     </div>
                                     {
                                         <ItemList items={order.items} currency={currency}/>
@@ -73,18 +73,18 @@ const OrderModal = (props:IOrderModalProps) => {
                                 </div>
                                 <div className={classes.payment}>
                                     <div className={classes.paymentHeader}>
-                                        Status
+                                        Կարգավիճակ
                                     </div>
                                     <Dropdown
                                         value={status.value || order.status.value}
                                         options={orderStatusOptions}
-                                        onChange={(e, data) => setOrderStatus(data)}
+                                        onChange={(e, data) => setOrderStatus(data.value)}
                                     />
                                 </div>
                                 <div className={classes.addressField}>
                                     <div className={classes.shipping}>
                                         <div className={classes.addressTitle}>
-                                            Shipping Address
+                                            Առաքման հասցե
                                         </div>
                                         <div>
                                             <OrderAddress address={order.shippingAddress}/>
@@ -92,7 +92,7 @@ const OrderModal = (props:IOrderModalProps) => {
                                     </div>
                                     <div className={classes.billing}>
                                         <div className={classes.addressTitle}>
-                                            Billing Address
+                                            Վճարման հասցե
                                         </div>
                                         <OrderAddress address={order.billingAddress}/>
                                     </div>
@@ -101,11 +101,11 @@ const OrderModal = (props:IOrderModalProps) => {
                                     order.customer ?
                                     <div className={classes.customer}>
                                         <div className={classes.addressTitle}>
-                                            Customer
+                                            Օգտատեր
                                         </div>
                                         <div className={classes.field}>
-                                            <div className={classes.fieldTitle}>
-                                                    Email:
+                                                <div className={classes.fieldTitle}>
+                                                    Էլ հասցե:
                                                 </div>
                                                 <div className={classes.fieldValue}>
                                                     {order.customer.email}
@@ -113,7 +113,7 @@ const OrderModal = (props:IOrderModalProps) => {
                                             </div>
                                         <div className={classes.field}>
                                             <div className={classes.fieldTitle}>
-                                                First Name:
+                                                Անուն:
                                             </div>
                                             <div className={classes.fieldValue}>
                                                 {order.customer.firstName}
@@ -121,7 +121,7 @@ const OrderModal = (props:IOrderModalProps) => {
                                         </div>
                                         <div className={classes.field}>
                                             <div className={classes.fieldTitle}>
-                                                Last Name:
+                                                Ազգանուն:
                                             </div>
                                             <div className={classes.fieldValue}>
                                                 {order.customer.lastName}
@@ -132,7 +132,7 @@ const OrderModal = (props:IOrderModalProps) => {
                                 }
                                 <div className={classes.payment}>
                                     <div className={classes.paymentHeader}>
-                                        Payment Method
+                                        Վճարման եղանակ
                                     </div>
                                     <div className={classes.value}>
                                         {order.paymentMethod.methodName}
@@ -140,7 +140,7 @@ const OrderModal = (props:IOrderModalProps) => {
                                 </div>
                                 <div className={classes.payment}>
                                     <div className={classes.paymentHeader}>
-                                        Shipping Method
+                                        Առաքման եղանակ
                                     </div>
                                     <div className={classes.value}>
                                         {order.shippingMethod.price} {currency.name}

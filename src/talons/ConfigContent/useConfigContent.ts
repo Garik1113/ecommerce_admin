@@ -15,25 +15,25 @@ const initial = {
     productsPerPage: 9,
     paymentMethods: [
         {
-            methodName: "Cash on Dilivery",
+            methodName: "Վճարում առաքման պահին",
             methodCode: "cash_on_dilivery",
             enabled: true
         },
         {
-            methodName: "Cart",
+            methodName: "Վճարում քարտով",
             methodCode: "cart",
             enabled: false
         }
     ],
     shippingMethods: [
         {
-            methodName: "Erevan",
+            methodName: "Երևան",
             methodCode: "erevan",
             price: 1000,
             enabled: true
         },
         {
-            methodName: "Region",
+            methodName: "Մարզեր",
             methodCode: "region",
             price: 3000,
             enabled: false
@@ -57,7 +57,7 @@ export const useConfigContent = () => {
     }, []);
     const formik = useFormik({
         initialValues: config._id ? {
-            ...config, baseCurrency: config.baseCurrency.code, 
+            ...config, baseCurrency: config.baseCurrency && config.baseCurrency.code, 
             paymentMethods: config.paymentMethods ? config.paymentMethods : initial.paymentMethods,
             shippingMethods: config.shippingMethods ? config.shippingMethods : initial.shippingMethods
         } : initial,
@@ -75,6 +75,10 @@ export const useConfigContent = () => {
             setMessage("Configuration hass peen updated")
         }
     });
+
+    useEffect(() => {
+        window.scrollTo(0, 0)
+    }, [])
 
     const handleAddNewSocialSite = useCallback(() => {
         formik.setFieldValue("socialSites", [...formik.values.socialSites, { name: "", url:"" }])

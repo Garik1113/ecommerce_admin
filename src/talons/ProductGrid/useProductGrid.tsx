@@ -34,6 +34,7 @@ export const useProductGrid = ({classes}) => {
 
     useEffect(() => {
         fetchProducts();
+        window.scrollTo(0, 0)
     }, [queryParams]);
 
     const reloadData = useCallback( async () => {
@@ -75,19 +76,15 @@ export const useProductGrid = ({classes}) => {
     const columns = useMemo((): Column<any>[] => {
         return [
           {
-            Header: "Name",
+            Header: "Անուն",
             accessor: 'name'
           },
           {
-            Header: "ID",
+            Header: "Ապրանքի Կոդ",
             accessor: '_id'
           },
           {
-            Header: "Category",
-            accessor: "category_id"
-          },
-          {
-            Header: "Image",
+            Header: "Նկար",
             accessor: "images",
             Cell: ({row}) => {
               const imageSrc = get(row, "original.images[0].thumbnail_image");
@@ -98,7 +95,7 @@ export const useProductGrid = ({classes}) => {
           }
           },
           {
-            Header: "Actions",
+            Header: "Գործողություններ",
             Cell: ({row}) => {
                 return (
                   <div>

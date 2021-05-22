@@ -18,7 +18,7 @@ const ConfigContent = () => {
         <div className={classes.root}>
             <form onSubmit={formik.handleSubmit}>
                 <div className={classes.button}>
-                    <Button onClick={formik.handleSubmit} primary>Submit</Button>
+                    <Button onClick={formik.handleSubmit} primary>Պահպանել</Button>
                 </div>
                 {
                     message
@@ -27,7 +27,7 @@ const ConfigContent = () => {
                 }
                 <div className={classes.field}>
                     <div className={classes.fieldTitle}>
-                        Site Logo
+                        Խանութի Լոգո
                     </div>
                     <div className={classes.imageField}>
                         <ImageUploader handleOnDrop={handleOnDrop}/>
@@ -45,7 +45,7 @@ const ConfigContent = () => {
                 </div>
                 <div className={classes.field}>
                     <div className={classes.fieldTitle}>
-                        Store Email
+                        Խանութի Էլ հասցե
                     </div>
                     <Input 
                         type="text" 
@@ -58,7 +58,7 @@ const ConfigContent = () => {
                 </div>
                 <div className={classes.field}>
                     <div className={classes.fieldTitle}>
-                        Store Phone
+                        Խանութի Հեռախոսահամար
                     </div>
                     <Input 
                         type="text" 
@@ -71,7 +71,7 @@ const ConfigContent = () => {
                 </div>
                 <div className={classes.field}>
                     <div className={classes.fieldTitle}>
-                        Base Currency
+                        Արժույթ
                     </div>
                     <Dropdown
                         onChange={(e, data) => formik.setFieldValue('baseCurrency', data.value)}
@@ -85,12 +85,12 @@ const ConfigContent = () => {
                 </div>
                 <div className={classes.field}>
                     <div className={classes.fieldTitle}>
-                        Products per page
+                        Ապրանքների քանակը էջում
                     </div>
                     <Input 
                         type="number" 
                         name="productsPerPage"
-                        placeholder="Products per page"
+                        placeholder="Ապրանքների քանակը էջում"
                         className={classes.input}
                         value={formik.values.productsPerPage} 
                         onChange={formik.handleChange}
@@ -98,7 +98,7 @@ const ConfigContent = () => {
                 </div>
                 <div className={classes.paymentMethodfield}>
                     <div className={classes.shippingFieldTitle}>
-                        Payment Methods
+                        Վճարման եղանակներ
                     </div>
                     {
                         formik.values.paymentMethods.map((e:any, i) => {
@@ -122,7 +122,7 @@ const ConfigContent = () => {
                 </div>
                 <div className={classes.paymentMethodfield}>
                     <div className={classes.shippingFieldTitle}>
-                        Shipping Methods
+                        Առաքման եղանակներ
                     </div>
                     {
                         formik.values.shippingMethods.map((e:any, i) => {
@@ -130,12 +130,12 @@ const ConfigContent = () => {
                                 <div className={classes.shippingMethod}>
                                     <div className={classes.field}>
                                         <div className={classes.fieldTitle}>
-                                            Name
+                                            Անուն
                                         </div>
                                         <Input 
                                             type="text" 
                                             name={`shippingMethods[${i}].methodName`}
-                                            placeholder="Name"
+                                            placeholder="Անուն"
                                             className={classes.input}
                                             value={formik.values.shippingMethods[i].methodName} 
                                             onChange={formik.handleChange}
@@ -143,7 +143,7 @@ const ConfigContent = () => {
                                     </div>
                                     <div className={classes.field}>
                                         <div className={classes.fieldTitle}>
-                                            Method Code
+                                            Եղանակի կոդ
                                         </div>
                                         <Input 
                                             type="text" 
@@ -156,12 +156,12 @@ const ConfigContent = () => {
                                     </div>
                                     <div className={classes.field}>
                                         <div className={classes.fieldTitle}>
-                                            Price
+                                            Գին
                                         </div>
                                         <Input 
                                             type="number" 
                                             name={`shippingMethods[${i}].price`}
-                                            placeholder="Price"
+                                            placeholder="Գին"
                                             className={classes.input}
                                             value={formik.values.shippingMethods[i].price} 
                                             onChange={formik.handleChange}
@@ -171,7 +171,7 @@ const ConfigContent = () => {
                                         <Checkbox
                                             checked={formik.values.shippingMethods[i].enabled || false}
                                             type="checkbox"
-                                            label="Enabled"
+                                            label="Թույլատրված է"
                                             id={`shippingMethods[${i}].enabled`}
                                             name={`shippingMethods[${i}].enabled`}
                                             onChange={formik.handleChange}
@@ -195,12 +195,12 @@ const ConfigContent = () => {
                             } 
                             primary
                         >
-                            Add New
+                            Ավելացնել նորը
                         </Button>
                     </div>
                 </div>
                 <div className={classes.fieldTitle}>
-                    Social Sites
+                    Սոցիալական կայքեր
                 </div>
                 {
                     formik.values.socialSites.map((e:any, i) => {
@@ -227,10 +227,10 @@ const ConfigContent = () => {
                     })
                 }
                 <div className={classes.socialButton}>
-                    <Button type="button" onClick={handleAddNewSocialSite} primary>Add Social Site</Button>
+                    <Button type="button" onClick={handleAddNewSocialSite} primary>Ավելացնել Սոցիալական կայք</Button>
                 </div>
                 <div className={classes.button}>
-                    <Button onClick={formik.handleSubmit} primary>Submit</Button>
+                    <Button onClick={formik.handleSubmit} primary>Պահպանել</Button>
                 </div>
             </form>
         </div>

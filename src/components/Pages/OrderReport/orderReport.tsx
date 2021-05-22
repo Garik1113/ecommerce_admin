@@ -23,13 +23,13 @@ const OrderReport = () => {
             <div className={classes.reportHeader}>
                 <div className={classes.reportField}>
                     <div className={classes.valueField}>
-                        <span className={classes.orderText}>Total Sales: </span> 
+                        <span className={classes.orderText}>Ընդհանուր Վաճառք: </span> 
                         <span className={classes.orderValue}>{totalSales}{currency.name}</span>
                     </div>
                 </div>
                 <div className={classes.reportField}>
                     <div className={classes.valueField}>
-                        <span className={classes.orderText}>Total Orders: </span> 
+                        <span className={classes.orderText}>Ընդհանուր պատվերների քանակ: </span> 
                         <span className={classes.orderValue}>{totalOrders}</span>
                     </div>
                 </div>
@@ -41,7 +41,7 @@ const OrderReport = () => {
                             <div className={classes.header}>
                                 <div className={classes.headerField}>
                                     <div className={classes.headerTitle}>
-                                        Date
+                                        Ամսաթիվ
                                     </div>
                                     <span>
                                         {getDate(lastOrder.createdAt)}
@@ -49,7 +49,7 @@ const OrderReport = () => {
                                 </div>
                                 <div className={classes.headerField}>
                                     <div className={classes.headerTitle}>
-                                        Grand total
+                                        Ընդհանուր արժեք
                                     </div>
                                     <span>
                                         {lastOrder.totalPrice} {currency.name}
@@ -57,7 +57,7 @@ const OrderReport = () => {
                                 </div>
                                 <div className={classes.headerField}>
                                     <div className={classes.headerTitle}>
-                                        Order number
+                                        Պատվերի համար
                                     </div>
                                     <span>
                                         {lastOrder._id}
@@ -67,7 +67,7 @@ const OrderReport = () => {
                             <div>
                                 <div className={classes.items}>
                                     <div className={classes.productsTitle}>
-                                        Products
+                                        Ապրանքներ
                                     </div>
                                     {
                                         <ItemList items={lastOrder.items} currency={currency}/>
@@ -75,18 +75,18 @@ const OrderReport = () => {
                                 </div>
                                 <div className={classes.payment}>
                                         <div className={classes.paymentHeader}>
-                                            Status
+                                            Կարգավիճակ
                                         </div>
                                         <Dropdown
                                             value={status.value || lastOrder.status.value}
                                             options={orderStatusOptions}
-                                            onChange={(e, data) => setOrderStatus(data)}
+                                            onChange={(e, data) => setOrderStatus(data.value)}
                                         />
                                 </div>
                                 <div className={classes.addressField}>
                                     <div className={classes.shipping}>
                                         <div className={classes.addressTitle}>
-                                            Shipping Address
+                                            Առաքման հասցե
                                         </div>
                                         <div>
                                             <OrderAddress address={lastOrder.shippingAddress}/>
@@ -94,7 +94,7 @@ const OrderReport = () => {
                                     </div>
                                     <div className={classes.billing}>
                                         <div className={classes.addressTitle}>
-                                            Billing Address
+                                            Վճարման հասցե
                                         </div>
                                         <OrderAddress address={lastOrder.billingAddress}/>
                                     </div>
@@ -103,11 +103,11 @@ const OrderReport = () => {
                                     lastOrder.customer ?
                                     <div className={classes.customer}>
                                         <div className={classes.addressTitle}>
-                                            Customer
+                                            Օգտատեր
                                         </div>
                                         <div className={classes.field}>
-                                            <div className={classes.fieldTitle}>
-                                                    Email:
+                                                <div className={classes.fieldTitle}>
+                                                    Էլ հասցե:
                                                 </div>
                                                 <div className={classes.fieldValue}>
                                                     {lastOrder.customer.email}
@@ -115,7 +115,7 @@ const OrderReport = () => {
                                             </div>
                                         <div className={classes.field}>
                                             <div className={classes.fieldTitle}>
-                                                First Name:
+                                                Անուն:
                                             </div>
                                             <div className={classes.fieldValue}>
                                                 {lastOrder.customer.firstName}
@@ -123,7 +123,7 @@ const OrderReport = () => {
                                         </div>
                                         <div className={classes.field}>
                                             <div className={classes.fieldTitle}>
-                                                Last Name:
+                                                Ազգանուն:
                                             </div>
                                             <div className={classes.fieldValue}>
                                                 {lastOrder.customer.lastName}
@@ -134,7 +134,7 @@ const OrderReport = () => {
                                 }
                                 <div className={classes.payment}>
                                     <div className={classes.paymentHeader}>
-                                        Payment Method
+                                        Վճարման եղանակ
                                     </div>
                                     <div className={classes.value}>
                                         {lastOrder.paymentMethod.methodName}
@@ -142,7 +142,7 @@ const OrderReport = () => {
                                 </div>
                                 <div className={classes.payment}>
                                     <div className={classes.paymentHeader}>
-                                        Shipping Method
+                                        Առաքման եղանակ
                                     </div>
                                     <div className={classes.value}>
                                         {lastOrder.shippingMethod.price} {currency.name}

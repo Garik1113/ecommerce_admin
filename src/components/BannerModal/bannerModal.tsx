@@ -32,13 +32,13 @@ const BannerModal = (props:IBannerModalProps) => {
                 closeIcon
             >
                 <Modal.Header>
-                    <h1>Add new Banner</h1>
+                    <h1>Ավելացնել նորը</h1>
                 </Modal.Header>
                 <Modal.Content>
                     <form onSubmit={formik.handleSubmit}>
                         <div className={classes.media}>
                             <div className={classes.title}>
-                                <h3>Media</h3>
+                                <h3>Նկար</h3>
                             </div>
                             <ImageUploader handleOnDrop={handleOnDrop} />
                             {
@@ -53,7 +53,7 @@ const BannerModal = (props:IBannerModalProps) => {
                         </div>
                         <div className={classes.field}>
                             <div className={classes.title}>
-                                <h3>Content</h3>
+                                <h3>Կոնտենտ</h3>
                             </div>
                             <Wysiwyg
                                 value={formik.values.content}
@@ -62,7 +62,7 @@ const BannerModal = (props:IBannerModalProps) => {
                         </div>
                         <div className={classes.field}>
                             <div className={classes.title}>
-                                <h3>Content Position</h3>
+                                <h3>Կոնտենտի դիրքը նկարում</h3>
                             </div>
                             <div className={classes.radioFields}>
                                 {
@@ -84,8 +84,8 @@ const BannerModal = (props:IBannerModalProps) => {
                     </form>
                 </Modal.Content>
                 <Modal.Actions>
-                    <Button primary type="submit"onClick={() => formik.handleSubmit()}>Save</Button>
-                    <Button secondary onClick={()=> onClose()}>Cancel</Button>
+                    <Button primary type="submit"onClick={() => formik.handleSubmit()}>Պահպանել</Button>
+                    <Button secondary onClick={()=> onClose()}>Չեղարկել</Button>
                 </Modal.Actions>
             </Modal>
         </div>

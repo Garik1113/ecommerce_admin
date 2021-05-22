@@ -28,14 +28,14 @@ const ReviewModal = (props:IProps) => {
                 closeIcon
             >
                 <Modal.Header>
-                    <h1>Review</h1>
+                    <h1>Մեկնաբանություն</h1>
                 </Modal.Header>
                 <Modal.Content>
                     <form onSubmit={formik.handleSubmit}>
                         {
                             product
                             ?   <div className={classes.field}>
-                                    <h2>Product</h2>
+                                    <h2>Ապրանք</h2>
                                     <div className={classes.product}>
                                         <img src={`api/images/product/${product.image}`} className={classes.image}/>
                                         <span className={classes.productName}>{product.name}</span>
@@ -45,28 +45,28 @@ const ReviewModal = (props:IProps) => {
                         }
                         
                         <div className={classes.field}>
-                            <h2>Customer</h2>
+                            <h2>Օգտատեր</h2>
                             <div className={classes.customerDetails}>
-                                First Name: <span className={classes.value}>{review.customer.firstName}</span> 
+                                Անուն: <span className={classes.value}>{review.customer.firstName}</span> 
                             </div>
                             <div className={classes.customerDetails}>
-                                Last Name: <span className={classes.value}>{review.customer.lastName}</span> 
+                                Ազգանուն: <span className={classes.value}>{review.customer.lastName}</span> 
                             </div>
                             <div className={classes.customerDetails}>
-                                Email: <span className={classes.value}>{review.customer.email}</span> 
-                            </div>
-                        </div>
-                        <div className={classes.field}>
-                            <h2>Review</h2>
-                            <div className={classes.customerDetails}>
-                                Comment: <span className={classes.value}>{review.comment}</span> 
-                            </div>
-                            <div className={classes.customerDetails}>
-                                rating: <span className={classes.value}>{review.rating}</span> 
+                                Էլ հասցե: <span className={classes.value}>{review.customer.email}</span> 
                             </div>
                         </div>
                         <div className={classes.field}>
-                            <div className={classes.allowed}>Allowed</div>
+                            <h2>Ընդհանուր</h2>
+                            <div className={classes.customerDetails}>
+                                Մեկնաբանություն: <span className={classes.value}>{review.comment}</span> 
+                            </div>
+                            <div className={classes.customerDetails}>
+                                Վարկանիշ: <span className={classes.value}>{review.rating}</span> 
+                            </div>
+                        </div>
+                        <div className={classes.field}>
+                            <div className={classes.allowed}>Թույլատրված է</div>
                             <Dropdown
                                 onChange={(e, data) =>  formik.setFieldValue("status", data.value)}
                                 value={formik.values.status}
@@ -80,8 +80,8 @@ const ReviewModal = (props:IProps) => {
                     </form>
                 </Modal.Content>
                 <Modal.Actions>
-                    <Button primary type="submit"onClick={() => formik.handleSubmit()}>Save</Button>
-                    <Button secondary onClick={()=> onClose()}>Cancel</Button>
+                    <Button primary type="submit"onClick={() => formik.handleSubmit()}>Պահպանել</Button>
+                    <Button secondary onClick={()=> onClose()}>Չեղարկել</Button>
                 </Modal.Actions>
             </Modal>
         </div>

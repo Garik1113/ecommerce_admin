@@ -1,28 +1,28 @@
-import AttributeModal from 'components/AttributeModal';
+import FaqModal from 'components/FaqModal';
 import DataGrid from 'components/DataGrid';
 import React from 'react';
-import { useAttributeGrid } from 'src/talons/AttributeGrid/useAttributeGrid';
-import classes from './attributeGrid.css';
+import { useFaqGrid } from 'src/talons/FaqGrid/useFaqGrid';
+import classes from './faqGrid.css';
 
 
-const AttributeGrid = () => {
+const FaqGrid = () => {
     const { 
-        attributes, 
+        faqs, 
         columns,
         handleHideModal,
         showModal,
         isSubmitting,
-        editingAttribute,
+        editingFaq,
         handleAddNewBanner,
         reloadData
-    } = useAttributeGrid();
+    } = useFaqGrid({classes});
 
     return (
         <div className={classes.root}>
             <DataGrid 
                 columns={columns} 
-                items={attributes} 
-                title="Ատրիբուտներ"
+                items={faqs} 
+                title="Հաճախ տրվող հարցեր"
                 isSubmitting={isSubmitting}
                 buttons={[
                     {
@@ -35,10 +35,10 @@ const AttributeGrid = () => {
             />
             {
                 showModal 
-                &&  <AttributeModal 
+                &&  <FaqModal 
                         visible={showModal} 
                         onClose={handleHideModal}
-                        attribute={editingAttribute}
+                        faq={editingFaq}
                         reloadData={reloadData}
                         handleHideModal={handleHideModal}
                     />
@@ -46,4 +46,4 @@ const AttributeGrid = () => {
         </div>
     )
 }
-export default AttributeGrid;
+export default FaqGrid;

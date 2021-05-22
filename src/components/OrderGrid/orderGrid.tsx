@@ -22,7 +22,7 @@ const OrderGrid = () => {
             <DataGrid 
                 columns={columns} 
                 items={orders} 
-                title="Orders"
+                title="Պատվերներ"
                 isSubmitting={isSubmitting}
                 buttons={[]}
             />

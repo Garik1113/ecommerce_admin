@@ -23,6 +23,7 @@ export const useOrderGrid = (props) => {
 
     useEffect(() => {
       fetchOrders();
+      window.scrollTo(0, 0)
     }, []);
 
     const reloadData = useCallback( async () => {
@@ -61,23 +62,23 @@ export const useOrderGrid = (props) => {
     const columns = useMemo((): Column<any>[] => {
         return [
           {
-            Header: "ID",
+            Header: "Պատվերի համար",
             accessor: '_id'
           },
           {
-            Header: "Customer Email",
+            Header: "Օգտատիրոջ Էլ հասցե",
             accessor: 'customer.email'
           },
           {
-            Header: "Customer First Name",
+            Header: "Օգտատիրոջ Անուն",
             accessor: 'customer.firstName'
           },
           {
-            Header: "Customer Last Name",
+            Header: "Օգտատիրոջ Ազգանուն",
             accessor: 'customer.lastName'
           },
           {
-            Header: "Actions",
+            Header: "Գործողություններ",
             Cell: ({row}) => {
                 return (
                     <div>

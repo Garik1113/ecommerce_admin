@@ -92,9 +92,9 @@ export const useProductModal = (props) => {
             const response:AxiosResponse = await axiosClient(method, url, variables);
             const { status } = response;
             if(status == 200) {
-                setMessage(`Product has been ${product._id ? "updated" : "added"}`);
+                setMessage(`Ապրանքն ${product._id ? "Փոփոխված է" : "ավելացված է"}`);
             } else {
-                setMessage(`Something wents wrong`);
+                setMessage(`Ինչ որ բան սխալ է`);
             }
             
         },
@@ -196,6 +196,15 @@ export const useProductModal = (props) => {
         ]
     }, []);
 
+    const handleChangePrice = useCallback((price:number) => {
+        formik.setFieldValue("price", price);
+        const discount = formik.values.discount;
+        if (discount) {
+            const discountedPrice = price - (price * Number(discount) / 100);
+            formik.setFieldValue("discountedPrice", discountedPrice)
+        }
+    }, [formik])
+
     return {
         formik,
         handleAddNewConfigurableAttribute,
@@ -208,6 +217,7 @@ export const useProductModal = (props) => {
         attributes,
         getSelectedValue,
         message,
-        baseCurrencyOptions
+        baseCurrencyOptions,
+        handleChangePrice
     }
 }

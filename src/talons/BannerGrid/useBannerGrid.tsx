@@ -3,9 +3,7 @@ import { AxiosResponse } from "axios";
 import { useCallback, useEffect, useMemo, useState } from "react"
 import { Column } from "react-table";
 import { useAxiosClient } from "../Axios/useAxiosClient";
-import { Button, Checkbox } from 'semantic-ui-react';
-import Image from 'components/Image';
-import { IMAGE_BASE_URL } from 'config/defaults';
+import { Button } from 'semantic-ui-react';
 
 export const useBannerGrid = (props) => {
   const { classes } = props;
@@ -25,6 +23,7 @@ export const useBannerGrid = (props) => {
 
     useEffect(() => {
       fetchBanners();
+      window.scrollTo(0, 0)
     }, []);
 
     const reloadData = useCallback( async () => {
@@ -63,7 +62,7 @@ export const useBannerGrid = (props) => {
     const columns = useMemo((): Column<any>[] => {
         return [
           {
-            Header: "Image",
+            Header: "Նկար",
             accessor: 'image',
             Cell: ({row}) => {
                 return (
@@ -72,19 +71,15 @@ export const useBannerGrid = (props) => {
             }
         },
           {
-            Header: "Content",
+            Header: "Կոնտենտ",
             accessor: 'content'
           },
           {
-            Header: "ID",
+            Header: "Կոդ",
             accessor: '_id'
           },
           {
-            Header: "Content Position",
-            accessor: "contentPosition"
-          },
-          {
-            Header: "Actions",
+            Header: "Գործողություններ",
             Cell: ({row}) => {
                 return (
                     <div>

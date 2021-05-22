@@ -22,7 +22,7 @@ const ItemList = (props) => {
                                 <div className={classes.nameField}>
                                     {e.product.name}
                                     <div className={classes.priceField}>
-                                        Price: {e.product.discountedPrice || e.product.price} {currency.name}
+                                        Գին: {e.product.discountedPrice || e.product.price} {currency.name}
                                     </div>
                                     <div className={classes.attributes}>
                                         {
@@ -59,7 +59,7 @@ const ItemList = (props) => {
                                 </div>
                             </div>
                             <div className={classes.quantity}>
-                                Qty: {e.quantity}
+                                Քանակ: {e.quantity}
                             </div>
                         </div>
                     ) 

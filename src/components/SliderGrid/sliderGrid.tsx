@@ -1,7 +1,7 @@
 import SliderModal from 'components/SliderModal';
 import DataGrid from 'components/DataGrid';
 import React from 'react';
-import { useFilterGrid } from 'src/talons/SliderGrid/useSliderGrid';
+import { useSliderGrid } from 'src/talons/SliderGrid/useSliderGrid';
 import classes from './sliderGrid.css';
 
 
@@ -15,20 +15,20 @@ const SliderGrid = () => {
         editingSlider,
         handleAddNewSlider,
         reloadData
-    } = useFilterGrid();
+    } = useSliderGrid();
 
     return (
         <div className={classes.root}>
             <DataGrid 
                 columns={columns} 
                 items={sliders} 
-                title="sliders"
+                title="Սլայդերներ"
                 isSubmitting={isSubmitting}
                 buttons={[
                     {
                         onClick: handleAddNewSlider,
                         type: 'submit',
-                        label: "Add new slider",
+                        label: "Ավելացնել նորը",
                         isSubmitting: false
                     }
                 ]}

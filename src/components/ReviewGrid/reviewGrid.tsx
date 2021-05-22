@@ -23,7 +23,7 @@ const ReviewGrid = () => {
                 totals={false}
                 columns={columns} 
                 items={reviews} 
-                title="Filters"
+                title="Մեկնաբանություններ"
                 isSubmitting={isSubmitting}
                 buttons={[]}
             />

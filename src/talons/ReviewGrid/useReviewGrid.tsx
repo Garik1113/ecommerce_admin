@@ -28,6 +28,7 @@ export const useReviewGrid = (props: Props) => {
 
     useEffect(() => {
       fetchReviews();
+      window.scrollTo(0, 0)
     }, []);
 
     const reloadData = useCallback( async () => {
@@ -66,7 +67,7 @@ export const useReviewGrid = (props: Props) => {
     const columns = useMemo((): Column<any>[] => {
         return [
           {
-            Header: "Product",
+            Header: "Ապրանք",
             accessor: 'productId',
             Cell: ({row}) => {
               const product = row.original.productId || {};
@@ -80,19 +81,19 @@ export const useReviewGrid = (props: Props) => {
             }
           },
           {
-            Header: "Customer",
+            Header: "Օգտատեր",
             accessor: 'customer.email'
           },
           {
-            Header: "Comment",
+            Header: "Մեկնաբանություն",
             accessor: "comment"
           },
           {
-            Header: "Rating",
+            Header: "Վարկանիշ",
             accessor: "rating"
           },
           {
-            Header: "Allowed",
+            Header: "Թույլատրված է",
             accessor: 'status',
             Cell: ({row}) => (
                 <Checkbox 
@@ -104,7 +105,7 @@ export const useReviewGrid = (props: Props) => {
             )
           },
           {
-            Header: "Actions",
+            Header: "Գործողություններ",
             Cell: ({row}) => {
                 return (
                     <div>

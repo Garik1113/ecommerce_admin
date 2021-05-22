@@ -30,7 +30,7 @@ const SliderModal = (props:IProps) => {
                 closeIcon
             >
                 <Modal.Header>
-                    <h1>Add new Filter</h1>
+                    <h1>Ավելացնել նորը</h1>
                 </Modal.Header>
                 <Modal.Content>
                     <form onSubmit={formik.handleSubmit}>
@@ -38,14 +38,14 @@ const SliderModal = (props:IProps) => {
                             <Input 
                                 type="text" 
                                 name="name"
-                                placeholder="Name"
+                                placeholder="Անուն"
                                 className={classes.input}
                                 value={formik.values.name} 
                                 onChange={formik.handleChange}
                             />
                         </div>
                         <div className={classes.flex}>
-                            <span>include In Home Page</span>
+                            <span>Ավելացնել գլխավոր էջում</span>
                             <Checkbox
                                 checked={formik.values.includeInHomePage || false}
                                 type="checkbox"
@@ -56,9 +56,8 @@ const SliderModal = (props:IProps) => {
                             /> 
                         </div>
                         <div className={classes.list}>
-                            <h3>Slides</h3>
+                            <h3>Սլայդներ</h3>
                             {formik.values.slides.map((slide, index) => {
-                                // console.log(slide)
                                 return (
                                     <div className={classes.slide} key={index} onClick={() => setActiveSlideId(index)}>
                                         <ImageUploader handleOnDrop={handleOnDrop} />
@@ -83,14 +82,14 @@ const SliderModal = (props:IProps) => {
                                 type="button"
                                 onClick={() => formik.setFieldValue('slides', [...formik.values.slides, { image: "" }])}
                             >
-                                add new slide
+                                նոր Սլայդ
                             </Button>
                         </div>
                     </form>
                 </Modal.Content>
                 <Modal.Actions>
-                    <Button primary type="submit"onClick={() => formik.handleSubmit()}>Save</Button>
-                    <Button secondary onClick={()=> onClose()}>Cancel</Button>
+                    <Button primary type="submit"onClick={() => formik.handleSubmit()}>Պահպանել</Button>
+                    <Button secondary onClick={()=> onClose()}>Չեղարկել</Button>
                 </Modal.Actions>
             </Modal>
         </div>

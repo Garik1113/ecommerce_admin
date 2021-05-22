@@ -8,7 +8,7 @@ const OrderAddress = (props) => {
         <div className={classes.root}>
             <div className={classes.field}>
                 <div className={classes.fieldTitle}>
-                    Country:
+                    Երկիր:
                 </div>
                 <div className={classes.fieldValue}>
                     {address.country}
@@ -16,7 +16,7 @@ const OrderAddress = (props) => {
             </div>
             <div className={classes.field}>
                 <div className={classes.fieldTitle}>
-                    State:
+                    Մարզ:
                 </div>
                 <div className={classes.fieldValue}>
                     {address.state}
@@ -24,7 +24,7 @@ const OrderAddress = (props) => {
             </div>
             <div className={classes.field}>
                 <div className={classes.fieldTitle}>
-                    City:
+                    Քաղաք:
                 </div>
                 <div className={classes.fieldValue}>
                     {address.city}
@@ -32,7 +32,7 @@ const OrderAddress = (props) => {
             </div>
             <div className={classes.field}>
                 <div className={classes.fieldTitle}>
-                    Address:
+                    Հասցե:
                 </div>
                 <div className={classes.fieldValue}>
                     {address.address}
@@ -40,7 +40,7 @@ const OrderAddress = (props) => {
             </div>
             <div className={classes.field}>
                 <div className={classes.fieldTitle}>
-                    Email:
+                    Էլ հասցե:
                 </div>
                 <div className={classes.fieldValue}>
                     {address.email}
@@ -48,7 +48,7 @@ const OrderAddress = (props) => {
             </div>
             <div className={classes.field}>
                 <div className={classes.fieldTitle}>
-                    Additional Information:
+                    Լրացուցիչ ինֆորմացիա:
                 </div>
                 <div className={classes.fieldValue}>
                     {address.additionalInformation}

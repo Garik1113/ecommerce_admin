@@ -1,5 +1,4 @@
-import { IMAGE_BASE_URL, NOT_FOUND_IMAGE_SRC } from 'config/defaults';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { handleImageError } from 'src/helpers/handleImageError';
 import classes from './image.css';
 

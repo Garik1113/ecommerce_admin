@@ -40,7 +40,8 @@ const ProductModal = (props:IProductModalProps) => {
         attributes,
         getSelectedValue,
         message,
-        baseCurrencyOptions
+        baseCurrencyOptions,
+        handleChangePrice
     } = talonProps;
     
     return (
@@ -51,19 +52,19 @@ const ProductModal = (props:IProductModalProps) => {
                 closeIcon
             >
                 <Modal.Header>
-                    <h1>Add new Product</h1>
+                    <h1>{product._id ? "Փոփոխել"  : "Ավելացնել նորը"}</h1>
                 </Modal.Header>
                 <Modal.Content>
                     <form onSubmit={formik.handleSubmit}>
                         <div className={classes.field}>
                             <div className={classes.title}>
-                                <h4>Product Title</h4>
+                                <h4>Անուն</h4>
                             </div>
                             <div className={classes.flex}>
                                 <Input 
                                     type="text" 
                                     name="name"
-                                    placeholder="Name"
+                                    placeholder="Անուն"
                                     className={classes.input}
                                     value={formik.values.name} 
                                     onChange={formik.handleChange}
@@ -71,7 +72,7 @@ const ProductModal = (props:IProductModalProps) => {
                                 <Input 
                                     type="text" 
                                     name="pageTitle"
-                                    placeholder="Page title"
+                                    placeholder="Էջի Անուն"
                                     className={classes.input}
                                     value={formik.values.pageTitle} 
                                     onChange={formik.handleChange}
@@ -80,12 +81,12 @@ const ProductModal = (props:IProductModalProps) => {
                         </div>
                         <div className={classes.field}>
                             <div className={classes.title}>
-                                <h4>SEO</h4>
+                                <h4>Նկարագրություն (SEO)</h4>
                             </div>
                             <TextArea 
                                 type="text" 
                                 name="metaDescription"
-                                placeholder="Meta Description"
+                                placeholder="Նկարագրություն"
                                 className={classes.input}
                                 value={formik.values.metaDescription} 
                                 onChange={formik.handleChange}
@@ -93,7 +94,7 @@ const ProductModal = (props:IProductModalProps) => {
                         </div>
                         <div className={classes.field}>
                             <div className={classes.title}>
-                                <h4>Description</h4>
+                                <h4>Նկարագրություն</h4>
                             </div>
                             <div className={classes.wysiwyg}>
                                 <Wysiwyg
@@ -104,13 +105,13 @@ const ProductModal = (props:IProductModalProps) => {
                         </div>
                         <div className={classes.field}>
                             <div className={classes.title}>
-                                <h4>Quantity</h4>
+                                <h4>Քանակ</h4>
                             </div>
                             <div className={classes.flex}>
                                 <Input 
                                     type="number" 
                                     name="quantity"
-                                    placeholder="Quantity"
+                                    placeholder="Քանակ"
                                     className={classes.input}
                                     value={formik.values.quantity} 
                                     onChange={formik.handleChange}
@@ -119,45 +120,52 @@ const ProductModal = (props:IProductModalProps) => {
                         </div>
                         <div className={classes.field}>
                             <div className={classes.title}>
-                                <h4>Price</h4>
+                                <h4>Գին</h4>
                             </div>
                             <div className={classes.flex}>
                                 <Input 
                                     type="number" 
                                     name="price"
-                                    placeholder="Price"
+                                    placeholder="Գին"
                                     className={classes.input}
                                     value={formik.values.price} 
-                                    onChange={formik.handleChange}
+                                    onChange={(e, data) => handleChangePrice(Number(data.value))}
                                 />
                             </div>
                         </div>
                         <div className={classes.field}>
-                            <div className={classes.title}>
-                                <h4>Discount</h4>
-                            </div>
                             <div className={classes.flex}>
-                                <Input 
-                                    type="number" 
-                                    name="discount"
-                                    placeholder="Discount"
-                                    className={classes.input}
-                                    value={formik.values.discount}
-                                    onChange={(e, data) => handleChangeDiscount(data)}
-                                />
-                                <Input 
-                                    type="number" 
-                                    name="discountedPrice"
-                                    placeholder="Discounted Price"
-                                    className={classes.input}
-                                    value={formik.values.discountedPrice} 
-                                    onChange={formik.handleChange}
-                                />
+                                <div className={classes.discountedField}>
+                                    <div className={classes.title}>
+                                        <h4>Զեղջ</h4>
+                                    </div>
+                                    <Input 
+                                        type="number" 
+                                        name="discount"
+                                        placeholder="Զեղջ"
+                                        className={classes.input}
+                                        value={formik.values.discount}
+                                        onChange={(e, data) => handleChangeDiscount(data)}
+                                    />
+                                </div>
+                                <div className={classes.discountedFieldRight}>
+                                    <div className={classes.title}>
+                                        <h4>Զեղջված գին</h4>
+                                    </div>
+                                    <Input 
+                                        type="number" 
+                                        name="discountedPrice"
+                                        placeholder="Զեղջված գին"
+                                        className={classes.input}
+                                        value={formik.values.discountedPrice} 
+                                        onChange={formik.handleChange}
+                                    />
+                                </div>
                             </div>
                         </div>
                         <div className={classes.field}>
                             <div className={classes.title}>
-                                <h4>Categories</h4>
+                                <h4>Կատեգորիաներ</h4>
                             </div>
                             <Dropdown
                                 onChange={(e, data) => formik.setFieldValue('categories', data.value)}
@@ -172,7 +180,7 @@ const ProductModal = (props:IProductModalProps) => {
                         </div>
                         <div className={classes.field}>
                             <div className={classes.title}>
-                                <h4>Attributes</h4>
+                                <h4>Ատրիբուտներ</h4>
                             </div>
                             <Dropdown
                                 onChange={(e, data) => handleChangeAttributes(data.value)}
@@ -258,7 +266,7 @@ const ProductModal = (props:IProductModalProps) => {
                             })
                         }
                         <div className={classes.currencyfieldTitle}>
-                            Base Currency
+                            Արժույթ
                         </div>
                         <Dropdown
                             onChange={(e, data) => {}}
@@ -270,7 +278,7 @@ const ProductModal = (props:IProductModalProps) => {
                             options={baseCurrencyOptions}
                         />
                         <div className={classes.media}>
-                            <h3>Media</h3>
+                            <h3>Նկարներ</h3>
                             <ImageUploader handleOnDrop={handleOnDrop} />
                             {
                                 formik.values.images 
@@ -293,8 +301,8 @@ const ProductModal = (props:IProductModalProps) => {
                         ?   <div className={classes.message}>{message}</div>
                         :   null
                     }
-                    <Button primary type="submit"onClick={() => formik.handleSubmit()}>Save</Button>
-                    <Button secondary onClick={()=> onClose()}>Cancel</Button>
+                    <Button primary type="submit"onClick={() => formik.handleSubmit()}>Պահպանել</Button>
+                    <Button secondary onClick={()=> onClose()}>Չեղարկել</Button>
                 </Modal.Actions>
             </Modal>
         </div>

@@ -22,7 +22,7 @@ const ProductSubscribersGrid = () => {
                 totals={false}
                 columns={columns} 
                 items={productSubscriptions} 
-                title="Product Subscriptions"
+                title="Ապրանքների Ծանուցումներ"
                 isSubmitting={isSubmitting}
                 buttons={[]}
             />
