@@ -12,6 +12,7 @@ export const useProductModal = (props) => {
     const [message, setMessage] = useState("");
     const [categories, setCategories] = useState([]);
     const [attributes, setAttributes] = useState([]);
+    const [isSubmitting, setIsSubmitting] = useState(false);
     const fetchCategories = useCallback(async() => {
         const response: AxiosResponse = await axiosClient('GET', '/api/categories/admin/');
         const { data } = response;
@@ -68,6 +69,7 @@ export const useProductModal = (props) => {
     const formik = useFormik({
         initialValues: initialValues,
         onSubmit: async (values) => {
+            setIsSubmitting(true)
             let variables = {
                 name: values.name,
                 pageTitle: values.pageTitle,
@@ -96,7 +98,7 @@ export const useProductModal = (props) => {
             } else {
                 setMessage(`Ինչ որ բան սխալ է`);
             }
-            
+            setIsSubmitting(false)
         },
         enableReinitialize: true
     });
@@ -227,6 +229,7 @@ export const useProductModal = (props) => {
         getSelectedValue,
         message,
         baseCurrencyOptions,
-        handleChangePrice
+        handleChangePrice,
+        isSubmitting
     }
 }

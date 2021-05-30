@@ -38,10 +38,10 @@ const ProductModal = (props:IProductModalProps) => {
         attributeDropdowOptions,
         handleChangeDiscount,
         attributes,
-        getSelectedValue,
         message,
         baseCurrencyOptions,
-        handleChangePrice
+        handleChangePrice,
+        isSubmitting
     } = talonProps;
     return (
         <div className={classes.root}>
@@ -298,7 +298,7 @@ const ProductModal = (props:IProductModalProps) => {
                         ?   <div className={classes.message}>{message}</div>
                         :   null
                     }
-                    <Button primary type="submit"onClick={() => formik.handleSubmit()}>Պահպանել</Button>
+                    <Button primary type="submit" loading={isSubmitting} onClick={() => formik.handleSubmit()}>Պահպանել</Button>
                     <Button secondary onClick={()=> onClose()}>Չեղարկել</Button>
                 </Modal.Actions>
             </Modal>

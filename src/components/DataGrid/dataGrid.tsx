@@ -1,8 +1,9 @@
 import classes from './dataGrid.css';
-import React, { useCallback }  from 'react';
+import React, { useCallback, useMemo }  from 'react';
 import { Column, useTable } from 'react-table';
 import { Table, TableHeader, TableBody, TableCell, Button } from 'semantic-ui-react';
 import { useHistory } from 'react-router';
+import { useConfig } from 'src/talons/Config/useConfig';
 
 type TButton = {
     type: string,
@@ -25,8 +26,19 @@ interface IGridProps {
 const DataGrid = (props: IGridProps) => {
     const {  items, columns, title, buttons, isSubmitting, totals, queryParams } = props;
     const tableProps = useTable({ columns, data: items });
+    const { getConfigValue } = useConfig();
+
+    const pageSize = useMemo(() => {
+        const productsPerPage = getConfigValue("productsPerPage");
+        if (typeof productsPerPage !== "number") {
+            return 8
+        } else {
+            return productsPerPage || 8
+        }
+        
+    }, [getConfigValue]);
     const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } = tableProps;
-    const pages = Math.ceil(Number(totals || 0) / 8);
+    const pages = Math.ceil(Number(totals || 0) / pageSize);
     const pagination = new Array(pages);
     const history = useHistory();
     const updateQueryStringParameter = useCallback((uri:string, key:string, value:string):string => {
