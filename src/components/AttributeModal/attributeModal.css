@@ -36,3 +36,8 @@
     max-width: 200px;
     height: auto;
 }
+
+.errorMessage {
+    font-size: 13px;
+    color: red;
+}

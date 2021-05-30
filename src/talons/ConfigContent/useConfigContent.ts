@@ -66,13 +66,13 @@ export const useConfigContent = () => {
             setMessage("");
             const method = config._id ? "PUT" : "POST";
             const url = config._id ? `/api/configs/admin/${config._id}` : '/api/configs/admin/'
-            console.log(values)
+            values.shippingMethods = values.shippingMethods.filter(e => e.methodCode)
             const response: AxiosResponse = await axiosClient(method, url, {...values, baseCurrency: currencies[values.baseCurrency]});
             const { data, status } = response;
             if (status == 200 && data.status == 'updated') {
                 dispatch(getConfigs())
             };
-            setMessage("Configuration hass peen updated")
+            setMessage("Կարգավորումները պահպանված են")
         }
     });
 

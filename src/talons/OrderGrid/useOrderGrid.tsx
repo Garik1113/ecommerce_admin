@@ -66,16 +66,37 @@ export const useOrderGrid = (props) => {
             accessor: '_id'
           },
           {
-            Header: "Օգտատիրոջ Էլ հասցե",
-            accessor: 'customer.email'
+              Header: "Օգտատիրոջ Էլ հասցե",
+              Cell: ({row}) => {
+                  const { customer, billingAddress } = row.original;
+                  if (customer) {
+                    return <span>{customer.email}</span>
+                  } else {
+                    return <span>{billingAddress.email}</span>
+                  }
+              }
           },
           {
             Header: "Օգտատիրոջ Անուն",
-            accessor: 'customer.firstName'
+            Cell: ({row}) => {
+                const { customer, billingAddress } = row.original;
+                if (customer) {
+                  return <span>{customer.firstName}</span>
+                } else {
+                  return <span>{billingAddress.firstName}</span>
+                }
+            }
           },
           {
-            Header: "Օգտատիրոջ Ազգանուն",
-            accessor: 'customer.lastName'
+              Header: "Օգտատիրոջ Ազգանուն",
+              Cell: ({row}) => {
+                  const { customer, billingAddress } = row.original;
+                  if (customer) {
+                    return <span>{customer.lastName}</span>
+                  } else {
+                    return <span>{billingAddress.lastName}</span>
+                  }
+              }
           },
           {
             Header: "Գործողություններ",

@@ -43,7 +43,6 @@ const ProductModal = (props:IProductModalProps) => {
         baseCurrencyOptions,
         handleChangePrice
     } = talonProps;
-    
     return (
         <div className={classes.root}>
             <Modal 
@@ -184,48 +183,48 @@ const ProductModal = (props:IProductModalProps) => {
                             </div>
                             <Dropdown
                                 onChange={(e, data) => handleChangeAttributes(data.value)}
-                                value={formik.values.attributes}
-                                name="attributes"
+                                value={formik.values.configurableAttributes.map(e => e.attribute)}
+                                name="configurableAttributes"
                                 selection
                                 fluid
-                                id="attributes"
+                                id="configurableAttributes"
                                 options={attributeDropdowOptions}
                                 multiple
                             />
                         </div>
                         {
-                            attributes.map((e, i) => {
-                                if (formik.values.attributes.includes(e._id)) {
-                                    const values = e.values;
+                            formik.values.configurableAttributes && formik.values.configurableAttributes.length 
+                            ?   formik.values.configurableAttributes.map(e => {
+                                    const attribute = attributes.find(a => a._id == e.attribute);
+                                    if (!attribute) return;
+                                    const { type, values } = attribute
                                     const options = values.map(val => {
                                         return {
                                             text: val.name,
-                                            id: val._id,
-                                            value: val._id
+                                            id: val.id,
+                                            value: val.id
                                         }
                                     });
-                                    if (e.type && e.type.includes("color")) {
+                                    if (type == "colorSwatch") {
                                         return (
                                             <div>
-                                                <div className={classes.currencyfieldTitle}>{e.name}</div>
+                                                <span className={classes.currencyfieldTitle}>{attribute.name}</span>
                                                 <div className={classes.colorList}>
                                                     {
-                                                        values.map(((v, y )=> {
-                                                            let isSelected = false
-                                                            const currentAttr = formik.values.configurableAttributes.find(l => l.attribute._id == e._id);
-                                                            if(currentAttr) {
-                                                                const selectedVal = currentAttr.selectedValue;
-                                                                if (selectedVal) {
-                                                                    isSelected = selectedVal.name == v.name
-                                                                }
-                                                            }
+                                                        values.map(v => {
+                                                            const current = formik.values.configurableAttributes.find(l => l.attribute == attribute._id);
+                                                            let isSelected = false;
+                                                            if (current && current.value == v.id) {
+                                                                isSelected = true;
+                                                            } 
                                                             return (
                                                                 <div 
-                                                                    key={y} 
+                                                                    key={v.id} 
                                                                     className={classes.swatch}
                                                                     style={{
                                                                         border: isSelected ? "2px solid red" : null
                                                                     }}
+                                                                    onClick={() => handleAddNewConfigurableAttribute(attribute._id, v.id)}
                                                                 >
                                                                     <div
                                                                         style={{
@@ -235,35 +234,33 @@ const ProductModal = (props:IProductModalProps) => {
                                                                                 background: v.name, 
                                                                                 cursor: "pointer",
                                                                             }}
-                                                                        onClick={() => handleAddNewConfigurableAttribute(e, values.find(va => va.name == v.name))}
                                                                     ></div>
-                                                                </div>
-                                                                
+                                                                </div> 
                                                             )
-                                                        }))
-                                                    }   
-                                                </div>
+                                                        })
+                                                    } 
+                                                </div>  
                                             </div>
                                             
                                         )
                                     } else {
+                                        const current = formik.values.configurableAttributes.find(l => l.attribute == attribute._id);
                                         return (
                                             <div>
-                                                <div className={classes.currencyfieldTitle}>{e.name}</div>
+                                                <span className={classes.currencyfieldTitle}>{attribute.name}</span>
                                                 <Dropdown
                                                     key={e._id}
-                                                    name="configurableAttributes"
-                                                    value={getSelectedValue(e._id)}
+                                                    value={current ? current.value : null}
                                                     options={options}
                                                     fluid
                                                     selection
-                                                    onChange={(l, data) => handleAddNewConfigurableAttribute(e, values.find(v => v._id == data.value))}
+                                                    onChange={(l, data) => handleAddNewConfigurableAttribute(attribute._id, String(data.value))}
                                                 />
                                             </div>
                                         )
                                     }
-                                }
-                            })
+                                })
+                            :   null
                         }
                         <div className={classes.currencyfieldTitle}>
                             Արժույթ

@@ -46,7 +46,7 @@ export const useProductModal = (props) => {
             discountedPrice: product.discountedPrice,
             quantity: product.quantity,
             images: product.images,
-            attributes: product.configurableAttributes.map(a => a.attribute._id),
+
             configurableAttributes: product.configurableAttributes
         }
         : 
@@ -91,7 +91,7 @@ export const useProductModal = (props) => {
             const url = product._id ? `api/products/admin/update/${product._id}` : `api/products/admin`;
             const response:AxiosResponse = await axiosClient(method, url, variables);
             const { status } = response;
-            if(status == 200) {
+            if (status == 200) {
                 setMessage(`Ապրանքն ${product._id ? "Փոփոխված է" : "ավելացված է"}`);
             } else {
                 setMessage(`Ինչ որ բան սխալ է`);
@@ -118,11 +118,21 @@ export const useProductModal = (props) => {
     }, [imagePreviews, setImagePreviews, formik]);
 
     const handleChangeAttributes = useCallback((attributes: any) => {
-        formik.setFieldValue('attributes', attributes);
-        const filteredConfAttrs = formik.values.configurableAttributes.filter(a => {
-            return attributes.includes(a.attribute._id)
-        });
-        formik.setFieldValue("configurableAttributes", filteredConfAttrs);
+        const { configurableAttributes } = formik.values;
+        const newConfAttributes = attributes.map(e => {
+            if (configurableAttributes.find(c => c.attribute == e)) {
+                return {
+                    attribute: e,
+                    value: configurableAttributes.find(c => c.attribute == e).value
+                }
+            } else {
+                return {
+                    attribute: e,
+                    value: null
+                }
+            }
+        })
+        formik.setFieldValue("configurableAttributes", newConfAttributes);
     }, [formik]);
     
     const handleDeleteProductImage = useCallback((imageIndex: number) => {
@@ -152,20 +162,19 @@ export const useProductModal = (props) => {
         })
     }, [attributes]);
 
-    const handleAddNewConfigurableAttribute = useCallback((attribute: any, value: any) => {
+    const handleAddNewConfigurableAttribute = useCallback((attributeId: string, valueId: string) => {
         let configurableAttributes = formik.getFieldProps("configurableAttributes").value;
-        const attributeId = attribute._id;
-        const valueId = value._id;
-        if(configurableAttributes.find(a => a.attribute._id == attributeId)) {
-            configurableAttributes = configurableAttributes.map(a => {
-                if(a.attribute._id == attributeId) {
-                    a.selectedValue = value
+        const findedAttribute = configurableAttributes.find(c => c.attribute == attributeId);
+        if (findedAttribute) {
+            configurableAttributes = configurableAttributes.map(e => {
+                if (e.attribute == attributeId) {
+                    e.value = valueId
                 }
-                return a;
+                return e;
             })
-            formik.setFieldValue("configurableAttributes", configurableAttributes)
+            formik.setFieldValue("configurableAttributes", configurableAttributes);
         } else {
-            formik.setFieldValue("configurableAttributes", [...configurableAttributes, { attribute,  selectedValue:  value }]);
+            formik.setFieldValue("configurableAttributes", [...configurableAttributes, { attribute: attributeId, value: valueId }]);
         }
         
     }, [formik]);
@@ -181,7 +190,7 @@ export const useProductModal = (props) => {
     const getSelectedValue = useCallback((attributeId ) => {
         const value = formik.values.configurableAttributes
         .find(a => a.attribute._id == attributeId) 
-        ? formik.values.configurableAttributes.find(a => a.attribute._id == attributeId).selectedValue._id 
+        ? formik.values.configurableAttributes.find(a => a.attribute._id == attributeId).value._id 
         : null;
         return value
     }, [formik]);

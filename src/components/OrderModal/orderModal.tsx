@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Button, Radio, Modal, Dropdown } from 'semantic-ui-react';
 import getDate from 'src/helpers/getDate';
 import { useOrderModal } from 'src/talons/OrderModal/useOrderModal';
@@ -24,6 +24,18 @@ const OrderModal = (props:IOrderModalProps) => {
         status, 
         setOrderStatus
     } = talonProps;
+    const customer = useMemo(() => {
+        if (order.customer) {
+            return order.customer;
+        } else {
+            const { email, firstName, lastName } = order.billingAddress;
+            return {
+                email,
+                firstName,
+                lastName
+            }
+        }
+    }, [order])
     return (
         <div className={classes.root}>
             <Modal 
@@ -98,7 +110,6 @@ const OrderModal = (props:IOrderModalProps) => {
                                     </div>
                                 </div>
                                 {
-                                    order.customer ?
                                     <div className={classes.customer}>
                                         <div className={classes.addressTitle}>
                                             Օգտատեր
@@ -108,7 +119,7 @@ const OrderModal = (props:IOrderModalProps) => {
                                                     Էլ հասցե:
                                                 </div>
                                                 <div className={classes.fieldValue}>
-                                                    {order.customer.email}
+                                                    {customer.email}
                                                 </div>
                                             </div>
                                         <div className={classes.field}>
@@ -116,7 +127,7 @@ const OrderModal = (props:IOrderModalProps) => {
                                                 Անուն:
                                             </div>
                                             <div className={classes.fieldValue}>
-                                                {order.customer.firstName}
+                                                {customer.firstName}
                                             </div>
                                         </div>
                                         <div className={classes.field}>
@@ -124,11 +135,10 @@ const OrderModal = (props:IOrderModalProps) => {
                                                 Ազգանուն:
                                             </div>
                                             <div className={classes.fieldValue}>
-                                                {order.customer.lastName}
+                                                {customer.lastName}
                                             </div>
                                         </div>
                                     </div>
-                                    :  null
                                 }
                                 <div className={classes.payment}>
                                     <div className={classes.paymentHeader}>

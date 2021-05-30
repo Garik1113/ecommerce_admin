@@ -20,7 +20,7 @@ const AttributeModal = (props:IProps) => {
         handleDeleteValue,
         typeDropDownOptions
     } = talonProps;
-
+console.log(formik.errors)
     return (
         <div className={classes.root}>
             <Modal 
@@ -45,7 +45,30 @@ const AttributeModal = (props:IProps) => {
                                 value={formik.values.name} 
                                 onChange={formik.handleChange}
                             />
+                            { formik.errors.name
+                                ?   <div className={classes.errorMessage}>{formik.errors.name}</div>
+                                :   null
+                            }
                         </div>
+                        
+                        <div className={classes.field}>
+                            <div>
+                            Ատրիբուտի կոդ
+                            </div>
+                            <Input 
+                                type="text" 
+                                name="code"
+                                placeholder="Անուն"
+                                className={classes.input}
+                                value={formik.values.code} 
+                                onChange={formik.handleChange}
+                            />
+                            { formik.errors.code
+                                ?   <div className={classes.errorMessage}>{formik.errors.code}</div>
+                                :   null
+                            }
+                        </div>
+                        
                         <div className={classes.field}>
                             <div>
                                 Տեսակ
@@ -93,6 +116,11 @@ const AttributeModal = (props:IProps) => {
                                     </div>
                                 )
                             })
+                            }
+                            {   
+                                formik.errors.values
+                                ?   <div className={classes.errorMessage}>{formik.errors.values}</div> 
+                                :   null
                             }
                         </div>
                         <div className={classes.field}>

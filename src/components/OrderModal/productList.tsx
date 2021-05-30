@@ -29,12 +29,12 @@ const ItemList = (props) => {
                                             e.product.configurableAttributes.map((e,l) => {
                                                 const attributeName = e.attribute.name;
                                                 const type = e.attribute.type;
-                                                const valueName = e.selectedValue.name;
+                                                const valueName = e.value.name;
                                                 if (type == "swatch") {
                                                     return (
                                                         <div key={l} className={classes.attribute}>
                                                             <div className={classes.attributeName}>{attributeName}:</div>
-                                                            <Swatch value={e.selectedValue} />
+                                                            <Swatch value={e.value} />
                                                         </div>
                                                         
                                                     )
@@ -42,7 +42,7 @@ const ItemList = (props) => {
                                                     return (
                                                         <div key={l} className={classes.attribute}>
                                                             <div className={classes.attributeName}>{attributeName}:</div>
-                                                            <ColorSwatch value={e.selectedValue} key={l}/>
+                                                            <ColorSwatch value={e.value} key={l}/>
                                                         </div>
                                                     )
                                                 } else {
